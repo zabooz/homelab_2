@@ -6,6 +6,158 @@
 
 ---
 
+## ⚡ QUICK START GUIDE - Neues Gerät hinzufügen
+
+### 🎯 Diese Schritte machst du am häufigsten!
+
+#### 1️⃣ User erstellen (auf dem VPS)
+
+```bash
+# SSH zum VPS
+ssh zabooz@152.53.111.11
+
+# User erstellen
+sudo headscale users create BENUTZERNAME
+
+# Beispiele:
+sudo headscale users create familie
+sudo headscale users create arbeit
+sudo headscale users create freunde
+
+# User anzeigen
+sudo headscale users list
+```
+
+---
+
+#### 2️⃣ Tailscale auf neuem Gerät installieren
+
+**Linux (Debian/Ubuntu):**
+```bash
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo systemctl enable --now tailscaled
+```
+
+**Linux (Arch/CachyOS):**
+```bash
+sudo pacman -S tailscale
+sudo systemctl enable --now tailscaled
+```
+
+**Windows:**
+- Download: https://tailscale.com/download/windows
+- Installieren und starten
+
+**Android/iOS:**
+- Tailscale App aus dem Store installieren
+
+---
+
+#### 3️⃣ Gerät mit Headscale verbinden
+
+**Linux/Mac:**
+```bash
+sudo tailscale up --login-server=https://zabooz.duckdns.org --accept-routes
+```
+
+**Windows (PowerShell als Admin):**
+```powershell
+tailscale up --login-server=https://zabooz.duckdns.org --accept-routes
+```
+
+**Das Gerät zeigt dir jetzt einen Key an:**
+```
+To authenticate, visit:
+  https://zabooz.duckdns.org/register/nodekey:abc123def456...
+
+Or run:
+  headscale nodes register --key nodekey:abc123def456... --user USERNAME
+```
+
+**→ Kopiere den `nodekey:xxxxxxxxx`**
+
+---
+
+#### 4️⃣ Node registrieren (auf dem VPS)
+
+```bash
+# SSH zum VPS (falls nicht mehr verbunden)
+ssh zabooz@152.53.111.11
+
+# Node registrieren
+sudo headscale nodes register --user BENUTZERNAME --key nodekey:xxxxxxxxx
+
+# Beispiele:
+sudo headscale nodes register --user zabooz --key nodekey:abc123
+sudo headscale nodes register --user familie --key nodekey:def456
+```
+
+**Output:**
+```
+Node GERÄTENAME registered
+```
+
+---
+
+#### 5️⃣ Überprüfen
+
+```bash
+# Alle Nodes anzeigen
+sudo headscale nodes list
+```
+
+**Auf dem neuen Gerät:**
+```bash
+# Status checken
+tailscale status
+
+# Proxmox testen
+ping 192.168.0.101
+
+# Browser öffnen
+firefox https://192.168.0.101:8006
+```
+
+---
+
+### 🔧 Häufige Befehle
+
+**VPS (Headscale Server):**
+```bash
+# User
+sudo headscale users create USERNAME
+sudo headscale users list
+
+# Nodes
+sudo headscale nodes list
+sudo headscale nodes register --user USERNAME --key nodekey:xxxxx
+sudo headscale nodes delete --identifier ID
+
+# Service
+sudo systemctl status headscale
+sudo systemctl restart headscale
+sudo journalctl -u headscale -f
+```
+
+**Client (Laptop, Handy, etc.):**
+```bash
+# Verbinden
+sudo tailscale up --login-server=https://zabooz.duckdns.org --accept-routes
+
+# Status
+tailscale status
+tailscale netcheck
+
+# Exit-Node
+sudo tailscale up --exit-node=100.64.0.1 --accept-routes
+
+# Trennen
+sudo tailscale down     # Temporär
+sudo tailscale logout   # Komplett
+```
+
+---
+
 ## 📊 Netzwerk-Architektur
 
 ```
@@ -1751,6 +1903,1328 @@ sudo systemctl reload nginx
 - **Headscale Version:** v0.27.1
 - **Heimnetz:** 192.168.0.0/24
 - **Tailscale Netz:** 100.64.0.0/10
+
+---
+
+## 🌐 STUN, DERP & NAT-Traversal - Wie Tailscale durch Firewalls kommt
+
+### Das NAT-Problem verstehen
+
+**Was ist NAT (Network Address Translation)?**
+
+NAT ist eine Technik die fast jeder Router verwendet, um mehrere Geräte mit **einer** öffentlichen IP-Adresse ins Internet zu bringen.
+
+#### Ohne NAT (theoretisch):
+
+```
+┌─────────────┐
+│  Router     │  Öffentliche IP: 84.115.223.57
+│             │
+│  ┌────────┐ │  Öffentliche IP: ???
+│  │ Laptop │ │  (braucht eigene öffentliche IP!)
+│  └────────┘ │
+│             │
+│  ┌────────┐ │  Öffentliche IP: ???
+│  │ Handy  │ │  (braucht auch eigene!)
+│  └────────┘ │
+└─────────────┘
+
+Problem: Nicht genug IPv4-Adressen für alle Geräte!
+```
+
+#### Mit NAT (Realität):
+
+```
+┌─────────────────────────────────────┐
+│  Router                              │
+│  Öffentliche IP: 84.115.223.57      │
+│                                      │
+│  ┌────────┐  Private IP: 192.168.0.2│
+│  │ Laptop │◄─┐                       │
+│  └────────┘  │                       │
+│              │  NAT-Tabelle          │
+│  ┌────────┐  │  übersetzt            │
+│  │ Handy  │◄─┘                       │
+│  └────────┘  Private IP: 192.168.0.3│
+└─────────────────────────────────────┘
+
+✅ Alle Geräte teilen sich EINE öffentliche IP!
+```
+
+**NAT ist super für ausgehende Verbindungen** (du surfst, streamst, etc.)
+
+**ABER:** NAT macht **eingehende Verbindungen** schwierig! 🚧
+
+---
+
+### NAT-Typen und das Verbindungsproblem
+
+Es gibt verschiedene NAT-Typen, die unterschiedlich restriktiv sind:
+
+#### 1. Full Cone NAT (am offensten)
+
+```
+┌──────────────────────────────────────────┐
+│  Router (Full Cone NAT)                  │
+│                                           │
+│  Regel: Port 45123 → Laptop              │
+│  JEDER von außen darf auf 45123 senden!  │
+└──────────────────────────────────────────┘
+         ↑
+         │ ✅ Direktverbindung möglich!
+         │
+    [Internet]
+```
+
+#### 2. Symmetric NAT (am restriktivsten)
+
+```
+┌──────────────────────────────────────────┐
+│  Router (Symmetric NAT)                  │
+│                                           │
+│  Regel: NUR wenn Laptop ZUERST           │
+│         an Ziel X gesendet hat,          │
+│         darf X zurück senden!            │
+│                                           │
+│  Andere Geräte → ❌ BLOCKIERT            │
+└──────────────────────────────────────────┘
+         ↑
+         │ ❌ Direktverbindung oft NICHT möglich
+         │
+    [Internet]
+```
+
+---
+
+### Das Peer-to-Peer Problem
+
+**Szenario:** Zwei Tailscale-Nodes wollen sich direkt verbinden
+
+```
+    🏢 CAFÉ                                    🏠 HEIMNETZ
+┌──────────────┐                          ┌──────────────┐
+│  Router NAT  │                          │  Router NAT  │
+│  Öff: ???    │                          │  Öff: ???    │
+│              │                          │              │
+│  Laptop      │                          │  Container   │
+│  192.168.1.2 │                          │  192.168.0.150│
+└──────────────┘                          └──────────────┘
+       │                                         │
+       │  Frage: "Wie können wir uns direkt     │
+       │          verbinden?"                    │
+       │                                         │
+       │  Problem: Beide hinter NAT!            │
+       │          Kennen jeweils nur            │
+       │          ihre PRIVATE IP!              │
+       └─────────────────────────────────────────┘
+```
+
+**Lösung:** STUN + DERP! 🎯
+
+---
+
+## 🔍 STUN - Session Traversal Utilities for NAT
+
+### Was ist STUN?
+
+**STUN** ist ein Protokoll das einem Gerät sagt:
+1. "Deine **öffentliche IP-Adresse** ist X"
+2. "Dein Router nutzt **Port Y** für dich"
+3. "Dein NAT-Typ ist Z"
+
+### Wie funktioniert STUN?
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    STUN-Server (VPS)                         │
+│                    152.53.111.11:3478                        │
+└─────────────────────────────────────────────────────────────┘
+                            ↑
+                            │
+         ┌──────────────────┼──────────────────┐
+         │                  │                  │
+    1. "Wer bin ich?"  2. "Du bist:"     3. Speichern
+         │                  │                  │
+┌────────▼──────────────────▼──────────────────▼─────────┐
+│     Laptop (hinter NAT)                                 │
+│                                                          │
+│     Private IP: 192.168.1.2                             │
+│     Öffentliche IP: ??? (weiß ich nicht!)               │
+│                                                          │
+│     STUN Request senden →                               │
+│                    ← STUN Response:                      │
+│                      "Deine öffentliche IP: 84.115.x.x" │
+│                      "Dein NAT-Port: 45123"            │
+│                      "NAT-Typ: Port-Restricted"         │
+│                                                          │
+│     ✅ Jetzt weiß ich meine öffentliche Adresse!       │
+└─────────────────────────────────────────────────────────┘
+```
+
+### STUN Schritt-für-Schritt
+
+**1. Laptop sendet STUN-Request:**
+
+```
+Von: 192.168.1.2:12345 (private IP, privater Port)
+An:  152.53.111.11:3478 (STUN-Server)
+Inhalt: "Wer bin ich?"
+```
+
+**2. Router macht NAT:**
+
+```
+Router sieht: Ausgehende Verbindung von Laptop
+Router ändert:
+  Von: 192.168.1.2:12345
+  Zu:  84.115.223.57:45123 (öffentliche IP + neuer Port)
+
+NAT-Tabelle:
+┌────────────────┬─────────────────┐
+│ Intern         │ Extern          │
+├────────────────┼─────────────────┤
+│ 192.168.1.2    │ 84.115.223.57   │
+│ :12345         │ :45123          │
+└────────────────┴─────────────────┘
+```
+
+**3. STUN-Server sieht:**
+
+```
+Paket kam an von: 84.115.223.57:45123
+(Das ist die öffentliche Adresse des Routers!)
+```
+
+**4. STUN-Server antwortet:**
+
+```
+An: 84.115.223.57:45123
+Inhalt: "Du bist 84.115.223.57:45123"
+```
+
+**5. Laptop empfängt Antwort:**
+
+```
+✅ "Aha! Meine öffentliche Adresse ist 84.115.223.57:45123"
+✅ "Ich teile das mit Headscale"
+✅ "Andere Nodes können mich unter dieser Adresse erreichen!"
+```
+
+---
+
+### STUN in Aktion - Logs
+
+Erinnerst du dich an das hier vom Container?
+
+```
+2026/01/18 20:27:45 portmap: monitor: gateway and self IP changed: gw=192.168.0.1 self=192.168.0.150
+2026/01/18 20:27:45 portmap: UPnP discovery response from 192.168.0.17, but gateway IP is 192.168.0.1
+```
+
+Das ist **STUN in Aktion**! Der Container:
+1. Findet Gateway (Router): 192.168.0.1
+2. Macht STUN-Request an Headscale STUN-Server (Port 3478)
+3. Erfährt seine öffentliche IP
+4. Teilt das mit Headscale
+
+---
+
+## 🚀 DERP - Designated Encrypted Relay for Packets
+
+### Was ist DERP?
+
+**DERP** ist ein **Fallback-Relay-Server** wenn direkte Verbindungen nicht möglich sind.
+
+**Wann braucht man DERP?**
+
+1. **Symmetric NAT** auf beiden Seiten → Direktverbindung unmöglich
+2. **Firewalls** blockieren eingehende Verbindungen
+3. **Schlechtes Netzwerk** (mobile Daten mit Carrier-Grade NAT)
+
+### DERP vs. Direkte Verbindung
+
+#### Idealszenario: Direkte Verbindung (nach STUN)
+
+```
+┌────────────┐                          ┌────────────┐
+│   Laptop   │   Direkte Verbindung     │ Container  │
+│100.64.0.2  │◄─────────────────────────►│100.64.0.1  │
+└────────────┘   WireGuard verschlüsselt └────────────┘
+     
+✅ Schnell (niedrige Latenz)
+✅ Keine zusätzlichen Hops
+✅ Peer-to-Peer
+```
+
+#### Fallback: DERP Relay
+
+```
+┌────────────┐          ┌──────────┐          ┌────────────┐
+│   Laptop   │          │   DERP   │          │ Container  │
+│100.64.0.2  │◄─────────►│  Server  │◄─────────►│100.64.0.1  │
+└────────────┘          │   VPS    │          └────────────┘
+                        │Port 443  │
+                        └──────────┘
+     
+🟡 Langsamer (extra Hop über VPS)
+🟡 Aber: Funktioniert IMMER
+🟡 Trotzdem Ende-zu-Ende verschlüsselt!
+```
+
+**WICHTIG:** Auch über DERP ist die Verbindung **Ende-zu-Ende verschlüsselt**!
+
+Der DERP-Server sieht nur verschlüsselte Pakete und kann sie **nicht entschlüsseln**.
+
+---
+
+### DERP Architektur
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    VPS (152.53.111.11)                       │
+│                                                              │
+│  ┌────────────────────────────────────────────────────┐    │
+│  │            Headscale Control Server                │    │
+│  │            Port 8090 (hinter Nginx)                │    │
+│  │  • Verwaltet Nodes                                 │    │
+│  │  • Vergibt IPs                                     │    │
+│  │  • Koordiniert Verbindungen                        │    │
+│  └────────────────────────────────────────────────────┘    │
+│                                                              │
+│  ┌────────────────────────────────────────────────────┐    │
+│  │            DERP Server (Embedded)                  │    │
+│  │            Port 443 (HTTPS)                        │    │
+│  │  • Relay für Pakete                                │    │
+│  │  • Wenn direkte Verbindung nicht möglich           │    │
+│  └────────────────────────────────────────────────────┘    │
+│                                                              │
+│  ┌────────────────────────────────────────────────────┐    │
+│  │            STUN Server                             │    │
+│  │            Port 3478 (UDP)                         │    │
+│  │  • Hilft Nodes ihre öffentliche IP zu finden      │    │
+│  │  • NAT-Typ Detection                               │    │
+│  └────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### DERP Packet Flow
+
+**Laptop (Café) → Container (Heimnetz) über DERP:**
+
+```
+SCHRITT 1: Laptop sendet an DERP
+┌────────────┐
+│   Laptop   │
+│            │  WireGuard-verschlüsseltes Paket
+│            │  Ziel: Container (100.64.0.1)
+└──────┬─────┘
+       │
+       ↓ HTTPS Connection zu DERP (Port 443)
+       │
+┌──────▼──────────────────────────────┐
+│        DERP Server (VPS)            │
+│                                     │
+│  Empfängt verschlüsseltes Paket     │
+│  Liest: "Für 100.64.0.1"           │
+│  (Kann Inhalt NICHT entschlüsseln!) │
+│                                     │
+│  Checkt: Ist Container verbunden?   │
+│  ✅ Ja, Connection zu Container     │
+│     existiert                       │
+└──────┬──────────────────────────────┘
+       │
+       ↓ Leitet weiter
+       │
+┌──────▼─────┐
+│ Container  │
+│            │  Empfängt verschlüsseltes Paket
+│            │  Entschlüsselt mit WireGuard
+│            │  ✅ Liest Inhalt
+└────────────┘
+
+SCHRITT 2: Container antwortet über DERP
+┌────────────┐
+│ Container  │
+│            │  Verschlüsselt Antwort
+└──────┬─────┘
+       │
+       ↓ HTTPS zu DERP
+       │
+┌──────▼──────────────────────────────┐
+│        DERP Server (VPS)            │
+│                                     │
+│  Leitet verschlüsseltes Paket       │
+│  an Laptop weiter                   │
+└──────┬──────────────────────────────┘
+       │
+       ↓
+┌──────▼─────┐
+│   Laptop   │  Entschlüsselt Antwort
+└────────────┘  ✅ Kommunikation erfolgreich!
+```
+
+---
+
+### Warum Port 443 für DERP?
+
+**Port 443 = Standard HTTPS Port**
+
+Vorteile:
+- ✅ Fast nie von Firewalls blockiert (Websites brauchen ihn)
+- ✅ Sieht aus wie normaler HTTPS-Traffic
+- ✅ Funktioniert in restriktiven Netzwerken (Hotels, Firmen, Flughäfen)
+
+Deshalb läuft DERP auf **Port 443** statt auf einem zufälligen Port!
+
+---
+
+## 🔄 NAT-Traversal: Der komplette Ablauf
+
+### Verbindungsaufbau zwischen Laptop und Container
+
+**Phase 1: Nodes registrieren sich bei Headscale**
+
+```
+┌────────────┐                    ┌──────────────┐
+│   Laptop   │                    │  Container   │
+└──────┬─────┘                    └──────┬───────┘
+       │                                 │
+       ├─────────────────────────────────┤
+       │    Beide verbinden sich mit     │
+       │    Headscale Control Server     │
+       │                                 │
+       ↓                                 ↓
+┌─────────────────────────────────────────────┐
+│       Headscale Control Server (VPS)        │
+│                                             │
+│  Registrierte Nodes:                        │
+│  • Laptop (100.64.0.2)                      │
+│    - Öffentliche IP: ???                    │
+│  • Container (100.64.0.1)                   │
+│    - Öffentliche IP: ???                    │
+└─────────────────────────────────────────────┘
+```
+
+**Phase 2: STUN - Öffentliche IPs herausfinden**
+
+```
+┌────────────┐                    ┌──────────────┐
+│   Laptop   │                    │  Container   │
+│            │                    │              │
+│ STUN ────► │                    │ ◄──── STUN   │
+│ Request    │                    │    Request   │
+└────────────┘                    └──────────────┘
+       │                                 │
+       ↓                                 ↓
+┌──────────────────────────────────────────────┐
+│         STUN Server (Port 3478)              │
+│                                              │
+│  Laptop kommt von:  84.115.x.x:45123        │
+│  Container kommt von: 84.116.y.y:12345      │
+└──────────────────────────────────────────────┘
+       │                                 │
+       ↓                                 ↓
+┌────────────┐                    ┌──────────────┐
+│   Laptop   │                    │  Container   │
+│            │                    │              │
+│ "Ich bin   │                    │ "Ich bin     │
+│ 84.115.x.x │                    │ 84.116.y.y   │
+│ :45123"    │                    │ :12345"      │
+└────────────┘                    └──────────────┘
+       │                                 │
+       └─────────────┬───────────────────┘
+                     ↓
+          Teilen ihre IPs mit Headscale
+                     ↓
+┌─────────────────────────────────────────────┐
+│       Headscale Control Server              │
+│                                             │
+│  Nodes mit öffentlichen IPs:                │
+│  • Laptop: 84.115.x.x:45123                │
+│  • Container: 84.116.y.y:12345             │
+│                                             │
+│  Headscale teilt allen Nodes diese Info!    │
+└─────────────────────────────────────────────┘
+```
+
+**Phase 3: ICE/STUN Hole Punching - Direkte Verbindung versuchen**
+
+```
+┌────────────┐                    ┌──────────────┐
+│   Laptop   │                    │  Container   │
+│            │                    │              │
+│ "Container │                    │ "Laptop ist  │
+│  ist unter │                    │  unter       │
+│ 84.116.y.y │                    │ 84.115.x.x   │
+│ :12345"    │                    │ :45123"      │
+└──────┬─────┘                    └──────┬───────┘
+       │                                 │
+       │  Beide versuchen gleichzeitig   │
+       │  Verbindung aufzubauen          │
+       │  ("Hole Punching")              │
+       │                                 │
+       │     Versuche 1: UDP-Paket       │
+       ├─────────────────────────────────►
+       │                                 │
+       ◄─────────────────────────────────┤
+       │     Versuche 2: UDP-Paket       │
+       │                                 │
+       │  ✅ NAT-"Löcher" sind offen!    │
+       │  ✅ Direkte Verbindung möglich! │
+       │                                 │
+       ◄────────────────────────────────►
+       │   WireGuard Encrypted Traffic   │
+       │   Peer-to-Peer Connection!      │
+```
+
+**Was ist "Hole Punching"?**
+
+Beide Seiten senden **gleichzeitig** Pakete aneinander. Das öffnet temporär "Löcher" in den NATs, sodass Antworten durchkommen.
+
+**Phase 4: Fallback zu DERP (falls Direkt nicht klappt)**
+
+```
+┌────────────┐                                ┌──────────────┐
+│   Laptop   │                                │  Container   │
+└──────┬─────┘                                └──────┬───────┘
+       │                                             │
+       │  Direkte Verbindung fehlgeschlagen         │
+       │  (Symmetric NAT, Firewall, etc.)           │
+       │                                             │
+       ├─────────────────┬───────────────────────────┤
+       │                 ↓                           │
+       │        ┌─────────────────┐                 │
+       │        │  DERP Server    │                 │
+       │        │  (VPS:443)      │                 │
+       │        └─────────────────┘                 │
+       │                 │                           │
+       ↓                 ↓                           ↓
+   Verbinde zu DERP   Relay       Verbinde zu DERP
+       │             Pakete              │
+       ◄──────────────┼──────────────────►
+            Encrypted Traffic
+         (via DERP Relay)
+```
+
+---
+
+## 📊 Vergleich: Direkt vs. DERP
+
+| Aspekt | Direkte Verbindung | DERP Relay |
+|--------|-------------------|------------|
+| **Latenz** | ✅ Niedrig (5-20ms) | 🟡 Höher (20-100ms) |
+| **Durchsatz** | ✅ Maximum | 🟡 Begrenzt durch VPS |
+| **Funktioniert immer** | ❌ Nein (NAT-abhängig) | ✅ Ja, immer! |
+| **Verschlüsselung** | ✅ Ende-zu-Ende | ✅ Ende-zu-Ende |
+| **DERP sieht Inhalt** | N/A | ❌ Nein (verschlüsselt) |
+| **Bevorzugt** | ✅ Ja | 🟡 Nur als Fallback |
+
+---
+
+## 🎯 Dein Setup im Detail
+
+### STUN Server im Container
+
+```bash
+# Im Container - STUN läuft automatisch
+tailscale netcheck
+```
+
+Output zeigt:
+```
+* DERP latency:
+  - nue: 59.1ms  (Nuremberg)     ← Nächster DERP
+  - fra: 67.2ms  (Frankfurt)
+```
+
+### Headscale Config
+
+```yaml
+derp:
+  server:
+    enabled: true                    ← Eigener DERP Server!
+    stun_listen_addr: "0.0.0.0:3478" ← STUN Port
+    ipv4: 152.53.111.11              ← Öffentliche VPS IP
+```
+
+### Wie checken ob Direkt oder DERP?
+
+```bash
+# Auf dem Laptop
+tailscale status
+```
+
+Output:
+```
+100.64.0.1  tailscale  active; direct 192.168.0.150:41641
+                              ^^^^^^ DIREKT verbunden!
+
+# Oder falls über DERP:
+100.64.0.1  tailscale  active; relay "nue"
+                              ^^^^ Über DERP (Nuremberg)
+```
+
+---
+
+## 🔍 Praktisches Beispiel: Verbindungsanalyse
+
+### Laptop → Container Verbindung analysieren
+
+```bash
+# Auf dem Laptop
+tailscale netcheck
+```
+
+**Output erklärt:**
+
+```
+Report:
+  * UDP: true                           ← UDP funktioniert (gut!)
+  * IPv4: yes, 84.115.223.57:45621     ← Öffentliche IP (via STUN)
+  * IPv6: no, but OS has support        ← Kein IPv6
+  * MappingVariesByDestIP: false        ← NAT-Typ: Port-Restricted
+  * PortMapping: UPnP                   ← Router unterstützt UPnP
+  * CaptivePortal: false                ← Kein Captive Portal
+  * Nearest DERP: Nuremberg             ← Nächster DERP Server
+  * DERP latency:
+    - nue: 59.1ms  (Nuremberg)         ← 59ms zum DERP
+    - fra: 67.2ms  (Frankfurt)
+```
+
+**Was bedeutet das:**
+
+1. **UDP: true** → Direkte Verbindungen möglich
+2. **IPv4 mit IP:Port** → STUN hat funktioniert
+3. **NAT-Typ** → Beschreibt wie restriktiv dein Router ist
+4. **UPnP** → Router kann automatisch Ports öffnen
+5. **DERP Latency** → Fallback-Zeiten wenn Direkt nicht klappt
+
+---
+
+## 🚦 Verbindungsqualität verstehen
+
+### Best Case: Direkte Verbindung
+
+```
+┌────────────┐  WireGuard   ┌──────────────┐
+│   Laptop   │◄────────────►│  Container   │
+│100.64.0.2  │   5-20ms     │ 100.64.0.1   │
+└────────────┘  Peer-to-Peer└──────────────┘
+
+✅ Schnell
+✅ Niedrige Latenz
+✅ Voller Durchsatz
+```
+
+### Fallback: DERP Relay
+
+```
+┌────────────┐            ┌──────────┐           ┌──────────────┐
+│   Laptop   │            │   DERP   │           │  Container   │
+│100.64.0.2  │◄──────────►│  Server  │◄─────────►│ 100.64.0.1   │
+└────────────┘  30-50ms    │   VPS    │  30-50ms  └──────────────┘
+                           └──────────┘
+                         Gesamtlatenz: 60-100ms
+
+🟡 Langsamer
+🟡 Extra Hop
+✅ Aber: Funktioniert immer!
+```
+
+---
+
+## 💡 Warum ist dein Setup besonders gut?
+
+### Tailscale's öffentliche DERP Server
+
+```
+Tailscale bietet weltweit DERP Server:
+- New York
+- London
+- Frankfurt
+- Tokyo
+- etc.
+
+❌ Problem: Du bist von Tailscale Inc. abhängig
+❌ Alle Pakete laufen durch ihre Server
+```
+
+### Dein eigener DERP Server
+
+```
+Du hostest deinen eigenen DERP auf dem VPS:
+- 152.53.111.11:443
+- Nur für deine Nodes
+- Volle Kontrolle
+
+✅ Unabhängig von Tailscale Inc.
+✅ Deine eigene Infrastruktur
+✅ Keine Third-Party sieht deinen Traffic
+✅ Trotzdem Ende-zu-Ende verschlüsselt!
+```
+
+---
+
+## 📋 Zusammenfassung: STUN, DERP, NAT
+
+### STUN (Session Traversal Utilities for NAT)
+- **Zweck:** Herausfinden der öffentlichen IP und des NAT-Typs
+- **Port:** 3478 (UDP)
+- **Funktion:** "Du bist unter dieser IP:Port erreichbar"
+
+### DERP (Designated Encrypted Relay for Packets)
+- **Zweck:** Fallback-Relay wenn direkte Verbindung nicht möglich
+- **Port:** 443 (HTTPS)
+- **Funktion:** Leitet verschlüsselte Pakete weiter
+
+### NAT (Network Address Translation)
+- **Zweck:** Viele Geräte teilen sich eine öffentliche IP
+- **Problem:** Macht eingehende Verbindungen schwierig
+- **Lösung:** STUN Hole Punching oder DERP Relay
+
+### NAT-Traversal
+- **Phase 1:** Nodes registrieren bei Headscale
+- **Phase 2:** STUN ermittelt öffentliche IPs
+- **Phase 3:** Hole Punching versucht direkte Verbindung
+- **Phase 4:** Fallback zu DERP wenn nötig
+
+---
+
+**Jetzt verstehst du die komplette Magie hinter Tailscale!** 🎩✨
+
+---
+
+## 🔧 Routing Tables, iptables, nftables & IP Forwarding - Die Details
+
+### Was sind Routing Tables?
+
+**Routing Tables** sind Tabellen die dem Betriebssystem sagen: "Für Ziel X, nutze Gateway Y über Interface Z"
+
+Jedes Gerät (Laptop, Server, Router, etc.) hat eine Routing Table!
+
+---
+
+### Routing Table verstehen
+
+#### Routing Table anzeigen
+
+**Linux:**
+```bash
+# Kurz und übersichtlich
+ip route
+
+# Detailliert
+ip route show table all
+
+# Oder klassisch
+route -n
+```
+
+**Beispiel Output:**
+
+```
+default via 192.168.1.1 dev wlan0 proto dhcp metric 600
+100.64.0.0/10 dev tailscale0 proto kernel scope link src 100.64.0.2
+192.168.0.0/24 via 100.64.0.1 dev tailscale0
+192.168.1.0/24 dev wlan0 proto kernel scope link src 192.168.1.42
+```
+
+#### Zeile für Zeile erklärt:
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│  default via 192.168.1.1 dev wlan0 proto dhcp metric 600      │
+└────────────────────────────────────────────────────────────────┘
+     │         │             │         │            │
+     │         │             │         │            └─ Priorität (niedriger = bevorzugt)
+     │         │             │         └─ Protokoll (wie Route erstellt wurde)
+     │         │             └─ Interface (Netzwerkkarte)
+     │         └─ Gateway IP (Router)
+     └─ Ziel (0.0.0.0/0 = alles)
+
+Bedeutung: Für ALLES was nicht spezifischer matcht,
+           nutze den Router 192.168.1.1 über WLAN
+```
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│  100.64.0.0/10 dev tailscale0 proto kernel scope link         │
+└────────────────────────────────────────────────────────────────┘
+     │            │              │            │
+     │            │              │            └─ Direkt verbunden (kein Gateway)
+     │            │              └─ Kernel hat Route erstellt
+     │            └─ Tailscale Interface
+     └─ Ziel (Tailscale-Netz)
+
+Bedeutung: Für Tailscale-IPs (100.64.0.x),
+           sende direkt über tailscale0 Interface
+```
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│  192.168.0.0/24 via 100.64.0.1 dev tailscale0                 │
+└────────────────────────────────────────────────────────────────┘
+     │               │              │
+     │               │              └─ Über Tailscale Interface
+     │               └─ Gateway (LXC Container)
+     └─ Ziel (Heimnetz)
+
+Bedeutung: Für Heimnetz (192.168.0.x),
+           nutze Container als Gateway über Tailscale
+```
+
+---
+
+### Routing-Entscheidung: Wie wählt Linux die Route?
+
+**Prinzip:** **Längster Präfix-Match** gewinnt!
+
+#### Beispiel: Laptop will zu 192.168.0.101
+
+```
+Routing Table:
+┌──────────────────────┬──────────────┬──────────────┐
+│ Ziel                 │ Präfix-Länge │ Gateway      │
+├──────────────────────┼──────────────┼──────────────┤
+│ 0.0.0.0/0           │ /0  (0 Bits) │ 192.168.1.1  │ ← Default
+│ 192.168.0.0/24      │ /24 (24 Bits)│ 100.64.0.1   │ ← Spezifisch!
+│ 192.168.1.0/24      │ /24 (24 Bits)│ direkt       │
+└──────────────────────┴──────────────┴──────────────┘
+
+Entscheidung für 192.168.0.101:
+1. Passt zu 0.0.0.0/0? ✅ Ja (passt zu ALLEM)
+2. Passt zu 192.168.0.0/24? ✅ Ja (spezifischer!)
+3. Passt zu 192.168.1.0/24? ❌ Nein
+
+→ Wähle 192.168.0.0/24 via 100.64.0.1
+  (längster Match = 24 Bits)
+```
+
+---
+
+### Routing Table auf dem Container
+
+Der Container hat **ZWEI** Interfaces und entsprechend komplexere Routes:
+
+```bash
+# Im Container
+ip route show
+```
+
+**Output:**
+
+```
+default via 192.168.0.1 dev eth0
+100.64.0.0/10 dev tailscale0 proto kernel scope link src 100.64.0.1
+192.168.0.0/24 dev eth0 proto kernel scope link src 192.168.0.150
+```
+
+**Was bedeutet das:**
+
+```
+┌──────────────────────────────────────────────────────┐
+│         LXC CONTAINER ROUTING                        │
+│                                                      │
+│  Interface 1: tailscale0 (100.64.0.1)               │
+│  Interface 2: eth0 (192.168.0.150)                  │
+│                                                      │
+│  Routing Entscheidungen:                             │
+│                                                      │
+│  • Paket zu 100.64.0.x  → tailscale0                │
+│  • Paket zu 192.168.0.x → eth0                      │
+│  • Paket zu Internet    → eth0 via 192.168.0.1      │
+└──────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🔥 IP Forwarding - Der Container als Router
+
+### Was ist IP Forwarding?
+
+**IP Forwarding** erlaubt einem Linux-System, Pakete zwischen verschiedenen Netzwerk-Interfaces weiterzuleiten.
+
+**Ohne IP Forwarding:**
+```
+Paket kommt rein → Kernel checkt: "Ist das für mich?" → Nein → ❌ VERWORFEN
+```
+
+**Mit IP Forwarding:**
+```
+Paket kommt rein → Kernel checkt: "Ist das für mich?" → Nein → Routing Table checken → ✅ WEITERLEITEN
+```
+
+---
+
+### IP Forwarding Status checken
+
+```bash
+# IPv4 Forwarding
+sysctl net.ipv4.ip_forward
+# Sollte zeigen: net.ipv4.ip_forward = 1
+
+# IPv6 Forwarding
+sysctl net.ipv6.conf.all.forwarding
+# Sollte zeigen: net.ipv6.conf.all.forwarding = 1
+
+# ODER: Alle Netzwerk-Einstellungen
+sysctl -a | grep forward
+```
+
+**Werte:**
+- `0` = Aus (Pakete werden NICHT weitergeleitet)
+- `1` = An (Pakete werden weitergeleitet)
+
+---
+
+### IP Forwarding aktivieren
+
+#### Temporär (bis zum Reboot)
+
+```bash
+# IPv4
+sudo sysctl -w net.ipv4.ip_forward=1
+
+# IPv6
+sudo sysctl -w net.ipv6.conf.all.forwarding=1
+```
+
+#### Permanent (überlebt Reboot)
+
+```bash
+# Datei editieren
+sudo nano /etc/sysctl.conf
+
+# Diese Zeilen hinzufügen oder aktivieren (# entfernen):
+net.ipv4.ip_forward = 1
+net.ipv6.conf.all.forwarding = 1
+
+# Speichern und anwenden
+sudo sysctl -p
+```
+
+---
+
+### Warum braucht der Container IP Forwarding?
+
+**Ohne IP Forwarding:**
+
+```
+┌────────────┐              ┌──────────────┐
+│   Laptop   │              │  Container   │
+│100.64.0.2  │              │ 100.64.0.1   │
+└──────┬─────┘              └──────┬───────┘
+       │                           │
+       │  Paket: Ziel 192.168.0.101│
+       ├──────────────────────────►│
+                                   │
+                           Kernel checkt:
+                           "Ist 192.168.0.101 meine IP?"
+                           Nein → ❌ VERWERFEN
+                                   │
+                                   X  Paket stirbt hier!
+```
+
+**Mit IP Forwarding:**
+
+```
+┌────────────┐              ┌──────────────┐              ┌──────────┐
+│   Laptop   │              │  Container   │              │ Proxmox  │
+│100.64.0.2  │              │ 100.64.0.1   │              │   .101   │
+└──────┬─────┘              └──────┬───────┘              └──────────┘
+       │                           │
+       │  Paket: Ziel 192.168.0.101│
+       ├──────────────────────────►│
+                                   │
+                           Kernel checkt:
+                           "Ist 192.168.0.101 meine IP?"
+                           Nein → IP Forwarding AN
+                           → Routing Table checken
+                           → Via eth0 weiterleiten!
+                                   │
+                                   ├─────────────────────►
+                                                   ✅ Paket kommt an!
+```
+
+---
+
+## 🛡️ iptables vs. nftables - Firewall & NAT
+
+### Was sind iptables/nftables?
+
+**iptables** und **nftables** sind Linux-Tools für:
+1. **Firewall** (Pakete blockieren/erlauben)
+2. **NAT** (IP-Adressen ändern)
+3. **Packet Filtering** (Pakete filtern/modifizieren)
+
+**nftables** ist der moderne Nachfolger von iptables (seit ~2014)
+
+---
+
+### iptables Basics
+
+#### Wichtige Konzepte: Tables, Chains, Rules
+
+**Tables:**
+- `filter` - Firewall (Pakete erlauben/blockieren)
+- `nat` - Network Address Translation
+- `mangle` - Pakete modifizieren
+- `raw` - Connection Tracking bypass
+
+**Chains (in filter table):**
+- `INPUT` - Eingehende Pakete FÜR dieses System
+- `OUTPUT` - Ausgehende Pakete VON diesem System
+- `FORWARD` - Durchlaufende Pakete (werden weitergeleitet)
+
+**Visual:**
+
+```
+┌─────────────────────────────────────────────────────┐
+│                    LINUX SYSTEM                     │
+│                                                     │
+│  Paket kommt rein                                   │
+│         ↓                                           │
+│  ┌──────────────┐                                   │
+│  │ INPUT Chain  │  Ist Paket für mich?              │
+│  └──────┬───────┘                                   │
+│         │ Ja                                         │
+│         ↓                                           │
+│  Lokale Anwendung (z.B. SSH Server)                │
+│                                                     │
+│  ┌──────────────┐                                   │
+│  │OUTPUT Chain  │  Antwort zurück                   │
+│  └──────┬───────┘                                   │
+│         ↓                                           │
+│  Paket geht raus                                    │
+│                                                     │
+│  ════════════════════════════════════════════       │
+│                                                     │
+│  Paket kommt rein                                   │
+│         ↓                                           │
+│  ┌───────────────┐  Ist Paket für mich?            │
+│  │ FORWARD Chain │  Nein → Weiterleiten!           │
+│  └───────┬───────┘                                   │
+│          ↓                                           │
+│  Paket geht raus (an anderes Interface)             │
+└─────────────────────────────────────────────────────┘
+```
+
+---
+
+### NAT mit iptables - MASQUERADE
+
+**MASQUERADE** = NAT für ausgehende Verbindungen (Source NAT)
+
+Im Container brauchen wir das für Subnet-Routing!
+
+#### Warum?
+
+```
+Ohne MASQUERADE:
+┌───────┐        ┌───────────┐        ┌─────────┐
+│Laptop │        │ Container │        │ Proxmox │
+│.0.2   │───────►│ empfängt  │───────►│  .101   │
+│       │        │ Paket von │        │         │
+│       │        │ 100.64.0.2│        │ "Wer?"  │
+│       │        │           │        │ ❌      │
+└───────┘        └───────────┘        └─────────┘
+                                      Proxmox kennt
+                                      100.64.0.2 nicht!
+                                      → Verwirft Paket
+
+Mit MASQUERADE:
+┌───────┐        ┌───────────┐        ┌─────────┐
+│Laptop │        │ Container │        │ Proxmox │
+│.0.2   │───────►│ ÄNDERT    │───────►│  .101   │
+│       │        │ Source zu │        │         │
+│       │        │192.168.0  │        │ "Ah, der│
+│       │        │    .150   │        │Container│
+│       │◄───────│ NAT Table │◄───────│ ✅      │
+└───────┘        └───────────┘        └─────────┘
+                 Container merkt sich:
+                 "Laptop .0.2 wartet auf Antwort"
+```
+
+#### MASQUERADE Rule anzeigen
+
+```bash
+# NAT Table checken
+sudo iptables -t nat -L -n -v
+
+# POSTROUTING Chain ist wichtig
+sudo iptables -t nat -L POSTROUTING -n -v
+```
+
+**Typischer Output:**
+
+```
+Chain POSTROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+  123 45678 MASQUERADE all  --  *      eth0    100.64.0.0/10        0.0.0.0/0
+```
+
+**Was bedeutet das:**
+- Alle Pakete (`all`) 
+- Von Tailscale-Netz (`100.64.0.0/10`)
+- Die über `eth0` rausgehen (ins Heimnetz)
+- → Source-IP wird zu Container-IP geändert (`MASQUERADE`)
+
+---
+
+#### MASQUERADE Rule manuell erstellen
+
+```bash
+# Für Subnet Router - Tailscale Pakete masqueraden
+sudo iptables -t nat -A POSTROUTING -o eth0 -s 100.64.0.0/10 -j MASQUERADE
+
+# ODER: Für Exit-Node - ALLE Pakete masqueraden
+sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+```
+
+**Erklärung:**
+- `-t nat` = NAT table
+- `-A POSTROUTING` = Append to POSTROUTING chain (nachdem Routing-Entscheidung)
+- `-o eth0` = Output Interface (Pakete die über eth0 rausgehen)
+- `-s 100.64.0.0/10` = Source (nur von Tailscale)
+- `-j MASQUERADE` = Jump to MASQUERADE (ändere Source-IP)
+
+---
+
+### iptables Regeln persistent machen
+
+**Problem:** iptables-Regeln gehen beim Reboot verloren!
+
+#### Lösung 1: iptables-persistent (Debian/Ubuntu)
+
+```bash
+# Installieren
+sudo apt install iptables-persistent
+
+# Aktuelle Regeln speichern
+sudo netfilter-persistent save
+
+# Beim Reboot werden Regeln automatisch geladen!
+```
+
+#### Lösung 2: Manuell speichern/laden
+
+```bash
+# Regeln speichern
+sudo iptables-save > /etc/iptables/rules.v4
+sudo ip6tables-save > /etc/iptables/rules.v6
+
+# Beim Boot laden (systemd service)
+sudo nano /etc/systemd/system/iptables-restore.service
+```
+
+---
+
+### nftables - Die moderne Alternative
+
+**nftables** ersetzt iptables, ip6tables, arptables, ebtables mit **einem** Tool!
+
+#### Unterschiede zu iptables
+
+| Feature | iptables | nftables |
+|---------|----------|----------|
+| **Syntax** | Komplex, viele Tools | Einheitlich, ein Tool |
+| **Performance** | Gut | Besser (optimiert) |
+| **IPv4/IPv6** | Getrennt | Zusammen |
+| **Scripting** | Schwierig | Einfach |
+
+---
+
+#### nftables Basics
+
+```bash
+# Status
+sudo nft list ruleset
+
+# Tables anzeigen
+sudo nft list tables
+
+# Chains in einer Table
+sudo nft list table inet filter
+```
+
+#### NAT mit nftables
+
+```bash
+# NAT Table erstellen
+sudo nft add table ip nat
+
+# POSTROUTING Chain erstellen
+sudo nft add chain ip nat postrouting { type nat hook postrouting priority 100 \; }
+
+# MASQUERADE Rule
+sudo nft add rule ip nat postrouting oifname "eth0" ip saddr 100.64.0.0/10 masquerade
+```
+
+**Erklärung:**
+- `oifname "eth0"` = Output Interface (wie `-o eth0` bei iptables)
+- `ip saddr 100.64.0.0/10` = Source Address (wie `-s`)
+- `masquerade` = MASQUERADE Aktion
+
+---
+
+### Was nutzt dein Setup?
+
+**Auf dem VPS:** Wahrscheinlich UFW (Uncomplicated Firewall)
+- UFW ist ein Frontend für iptables
+- Einfachere Syntax
+
+**Auf dem Container:** iptables für NAT/MASQUERADE
+- Tailscale erstellt automatisch benötigte Regeln
+- Für Subnet Router: MASQUERADE wird automatisch gesetzt
+
+---
+
+### iptables Regeln checken
+
+```bash
+# Im Container - Alle Regeln anzeigen
+sudo iptables -L -n -v
+
+# NAT Table (wichtig für MASQUERADE!)
+sudo iptables -t nat -L -n -v
+
+# Nur FORWARD Chain (wichtig für Routing!)
+sudo iptables -L FORWARD -n -v
+```
+
+---
+
+## 🔍 Debugging: Packet Flow verfolgen
+
+### Wie sehe ich ob Pakete weitergeleitet werden?
+
+#### 1. tcpdump - Netzwerk-Traffic sniffen
+
+```bash
+# Im Container - Traffic auf tailscale0 Interface
+sudo tcpdump -i tailscale0 -n
+
+# Traffic auf eth0 Interface
+sudo tcpdump -i eth0 -n
+
+# Nur ICMP (Ping)
+sudo tcpdump -i any icmp -n
+
+# Zu/Von spezifischer IP
+sudo tcpdump -i any host 192.168.0.101 -n
+```
+
+**Output beim Ping von Laptop zu Proxmox:**
+
+```
+# Auf tailscale0:
+12:34:56.789 IP 100.64.0.2 > 192.168.0.101: ICMP echo request
+12:34:56.791 IP 192.168.0.101 > 100.64.0.2: ICMP echo reply
+
+# Auf eth0 (nach NAT!):
+12:34:56.790 IP 192.168.0.150 > 192.168.0.101: ICMP echo request
+12:34:56.791 IP 192.168.0.101 > 192.168.0.150: ICMP echo reply
+```
+
+**Siehst du:** Source-IP wurde geändert! (100.64.0.2 → 192.168.0.150)
+
+---
+
+#### 2. Conntrack - Connection Tracking anzeigen
+
+```bash
+# Aktive Verbindungen
+sudo conntrack -L
+
+# Nur ICMP
+sudo conntrack -L -p icmp
+
+# Nur zu/von spezifischer IP
+sudo conntrack -L | grep 192.168.0.101
+```
+
+**Output:**
+
+```
+icmp     1 29 src=100.64.0.2 dst=192.168.0.101 type=8 code=0 id=12345 \
+              src=192.168.0.101 dst=192.168.0.150 type=0 code=0 id=12345 mark=0
+              
+Original: 100.64.0.2 → 192.168.0.101
+Reply:    192.168.0.101 → 192.168.0.150 (NAT!)
+```
+
+---
+
+#### 3. iptables Counter - Paket-Statistiken
+
+```bash
+# FORWARD Chain Statistiken
+sudo iptables -L FORWARD -n -v
+
+# NAT Statistics
+sudo iptables -t nat -L POSTROUTING -n -v
+```
+
+**Output:**
+
+```
+Chain FORWARD (policy ACCEPT 1234 packets, 567890 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+  123  8520 ACCEPT     all  --  tailscale0  eth0  0.0.0.0/0            0.0.0.0/0
+  120  7890 ACCEPT     all  --  eth0  tailscale0  0.0.0.0/0            0.0.0.0/0
+  
+Bedeutung: 123 Pakete von Tailscale → Heimnetz
+           120 Pakete von Heimnetz → Tailscale
+```
+
+---
+
+## 📋 Zusammenfassung: Routing, iptables, IP Forwarding
+
+### Routing Tables
+- **Funktion:** Sagen dem System wohin Pakete geschickt werden
+- **Checken:** `ip route`
+- **Prinzip:** Längster Präfix-Match gewinnt
+- **Container:** Hat Routes für Tailscale UND Heimnetz
+
+### IP Forwarding
+- **Funktion:** Erlaubt Weiterleitung zwischen Interfaces
+- **Checken:** `sysctl net.ipv4.ip_forward`
+- **Aktivieren:** `sysctl -w net.ipv4.ip_forward=1`
+- **Wichtig:** MUSS im Container AN sein für Subnet Router!
+
+### iptables/nftables
+- **Funktion:** Firewall + NAT
+- **MASQUERADE:** Ändert Source-IP für ausgehende Pakete
+- **Wichtig:** Damit Proxmox die Pakete kennt
+- **Checken:** `iptables -t nat -L -n -v`
+
+### NAT (MASQUERADE)
+- **Warum:** Proxmox kennt Tailscale-IPs nicht
+- **Lösung:** Container ändert Source zu seiner Heimnetz-IP
+- **Effekt:** Proxmox denkt, Container hat angefragt
+- **Rückweg:** Container leitet Antworten zurück (Conntrack)
+
+### Packet Flow komplett:
+1. Laptop sendet (100.64.0.2 → 192.168.0.101)
+2. Routing Table: "Über 100.64.0.1"
+3. Container empfängt auf tailscale0
+4. IP Forwarding: "Weiterleiten erlaubt? ✅"
+5. Routing Table: "192.168.0.101 über eth0"
+6. iptables NAT: Source ändern (→ 192.168.0.150)
+7. Paket raus über eth0
+8. Proxmox empfängt und antwortet
+9. Container empfängt Antwort
+10. Conntrack: "Gehört zu Session mit Laptop!"
+11. NAT zurück: Destination ändern (→ 100.64.0.2)
+12. Paket über tailscale0 zurück
+13. Laptop empfängt ✅
+
+---
+
+**Jetzt verstehst du die komplette Linux-Netzwerk-Magie!** 🎩✨
 
 ### Aktive User
 
