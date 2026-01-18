@@ -105,6 +105,541 @@
 
 ---
 
+## 🌐 Subnetz-Routing & Exit-Nodes - Ausführliche Erklärung
+
+### Was ist ein Subnetz (Subnet)?
+
+Ein **Subnetz** ist ein logisch getrennter Bereich eines Netzwerks. In unserem Fall:
+
+```
+192.168.0.0/24 = Heimnetzwerk
+
+Aufschlüsselung:
+- 192.168.0.0      = Netzwerk-Adresse
+- /24              = Subnet-Maske (255.255.255.0)
+- 192.168.0.1-254  = Verfügbare Host-Adressen
+- 192.168.0.255    = Broadcast-Adresse
+
+Bedeutung von /24:
+- 24 Bits sind für das Netzwerk reserviert
+- 8 Bits bleiben für Hosts (2^8 - 2 = 254 nutzbare IPs)
+```
+
+**Warum ist das wichtig?**
+- Dein Heimnetz (192.168.0.0/24) ist **physisch getrennt** vom Tailscale-Netz (100.64.0.0/10)
+- Ohne Routing können Geräte im Tailscale-Netz **nicht** auf dein Heimnetz zugreifen
+- Der **Subnet Router** (LXC Container) ist die Brücke zwischen beiden Netzen
+
+---
+
+### Wie funktioniert Subnet-Routing?
+
+#### Szenario OHNE Subnet Router:
+
+```
+┌─────────────┐                      ┌──────────────┐
+│   Laptop    │  Tailscale VPN       │ LXC Container│
+│ 100.64.0.2  │ ◄──────────────────► │ 100.64.0.1   │
+└─────────────┘                      └──────┬───────┘
+                                            │
+      ❌ KEIN Zugriff auf:                  │ Heimnetz
+                                            │
+                                     ┌──────▼───────┐
+                                     │  Proxmox     │
+                                     │ 192.168.0.101│
+                                     └──────────────┘
+```
+
+**Problem:** Laptop kann nur mit anderen Tailscale-Nodes kommunizieren (100.64.0.x), aber **nicht** mit Geräten im Heimnetz (192.168.0.x)
+
+---
+
+#### Szenario MIT Subnet Router:
+
+```
+┌─────────────┐                      ┌──────────────┐
+│   Laptop    │  Tailscale VPN       │ LXC Container│
+│ 100.64.0.2  │ ◄──────────────────► │ 100.64.0.1   │
+│             │                      │ 192.168.0.150│ ← Hat BEIDE IPs!
+└─────────────┘                      └──────┬───────┘
+                                            │
+      ✅ Zugriff auf alles:                 │ IP Forwarding
+         100.64.0.x                         │ aktiviert
+         192.168.0.x                        │
+                                     ┌──────▼───────┐
+                                     │  Proxmox     │
+                                     │ 192.168.0.101│
+                                     │              │
+                                     │ Debian VM    │
+                                     │ 192.168.0.158│
+                                     └──────────────┘
+```
+
+**Lösung:** Der Container fungiert als **Router** zwischen den Netzen!
+
+---
+
+### Schritt-für-Schritt: Was passiert beim Subnet-Routing?
+
+#### 1. Advertised Routes (Ankündigen)
+
+Wenn der LXC Container mit Tailscale startet:
+
+```bash
+tailscale up \
+  --login-server=https://zabooz.duckdns.org \
+  --advertise-routes=192.168.0.0/24 \    ← "Ich kann 192.168.0.0/24 erreichen!"
+  --accept-routes                        ← "Ich akzeptiere auch Routes von anderen"
+```
+
+**Was passiert:**
+- Container sagt Headscale: "Hey, ich habe Zugriff auf das Netz 192.168.0.0/24"
+- Headscale speichert diese Info: "Container 100.64.0.1 kann zu 192.168.0.0/24 routen"
+- Aber: Route ist noch **NICHT aktiv** (muss erst approved werden!)
+
+#### 2. Approve Routes (Aktivieren)
+
+Auf dem VPS:
+
+```bash
+sudo headscale nodes list-routes
+```
+
+Output zeigt:
+```
+ID | Hostname  | Approved | Available        | Serving
+1  | tailscale |          | 192.168.0.0/24   |        
+```
+
+**Jetzt aktivieren:**
+
+```bash
+sudo headscale nodes approve-routes --identifier 1 --routes 192.168.0.0/24
+```
+
+**Was passiert:**
+- Headscale sagt allen Nodes: "Wenn ihr zu 192.168.0.0/24 wollt, geht über 100.64.0.1"
+- Alle Clients bekommen diese Routing-Info automatisch
+- Route wird in den Routing-Tabellen der Clients eingetragen
+
+#### 3. Client akzeptiert Routes
+
+Auf dem Laptop:
+
+```bash
+sudo tailscale up --login-server=https://zabooz.duckdns.org --accept-routes
+#                                                            ^^^^^^^^^^^^^^^^
+#                                                            Wichtig!
+```
+
+**Was passiert:**
+- Laptop akzeptiert die Route: "Okay, für 192.168.0.0/24 nutze ich 100.64.0.1 als Gateway"
+- Routing-Tabelle wird aktualisiert
+
+**Routing-Tabelle auf dem Laptop** (vereinfacht):
+
+```
+Ziel               Gateway         Interface
+100.64.0.0/10  →   direkt      →   tailscale0
+192.168.0.0/24 →   100.64.0.1  →   tailscale0   ← Neue Route!
+0.0.0.0/0      →   Router      →   eth0/wlan0
+```
+
+---
+
+### Praktisches Beispiel: Laptop greift auf Proxmox zu
+
+**Schritt-für-Schritt was passiert:**
+
+```
+1. Laptop (100.64.0.2) will Proxmox (192.168.0.101) erreichen
+   ↓
+2. Laptop checkt Routing-Tabelle:
+   "192.168.0.101 gehört zu 192.168.0.0/24"
+   "Route sagt: Gateway ist 100.64.0.1"
+   ↓
+3. Laptop schickt Paket über Tailscale zu 100.64.0.1
+   [Verschlüsselt mit WireGuard]
+   ↓
+4. Container (100.64.0.1) empfängt Paket
+   "Ziel ist 192.168.0.101"
+   "Das ist in meinem lokalen Netz!"
+   ↓
+5. Container leitet Paket weiter (IP Forwarding)
+   [Über eth0 Interface: 192.168.0.150]
+   ↓
+6. Proxmox (192.168.0.101) empfängt Paket
+   "Quelle ist 192.168.0.150" (Container IP)
+   ↓
+7. Proxmox antwortet zurück an 192.168.0.150
+   ↓
+8. Container leitet Antwort zurück über Tailscale
+   ↓
+9. Laptop empfängt Antwort
+   ✅ Verbindung hergestellt!
+```
+
+---
+
+### IP Forwarding - Was ist das?
+
+**IP Forwarding** ist die Fähigkeit eines Geräts, Pakete zwischen verschiedenen Netzwerk-Interfaces weiterzuleiten.
+
+#### Ohne IP Forwarding:
+```
+Paket kommt rein (tailscale0) → Container → ❌ VERWORFEN
+```
+
+#### Mit IP Forwarding:
+```
+Paket kommt rein (tailscale0) → Container → ✅ Weitergeleitet → eth0 → Heimnetz
+```
+
+**Aktiviert im Container:**
+
+```bash
+# Temporär aktivieren
+sysctl -w net.ipv4.ip_forward=1
+sysctl -w net.ipv6.conf.all.forwarding=1
+
+# Permanent aktivieren
+echo 'net.ipv4.ip_forward = 1' >> /etc/sysctl.conf
+echo 'net.ipv6.conf.all.forwarding = 1' >> /etc/sysctl.conf
+sysctl -p
+```
+
+**Checken ob aktiv:**
+```bash
+sysctl net.ipv4.ip_forward
+# Sollte zeigen: net.ipv4.ip_forward = 1
+```
+
+---
+
+### Exit-Node - Internet über Heimnetz
+
+Ein **Exit-Node** routet **ALLEN** Internet-Traffic über sich selbst.
+
+#### Normale Verbindung (ohne Exit-Node):
+
+```
+Laptop → eigenes Internet → Ziel-Website
+         (z.B. Café WiFi)
+```
+
+#### Mit Exit-Node:
+
+```
+Laptop → Tailscale VPN → Exit-Node (100.64.0.1) → Heimnetz Internet → Ziel-Website
+         (verschlüsselt)
+```
+
+**Warum ist das nützlich?**
+
+1. **Sicherheit:** In unsicheren Netzen (Café, Hotel) ist Traffic verschlüsselt bis zum Heimnetz
+2. **Geo-Location:** Websites sehen deine Heim-IP statt Café-IP
+3. **Zugriff:** Du nutzt die Internet-Verbindung deines Heimnetzes
+
+---
+
+### Exit-Node Routen erklärt
+
+Wenn der Container als Exit-Node advertised:
+
+```bash
+tailscale up \
+  --advertise-exit-node \              ← "Ich kann ALLE Internet-Pakete routen!"
+  --advertise-routes=192.168.0.0/24    ← "Und auch das lokale Netz!"
+```
+
+**Das bedeutet in der Routing-Tabelle:**
+
+```
+0.0.0.0/0       → "Default Route" → ALLES Internet
+::/0            → "Default Route IPv6" → ALLES Internet (IPv6)
+192.168.0.0/24  → Spezifisches lokales Netz
+```
+
+**Auf dem VPS aktivieren:**
+
+```bash
+sudo headscale nodes approve-routes --identifier 1 --routes 0.0.0.0/0,::/0,192.168.0.0/24
+```
+
+**Auf dem Laptop nutzen:**
+
+```bash
+# Exit-Node aktivieren
+sudo tailscale up --exit-node=100.64.0.1 --accept-routes
+
+# IP checken (zeigt jetzt Heim-IP!)
+curl ifconfig.me
+
+# Exit-Node deaktivieren
+sudo tailscale up --accept-routes
+```
+
+---
+
+### Routing-Tabelle verstehen
+
+**Routing-Tabelle auf dem Laptop anzeigen:**
+
+```bash
+ip route show
+
+# Oder detaillierter:
+ip route show table all
+```
+
+**Beispiel-Output MIT aktiviertem Subnet Router:**
+
+```
+default via 192.168.1.1 dev wlan0          ← Standard Internet über WLAN
+100.64.0.0/10 dev tailscale0               ← Tailscale-Netz
+192.168.0.0/24 via 100.64.0.1 dev tailscale0  ← Heimnetz über Container!
+```
+
+**Was bedeutet das:**
+
+| Ziel | Via | Interface | Bedeutung |
+|------|-----|-----------|-----------|
+| `default` | 192.168.1.1 | wlan0 | Internet geht normal über WLAN |
+| `100.64.0.0/10` | direkt | tailscale0 | Tailscale-IPs direkt über VPN |
+| `192.168.0.0/24` | 100.64.0.1 | tailscale0 | Heimnetz über Container |
+
+---
+
+### NAT (Network Address Translation) im Container
+
+Der Container muss auch **NAT** machen, damit die Antworten zurückkommen.
+
+**Problem ohne NAT:**
+
+```
+Laptop (100.64.0.2) → Container → Proxmox (192.168.0.101)
+                                  ↓
+                                  "Wer ist 100.64.0.2?"
+                                  "Kenne ich nicht!"
+                                  ❌ Paket verworfen
+```
+
+**Lösung mit NAT (Masquerading):**
+
+```
+Laptop (100.64.0.2) → Container → NAT → Proxmox (192.168.0.101)
+                                         ↓
+                      Source wird zu 192.168.0.150 (Container IP)
+                                         ↓
+                      "Ah, 192.168.0.150 kenne ich!"
+                                         ↓
+                      Antwort → Container → NAT → Laptop
+                                ✅ Funktioniert!
+```
+
+**NAT wird automatisch von iptables/nftables gemacht** wenn IP Forwarding aktiv ist.
+
+---
+
+### Zusammenfassung: Route Types
+
+| Route Type | CIDR | Was es macht | Beispiel |
+|------------|------|--------------|----------|
+| **Specific Subnet** | 192.168.0.0/24 | Zugriff auf bestimmtes Netz | Heimnetz |
+| **Default IPv4** | 0.0.0.0/0 | ALLES Internet (IPv4) | Exit-Node |
+| **Default IPv6** | ::/0 | ALLES Internet (IPv6) | Exit-Node |
+| **Single Host** | 192.168.0.101/32 | Nur EIN Gerät | Nur Proxmox |
+
+---
+
+### Visual: Packet Flow beim Subnet-Routing
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                     LAPTOP (100.64.0.2)                          │
+│                                                                   │
+│  Anwendung: "ping 192.168.0.101"                                │
+│       ↓                                                           │
+│  Routing-Tabelle checken:                                        │
+│  "192.168.0.101 → via 100.64.0.1 (tailscale0)"                  │
+│       ↓                                                           │
+│  Tailscale Client: Paket verschlüsseln (WireGuard)              │
+│       ↓                                                           │
+│  Netzwerk: Sende zu 100.64.0.1                                   │
+└──────────────┬────────────────────────────────────────────────────┘
+               │
+               │ [verschlüsseltes Paket über Internet/VPN]
+               │
+┌──────────────▼────────────────────────────────────────────────────┐
+│              LXC CONTAINER (100.64.0.1 / 192.168.0.150)          │
+│                                                                   │
+│  Tailscale empfängt: Paket entschlüsseln                         │
+│       ↓                                                           │
+│  Kernel: IP Forwarding aktiv?                                    │
+│       ↓ JA                                                        │
+│  Routing: Ziel 192.168.0.101 ist im lokalen Netz                │
+│       ↓                                                           │
+│  NAT/Masquerading: Source = 192.168.0.150                        │
+│       ↓                                                           │
+│  eth0: Sende Paket ins Heimnetz                                  │
+└──────────────┬────────────────────────────────────────────────────┘
+               │
+               │ [Paket im Heimnetz]
+               │
+┌──────────────▼────────────────────────────────────────────────────┐
+│                 PROXMOX (192.168.0.101)                          │
+│                                                                   │
+│  Empfängt Paket von 192.168.0.150                                │
+│       ↓                                                           │
+│  Antwortet zurück an 192.168.0.150                               │
+└──────────────┬────────────────────────────────────────────────────┘
+               │
+               │ [Antwort zurück zum Container]
+               │
+┌──────────────▼────────────────────────────────────────────────────┐
+│              LXC CONTAINER                                        │
+│                                                                   │
+│  eth0 empfängt Antwort                                           │
+│       ↓                                                           │
+│  NAT/Conntrack: "Gehört zu Session mit 100.64.0.2"              │
+│       ↓                                                           │
+│  Tailscale: Verschlüsseln und zurück senden                      │
+└──────────────┬────────────────────────────────────────────────────┘
+               │
+               │ [verschlüsselt zurück]
+               │
+┌──────────────▼────────────────────────────────────────────────────┐
+│                     LAPTOP (100.64.0.2)                          │
+│                                                                   │
+│  Tailscale: Entschlüsseln                                        │
+│       ↓                                                           │
+│  Anwendung: "64 bytes from 192.168.0.101: icmp_seq=1"           │
+│       ↓                                                           │
+│  ✅ ERFOLG!                                                       │
+└───────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### Praktische Tests zum Verstehen
+
+#### Test 1: Route ist da, aber nicht approved
+
+```bash
+# Container advertised Route, aber VPS hat sie nicht approved
+tailscale status  # auf Laptop
+
+# Zeigt:
+# 100.64.0.1  tailscale  ← Container ist da
+# Aber KEINE Route zu 192.168.0.0/24!
+
+ping 192.168.0.101
+# → Timeout / Network unreachable
+```
+
+#### Test 2: Route approved, aber Client akzeptiert sie nicht
+
+```bash
+# VPS hat Route approved, aber Laptop mit --accept-routes vergessen
+sudo tailscale up --login-server=https://zabooz.duckdns.org
+#                                    (ohne --accept-routes!)
+
+ping 192.168.0.101
+# → Timeout / Network unreachable
+```
+
+#### Test 3: Alles richtig konfiguriert
+
+```bash
+# Auf VPS: Route approved
+sudo headscale nodes approve-routes --identifier 1 --routes 192.168.0.0/24
+
+# Auf Laptop: --accept-routes gesetzt
+sudo tailscale up --login-server=https://zabooz.duckdns.org --accept-routes
+
+# Test:
+ping 192.168.0.101
+# ✅ 64 bytes from 192.168.0.101: icmp_seq=1 ttl=63 time=2.55 ms
+```
+
+---
+
+### Debugging: Route funktioniert nicht
+
+#### Schritt 1: Ist Route advertised?
+
+```bash
+# Auf VPS
+sudo headscale nodes list-routes
+```
+
+Sollte zeigen:
+```
+ID | Hostname  | Available        
+1  | tailscale | 192.168.0.0/24  ← Route ist advertised
+```
+
+Falls NICHT → Im Container nochmal `tailscale up` mit `--advertise-routes`
+
+#### Schritt 2: Ist Route approved?
+
+```bash
+sudo headscale nodes list-routes
+```
+
+Sollte zeigen:
+```
+ID | Hostname  | Approved         | Serving
+1  | tailscale | 192.168.0.0/24   | 192.168.0.0/24  ← Route ist aktiv
+```
+
+Falls NICHT → Route approven
+
+#### Schritt 3: Akzeptiert Client die Route?
+
+```bash
+# Auf Laptop
+tailscale status
+```
+
+Sollte zeigen:
+```
+100.64.0.1  tailscale  zabooz  linux  active; offers exit node
+```
+
+Und in Routing-Tabelle:
+```bash
+ip route | grep 192.168.0
+# Sollte zeigen:
+# 192.168.0.0/24 via 100.64.0.1 dev tailscale0
+```
+
+Falls NICHT → `tailscale up --accept-routes`
+
+#### Schritt 4: IP Forwarding im Container?
+
+```bash
+# Im Container
+sysctl net.ipv4.ip_forward
+# MUSS zeigen: net.ipv4.ip_forward = 1
+```
+
+Falls 0 → IP Forwarding aktivieren
+
+---
+
+### Wichtige Konzepte nochmal zusammengefasst
+
+1. **Advertise Route** = "Ich KANN zu diesem Netz routen"
+2. **Approve Route** = "Okay, andere dürfen dich als Gateway nutzen"
+3. **Accept Routes** = "Ich WILL diese Routes in meiner Routing-Tabelle"
+4. **IP Forwarding** = "Ich DARF Pakete zwischen Interfaces weiterleiten"
+5. **NAT/Masquerading** = "Ich ändere Source-IP damit Antworten zurückkommen"
+
+**Alle 5 müssen zusammenspielen, sonst funktioniert Subnet-Routing nicht!**
+
+---
+
 ## 👥 User Management
 
 ### Was sind User in Headscale?
