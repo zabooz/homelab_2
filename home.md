@@ -15,6 +15,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | Infrastruktur | Services | Betrieb |
 |:---:|:---:|:---:|
 | [Netzwerk Übersicht](/en/NETWORK_OVERVIEW) | [Wiki.js Setup](/en/services/wikijs-setup) | [Backup & Recovery](/en/operations/backup-recovery) |
+| [Stats API](/en/services/stats-api) | Bun API für System-Monitoring |
 | [Netzwerk Setup](/en/infrastructure/NETWORK_SETUP) | [Homepage Dashboard](/en/services/homepage-dashboard-setup) | [Disaster Recovery](/en/operations/disaster-recovery) |
 | [Proxmox Setup](/en/infrastructure/proxmox-netzwerk-setup) | [Apache Reverse Proxy](/en/services/apache-reverse-proxy-setup) | [Security Hardening](/en/operations/security-hardening) |
 
@@ -42,6 +43,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | Service | Beschreibung |
 |---------|--------------|
 | [Wiki.js Setup](/en/services/wikijs-setup) | Wiki.js Installation und Git Sync |
+| [Stats API](/en/services/stats-api) | Bun API für System-Monitoring |
 | [Homepage Dashboard](/en/services/homepage-dashboard-setup) | Dashboard Konfiguration |
 | [Apache Reverse Proxy](/en/services/apache-reverse-proxy-setup) | Reverse Proxy Setup |
 | [Tailscale + Homepage](/en/services/tailscale-homepage-setup) | Tailscale Integration |
