@@ -48,6 +48,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [Apache Reverse Proxy](/en/services/apache-reverse-proxy-setup) | Reverse Proxy Setup |
 | [Tailscale + Homepage](/en/services/tailscale-homepage-setup) | Tailscale Integration |
 | [FOG Project](/en/services/fog_project_setup_dokumentation_debian_12_lxc) | Netzwerk Imaging und Cloning |
+| [Paperless-ngx](/en/services/paperless-ngx) | Dokumentenverwaltung mit OCR |
 
 ---
 
