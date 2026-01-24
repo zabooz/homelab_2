@@ -1,68 +1,68 @@
 ---
-title: Home
-description: Homelab Wiki - Central documentation hub
+title: Startseite
+description: Homelab Wiki - Zentrale Dokumentation
 published: true
 ---
 
-# Welcome to the Homelab Wiki
+# Willkommen im Homelab Wiki
 
-Your central documentation hub for all homelab infrastructure, services, and operations.
+Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services und Betrieb.
 
 ---
 
-## Quick Links
+## Schnellzugriff
 
-| Infrastructure | Services | Operations |
+| Infrastruktur | Services | Betrieb |
 |:---:|:---:|:---:|
-| [Network Overview](/en/NETWORK_OVERVIEW) | [Wiki.js Setup](/en/services/wikijs-setup) | [Backup & Recovery](/en/operations/backup-recovery) |
-| [Network Setup](/en/infrastructure/NETWORK_SETUP) | [Homepage Dashboard](/en/services/homepage-dashboard-setup) | [Disaster Recovery](/en/operations/disaster-recovery) |
+| [Netzwerk Übersicht](/en/NETWORK_OVERVIEW) | [Wiki.js Setup](/en/services/wikijs-setup) | [Backup & Recovery](/en/operations/backup-recovery) |
+| [Netzwerk Setup](/en/infrastructure/NETWORK_SETUP) | [Homepage Dashboard](/en/services/homepage-dashboard-setup) | [Disaster Recovery](/en/operations/disaster-recovery) |
 | [Proxmox Setup](/en/infrastructure/proxmox-netzwerk-setup) | [Apache Reverse Proxy](/en/services/apache-reverse-proxy-setup) | [Security Hardening](/en/operations/security-hardening) |
 
 ---
 
-## Core Documentation
+## Kernkonzepte
 
-- [Core Concepts](/en/core-concepts) - Fundamental concepts and architecture
-- [Network Overview](/en/NETWORK_OVERVIEW) - Complete network documentation
-- [README](/en/README) - Project overview
+- [Core Concepts](/en/core-concepts) - Grundlegende Konzepte und Architektur
+- [Netzwerk Übersicht](/en/NETWORK_OVERVIEW) - Vollständige Netzwerkdokumentation
+- [README](/en/README) - Projektübersicht
 
 ---
 
-## Infrastructure
+## Infrastruktur
 
-| Document | Description |
-|----------|-------------|
-| [Network Setup](/en/infrastructure/NETWORK_SETUP) | Network infrastructure configuration |
-| [Proxmox Network Setup](/en/infrastructure/proxmox-netzwerk-setup) | Proxmox virtualization networking |
+| Dokument | Beschreibung |
+|----------|--------------|
+| [Netzwerk Setup](/en/infrastructure/NETWORK_SETUP) | Netzwerk-Infrastruktur Konfiguration |
+| [Proxmox Netzwerk Setup](/en/infrastructure/proxmox-netzwerk-setup) | Proxmox Virtualisierung Netzwerk |
 
 ---
 
 ## Services
 
-| Service | Description |
-|---------|-------------|
-| [Wiki.js Setup](/en/services/wikijs-setup) | Wiki.js installation and Git sync |
-| [Homepage Dashboard](/en/services/homepage-dashboard-setup) | Dashboard configuration |
-| [Apache Reverse Proxy](/en/services/apache-reverse-proxy-setup) | Reverse proxy setup |
-| [Tailscale + Homepage](/en/services/tailscale-homepage-setup) | Tailscale integration |
-| [FOG Project](/en/services/fog_project_setup_dokumentation_debian_12_lxc) | Network imaging and cloning |
+| Service | Beschreibung |
+|---------|--------------|
+| [Wiki.js Setup](/en/services/wikijs-setup) | Wiki.js Installation und Git Sync |
+| [Homepage Dashboard](/en/services/homepage-dashboard-setup) | Dashboard Konfiguration |
+| [Apache Reverse Proxy](/en/services/apache-reverse-proxy-setup) | Reverse Proxy Setup |
+| [Tailscale + Homepage](/en/services/tailscale-homepage-setup) | Tailscale Integration |
+| [FOG Project](/en/services/fog_project_setup_dokumentation_debian_12_lxc) | Netzwerk Imaging und Cloning |
 
 ---
 
 ## VPN
 
-| Guide | Description |
-|-------|-------------|
-| [VPN Infrastructure](/en/vpn/vpn-infrastructure) | VPN server setup and configuration |
-| [VPN Client Guide](/en/vpn/vpn-client-guide) | How to connect to the VPN |
-| [VPN Troubleshooting](/en/vpn/vpn-troubleshooting) | Common VPN issues and fixes |
+| Anleitung | Beschreibung |
+|-----------|--------------|
+| [VPN Infrastruktur](/en/vpn/vpn-infrastructure) | VPN Server Setup und Konfiguration |
+| [VPN Client Anleitung](/en/vpn/vpn-client-guide) | Wie man sich mit dem VPN verbindet |
+| [VPN Fehlerbehebung](/en/vpn/vpn-troubleshooting) | Häufige VPN Probleme und Lösungen |
 
 ---
 
-## Operations
+## Betrieb
 
-| Document | Description |
-|----------|-------------|
-| [Backup & Recovery](/en/operations/backup-recovery) | Backup procedures and recovery |
-| [Disaster Recovery](/en/operations/disaster-recovery) | Disaster recovery planning |
-| [Security Hardening](/en/operations/security-hardening) | Security best practices |
+| Dokument | Beschreibung |
+|----------|--------------|
+| [Backup & Recovery](/en/operations/backup-recovery) | Backup Prozeduren und Wiederherstellung |
+| [Disaster Recovery](/en/operations/disaster-recovery) | Disaster Recovery Planung |
+| [Security Hardening](/en/operations/security-hardening) | Sicherheits Best Practices |
