@@ -11,7 +11,7 @@
 Anleitung zur Konfiguration statischer IP-Adressen für VMs und LXC-Container in Proxmox VE.
 
 **Siehe auch:**
-- [NETWORK_OVERVIEW.md](../NETWORK_OVERVIEW.md) - Master-Diagramm und IP-Liste
+- [NETWORK_OVERVIEW.md](NETWORK_OVERVIEW.md) - Master-Diagramm und IP-Liste
 - [core-concepts.md](../core-concepts.md) - Netzwerk-Grundlagen (DHCP, Subnetting, etc.)
 
 ---
@@ -24,7 +24,8 @@ Anleitung zur Konfiguration statischer IP-Adressen für VMs und LXC-Container in
 | Windows Server (VM 100) | 192.168.0.110 | Statisch | Ethernet |
 | Debian Server (VM 101) | 192.168.0.111 | Statisch | ens18 |
 | Tailscale LXC (CT 102) | 192.168.0.112 | Statisch | eth0 |
-| FOG Server (LXC 103) | 192.168.0.113 | Statisch | eth0 |
+| FOG Server (CT 103) | 192.168.0.113 | Statisch | eth0 |
+| Paperless-ngx (CT 104) | 192.168.0.115 | Statisch | eth0 |
 
 **Netzwerk-Parameter:**
 - Gateway: 192.168.0.1

@@ -11,7 +11,7 @@ LAP-Vorbereitung IT-Systemtechnik
 
 | Kategorie | Dokument | Beschreibung |
 |-----------|----------|--------------|
-| **Übersicht** | [NETWORK_OVERVIEW.md](NETWORK_OVERVIEW.md) | Master-Diagramm, IP-Liste, Quick Reference |
+| **Übersicht** | [NETWORK_OVERVIEW.md](infrastructure/NETWORK_OVERVIEW.md) | Master-Diagramm, IP-Liste, Quick Reference |
 | **Theorie** | [core-concepts.md](core-concepts.md) | Alle LAP-relevanten Netzwerk-Konzepte |
 
 ---
@@ -41,6 +41,8 @@ LAP-Vorbereitung IT-Systemtechnik
 
 | Dokument | Inhalt |
 |----------|--------|
+| [NETWORK_OVERVIEW.md](infrastructure/NETWORK_OVERVIEW.md) | Master-Diagramm, IP-Liste, Quick Reference |
+| [LINUXVM.md](infrastructure/LINUXVM.md) | Linux VM Overview & Services |
 | [proxmox-netzwerk-setup.md](infrastructure/proxmox-netzwerk-setup.md) | Statische IPs, Netzwerk-Konfiguration |
 | [NETWORK_SETUP.md](infrastructure/NETWORK_SETUP.md) | VPS Netzwerk-Architektur |
 
@@ -59,10 +61,16 @@ LAP-Vorbereitung IT-Systemtechnik
 ## Verzeichnisstruktur
 
 ```
-/home/zabooz/home/
+docs/
 ├── README.md                    # Diese Datei
-├── NETWORK_OVERVIEW.md          # Master-Diagramm & IP-Liste
+├── home.md                      # Wiki.js Startseite
 ├── core-concepts.md             # LAP Exam Konzepte
+│
+├── infrastructure/
+│   ├── NETWORK_OVERVIEW.md      # Master-Diagramm & IP-Liste
+│   ├── LINUXVM.md               # Linux VM Overview
+│   ├── NETWORK_SETUP.md         # VPS Netzwerk-Architektur
+│   └── proxmox-netzwerk-setup.md
 │
 ├── vpn/
 │   ├── vpn-infrastructure.md    # Server Setup
@@ -73,11 +81,10 @@ LAP-Vorbereitung IT-Systemtechnik
 │   ├── homepage-dashboard-setup.md
 │   ├── apache-reverse-proxy-setup.md
 │   ├── tailscale-homepage-setup.md
+│   ├── wikijs-setup.md
+│   ├── stats-api.md
+│   ├── paperless-ngx.md
 │   └── fog_project_setup_dokumentation_debian_12_lxc.md
-│
-├── infrastructure/
-│   ├── proxmox-netzwerk-setup.md
-│   └── NETWORK_SETUP.md
 │
 └── operations/
     ├── backup-recovery.md

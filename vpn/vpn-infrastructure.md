@@ -12,7 +12,7 @@
 Self-hosted Mesh-VPN mit Headscale als Tailscale-Alternative. Läuft als Docker Container auf dem VPS.
 
 **Siehe auch:**
-- [NETWORK_OVERVIEW.md](../NETWORK_OVERVIEW.md) - Master-Diagramm und alle IPs
+- [NETWORK_OVERVIEW.md](../infrastructure/NETWORK_OVERVIEW.md) - Master-Diagramm und alle IPs
 - [core-concepts.md](../core-concepts.md) - VPN-Konzepte, WireGuard vs OpenVPN
 - [vpn-client-guide.md](vpn-client-guide.md) - Client-Installation
 - [vpn-troubleshooting.md](vpn-troubleshooting.md) - Problemlösung
@@ -95,7 +95,15 @@ dns:
     - name: "home.lab"
       type: "A"
       value: "192.168.0.111"
+    - name: "vps.lab"
+      type: "A"
+      value: "100.64.0.5"
+    - name: "zabooz.duckdns.org"
+      type: "A"
+      value: "100.64.0.5"
 ```
+
+> **Hinweis:** `zabooz.duckdns.org` wird für VPN-Clients auf die Tailscale IP überschrieben, damit VPN-only Services (Vaultwarden, SearXNG) mit gültigem SSL-Zertifikat erreichbar sind.
 
 ### Headscale Befehle
 

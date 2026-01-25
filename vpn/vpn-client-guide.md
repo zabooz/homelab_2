@@ -3,7 +3,7 @@
 **Server:** `https://zabooz.duckdns.org`
 
 **Siehe auch:**
-- [NETWORK_OVERVIEW.md](../NETWORK_OVERVIEW.md) - Alle IPs und Dienste
+- [NETWORK_OVERVIEW.md](../infrastructure/NETWORK_OVERVIEW.md) - Alle IPs und Dienste
 - [vpn-infrastructure.md](vpn-infrastructure.md) - Server Setup
 - [vpn-troubleshooting.md](vpn-troubleshooting.md) - Problemlösung
 

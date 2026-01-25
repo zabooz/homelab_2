@@ -107,7 +107,7 @@ journalctl -u stats-api -f
 
 ## Dateien
 
-| Server | Pfad |
-|--------|------|
-| Proxmox | `/opt/stats-api/index.ts` |
-| VPS | `/opt/stats-api/index.ts` |
+| Server | Pfad | Ausführung |
+|--------|------|------------|
+| Proxmox | `/opt/stats-api/index.ts` | systemd service |
+| VPS | `/home/zabooz/vps-stats-api/index.ts` | systemd service |

@@ -52,13 +52,18 @@ Dieser Server betreibt mehrere Dienste hinter einem Nginx Reverse Proxy. Headsca
 Headscale stellt MagicDNS mit der Basis-Domain `headnet.com` bereit. VPN-Clients können auflösen:
 - `<hostname>.headnet.com` → Tailscale IP des Nodes
 - `home.lab` → 192.168.0.111 (Homepage Dashboard)
+- `vps.lab` → 100.64.0.5 (VPS via Tailscale)
+- `zabooz.duckdns.org` → 100.64.0.5 (VPS via Tailscale, für VPN-only Services)
 
-**DNS-Auflösung:**
+**DNS-Auflösung (zwei Wege):**
 ```
-zabooz.duckdns.org → 152.53.111.11 (Öffentliche IP via DuckDNS)
+Ohne VPN:  zabooz.duckdns.org → 152.53.111.11 (Öffentliche IP via DuckDNS)
+Mit VPN:   zabooz.duckdns.org → 100.64.0.5    (Tailscale IP via MagicDNS)
 ```
 
-> **Hinweis:** Früher wurde `zabooz.duckdns.org` auf `100.64.0.5` via extra_records überschrieben. Das verursachte ein Henne-Ei-Problem - Clients konnten sich nicht mit Headscale verbinden, weil sie VPN brauchten um die Headscale-URL aufzulösen. Entfernt Januar 2026.
+> **Warum zwei Auflösungen?** Nginx erlaubt VPN-only Services (`/vault/`, `/searx/`, `/web`) nur für Tailscale IPs (100.64.0.0/10). Wenn VPN-Clients `zabooz.duckdns.org` über MagicDNS auflösen, geht der Traffic durch den Tailscale-Tunnel und Nginx sieht die Tailscale-IP → Zugriff erlaubt.
+>
+> **Edge Case:** Falls VPN-Verbindung abbricht und nicht reconnecten kann (DNS-Cache zeigt auf Tailscale IP), DNS-Cache leeren: `resolvectl flush-caches`
 
 ### Vaultwarden Nur-VPN-Zugriff
 
@@ -103,6 +108,12 @@ dns:
     - name: "home.lab"
       type: "A"
       value: "192.168.0.111"
+    - name: "vps.lab"
+      type: "A"
+      value: "100.64.0.5"
+    - name: "zabooz.duckdns.org"
+      type: "A"
+      value: "100.64.0.5"
 ```
 
 ### Vaultwarden Umgebung
@@ -183,4 +194,4 @@ sudo tail -f /var/log/nginx/error.log
 
 ---
 
-*Letzte Aktualisierung: Januar 2026*
+*Letzte Aktualisierung: 25. Januar 2026*

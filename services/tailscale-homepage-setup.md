@@ -222,9 +222,9 @@ sudo tailscale up --login-server=https://zabooz.duckdns.org --accept-dns --accep
 |--------|--------------|--------|------|
 | VPS (Headscale) | 100.64.0.5 | 152.53.111.11 | Coordinator |
 | tailscale-router | 100.64.0.1 | 192.168.0.112 | Subnet router, exit node |
-| maschinchen | 100.64.0.2 | 192.168.0.203 | Client |
-| Debian VM | 100.64.0.6 | 192.168.0.111 | Homepage host |
+| maschinchen | 100.64.0.2 | - | Client (Laptop) |
 | Proxmox | - | 192.168.0.101 | Hypervisor |
+| Debian VM | - | 192.168.0.111 | Homepage host (via subnet router) |
 
 ---
 

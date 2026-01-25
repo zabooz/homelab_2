@@ -10,33 +10,15 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 
 ---
 
-## Schnellzugriff
-
-| Infrastruktur | Services | Betrieb |
-|:---:|:---:|:---:|
-| [Netzwerk Übersicht](/en/NETWORK_OVERVIEW) | [Wiki.js Setup](/en/services/wikijs-setup) | [Backup & Recovery](/en/operations/backup-recovery) |
-| [Linux VM Overview](/en/LINUXVM) | [Stats API](/en/services/stats-api) | [Disaster Recovery](/en/operations/disaster-recovery) |
-| [Netzwerk Setup](/en/infrastructure/NETWORK_SETUP) | [Homepage Dashboard](/en/services/homepage-dashboard-setup) | [Security Hardening](/en/operations/security-hardening) |
-| [Proxmox Setup](/en/infrastructure/proxmox-netzwerk-setup) | [Apache Reverse Proxy](/en/services/apache-reverse-proxy-setup) | |
-
----
-
-## Kernkonzepte
-
-- [Core Concepts](/en/core-concepts) - Grundlegende Konzepte und Architektur
-- [Netzwerk Übersicht](/en/NETWORK_OVERVIEW) - Vollständige Netzwerkdokumentation
-- [Linux VM Overview](/en/LINUXVM) - Übersicht der Zentralen Debian VM
-- [README](/en/README) - Projektübersicht
-
----
-
 ## Infrastruktur
 
 | Dokument | Beschreibung |
 |----------|--------------|
-| [Netzwerk Setup](/en/infrastructure/NETWORK_SETUP) | Netzwerk-Infrastruktur Konfiguration |
+| [Netzwerk Übersicht](/en/infrastructure/NETWORK_OVERVIEW) | Master-Diagramm, IP-Liste, Quick Reference |
+| [Netzwerk Setup](/en/infrastructure/NETWORK_SETUP) | VPS Netzwerk-Konfiguration |
 | [Proxmox Netzwerk Setup](/en/infrastructure/proxmox-netzwerk-setup) | Proxmox Virtualisierung Netzwerk |
-| [Linux VM Overview](/en/LINUXVM) | Zentrale Debian VM & Services |
+| [Linux VM Overview](/en/infrastructure/LINUXVM) | Zentrale Debian VM & Services |
+| [Core Concepts](/en/core-concepts) | LAP-relevante Netzwerk-Konzepte |
 
 ---
 
@@ -49,7 +31,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [Homepage Dashboard](/en/services/homepage-dashboard-setup) | Dashboard Konfiguration |
 | [Apache Reverse Proxy](/en/services/apache-reverse-proxy-setup) | Reverse Proxy Setup |
 | [Tailscale + Homepage](/en/services/tailscale-homepage-setup) | Tailscale Integration |
-| [FOG Project](/en/services/fog_project_setup_dokumentation_debian_12_lxc) | Netzwerk Imaging und Cloning |
+| [FOG Project](/en/services/fog_project_setup_dokumentation_debian_12_lxc) | DHCP Server, PXE Boot, Imaging |
 | [Paperless-ngx](/en/services/paperless-ngx) | Dokumentenverwaltung mit OCR |
 
 ---
