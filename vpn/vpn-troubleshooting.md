@@ -3,7 +3,8 @@
 Sammlung aller VPN-Probleme und Lösungen.
 
 **Siehe auch:**
-- [core-concepts.md](../core-concepts.md) - Netzwerk-Grundlagen (NAT, Routing, etc.)
+- [NAT](../konzepte/nat.md) - MASQUERADE, SNAT/DNAT
+- [Routing](../konzepte/routing.md) - Gateway, Routing-Tabellen
 - [vpn-infrastructure.md](vpn-infrastructure.md) - Server Setup
 - [vpn-client-guide.md](vpn-client-guide.md) - Client Installation
 

@@ -13,7 +13,7 @@ Self-hosted Mesh-VPN mit Headscale als Tailscale-Alternative. Läuft als Docker 
 
 **Siehe auch:**
 - [NETWORK_OVERVIEW.md](../infrastructure/NETWORK_OVERVIEW.md) - Master-Diagramm und alle IPs
-- [core-concepts.md](../core-concepts.md) - VPN-Konzepte, WireGuard vs OpenVPN
+- [VPN-Typen](../konzepte/vpn.md) - WireGuard vs OpenVPN
 - [vpn-client-guide.md](vpn-client-guide.md) - Client-Installation
 - [vpn-troubleshooting.md](vpn-troubleshooting.md) - Problemlösung
 

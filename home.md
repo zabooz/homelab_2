@@ -18,7 +18,27 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [Netzwerk Setup](/en/infrastructure/NETWORK_SETUP) | VPS Netzwerk-Konfiguration |
 | [Proxmox Netzwerk Setup](/en/infrastructure/proxmox-netzwerk-setup) | Proxmox Virtualisierung Netzwerk |
 | [Linux VM Overview](/en/infrastructure/LINUXVM) | Zentrale Debian VM & Services |
-| [Core Concepts](/en/core-concepts) | LAP-relevante Netzwerk-Konzepte |
+
+---
+
+## LAP Konzepte
+
+| Konzept | Beschreibung |
+|---------|--------------|
+| [IP-Subnetting](/en/konzepte/ip-subnetting) | CIDR, Private IPs, Subnetzmasken |
+| [DHCP](/en/konzepte/dhcp) | DORA-Prozess, Statisch vs. Dynamisch |
+| [Routing](/en/konzepte/routing) | Gateway, Routing-Tabellen, Policy-Based |
+| [NAT](/en/konzepte/nat) | SNAT, DNAT, MASQUERADE |
+| [IP-Forwarding](/en/konzepte/ip-forwarding) | Router vs. Host |
+| [DNS](/en/konzepte/dns) | Hierarchie, MagicDNS |
+| [iptables](/en/konzepte/iptables) | Chains, Tables, Firewall |
+| [Linux Interfaces](/en/konzepte/linux-interfaces) | Interface-Benennung |
+| [VPN-Typen](/en/konzepte/vpn) | WireGuard vs. OpenVPN |
+| [Ports](/en/konzepte/ports) | Wichtige Netzwerk-Ports |
+| [IPv6](/en/konzepte/ipv6) | SLAAC, Adresstypen |
+| [Reverse Proxy](/en/konzepte/reverse-proxy) | Forward vs. Reverse |
+| [Diagnose-Befehle](/en/konzepte/diagnose) | Troubleshooting Commands |
+| [Prüfungsfragen](/en/konzepte/pruefungsfragen) | LAP Q&A |
 
 ---
 
@@ -26,13 +46,11 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 
 | Service | Beschreibung |
 |---------|--------------|
+| [Homepage Dashboard](/en/services/homepage-dashboard-setup) | Dashboard Konfiguration |
 | [Wiki.js Setup](/en/services/wikijs-setup) | Wiki.js Installation und Git Sync |
 | [Stats API](/en/services/stats-api) | Bun API für System-Monitoring |
-| [Homepage Dashboard](/en/services/homepage-dashboard-setup) | Dashboard Konfiguration |
-| [Apache Reverse Proxy](/en/services/apache-reverse-proxy-setup) | Reverse Proxy Setup |
-| [Tailscale + Homepage](/en/services/tailscale-homepage-setup) | Tailscale Integration |
-| [FOG Project](/en/services/fog_project_setup_dokumentation_debian_12_lxc) | DHCP Server, PXE Boot, Imaging |
 | [Paperless-ngx](/en/services/paperless-ngx) | Dokumentenverwaltung mit OCR |
+| [FOG Project](/en/services/fog_project_setup_dokumentation_debian_12_lxc) | DHCP Server, PXE Boot, Imaging |
 
 ---
 

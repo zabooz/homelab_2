@@ -1,9 +1,9 @@
 # 🏠 Homepage Dashboard - Setup Dokumentation
 
-**Erstellt:** 24. Januar 2026  
-**Author:** Daniel (zabooz)  
-**System:** Debian 12 VM (192.168.0.111)  
-**Zugriff:** http://192.168.0.111:3000
+**Erstellt:** 24. Januar 2026
+**Author:** Daniel (zabooz)
+**System:** Debian 12 VM (192.168.0.111)
+**Zugriff:** http://192.168.0.111 (LAN) | http://home.lab (VPN)
 
 ---
 
@@ -33,7 +33,7 @@ services:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
     ports:
-      - 3000:3000
+      - 80:3000
     volumes:
       - ./config:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -41,6 +41,8 @@ services:
       - HOMEPAGE_ALLOWED_HOSTS=*
     restart: unless-stopped
 ```
+
+> **Hinweis:** Port 80 wird direkt gemappt (kein Reverse Proxy). Zugriff über `http://192.168.0.111` oder via VPN über `http://home.lab`.
 
 ```bash
 # Container starten
@@ -252,7 +254,7 @@ docker ps | grep homepage
 docker compose logs homepage
 
 # Port belegt?
-sudo netstat -tuln | grep 3000
+ss -tuln | grep :80
 
 # Container neu starten
 docker compose restart
@@ -360,10 +362,11 @@ volumes:
 - Lesezeichen (Github, Reddit, YouTube)
 
 **Zugriff:**
-- http://192.168.0.111:3000
+- **LAN:** http://192.168.0.111
+- **VPN:** http://home.lab (via Tailscale/Headscale)
 
 **Status:** ✅ Funktionsfähig
 
 ---
 
-*Dokumentiert am 24. Januar 2026 für LAP-Vorbereitung*
+*Letzte Aktualisierung: Januar 2026*
