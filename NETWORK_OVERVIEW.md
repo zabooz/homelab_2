@@ -19,7 +19,8 @@ Master-Referenz für die gesamte Infrastruktur.
               │    │ Nginx (443)                 │    │
               │    │  ├── / → Headscale (8090)   │    │
               │    │  ├── /vault/ → Vaultwarden  │    │
-              │    │  └── /searx/ → SearXNG      │    │
+              │    │  ├── /searx/ → SearXNG      │    │
+              │    │  └── /web → Headscale UI    │    │
               │    └─────────────────────────────┘    │
               │                                       │
               │    Tailscale IP: 100.64.0.5           │
@@ -115,9 +116,9 @@ Master-Referenz für die gesamte Infrastruktur.
 | Dienst | URL | Port (intern) | Zugriff |
 |--------|-----|---------------|---------|
 | Headscale | https://zabooz.duckdns.org/ | 8090 | Public |
+| Headscale UI | https://zabooz.duckdns.org/web/ | 8080 | **VPN only** |
+| SearXNG | https://zabooz.duckdns.org/searx/ | 8888 | **VPN only** |
 | Vaultwarden | https://zabooz.duckdns.org/vault/ | 8000 | **VPN only** |
-| SearXNG | https://zabooz.duckdns.org/searx/ | 8888 | Public |
-| Headscale UI | https://zabooz.duckdns.org/web/ | 8090 | Public |
 
 ### Heimnetz-Dienste
 
@@ -133,7 +134,6 @@ Master-Referenz für die gesamte Infrastruktur.
 | Name | Auflösung |
 |------|-----------|
 | home.lab | 192.168.0.111 |
-| zabooz.duckdns.org | 100.64.0.5 (für VPN Clients) |
 
 ---
 

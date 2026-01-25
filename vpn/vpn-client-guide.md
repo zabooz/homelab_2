@@ -2,52 +2,68 @@
 
 **Server:** `https://zabooz.duckdns.org`
 
+**Siehe auch:**
+- [NETWORK_OVERVIEW.md](../NETWORK_OVERVIEW.md) - Alle IPs und Dienste
+- [vpn-infrastructure.md](vpn-infrastructure.md) - Server Setup
+- [vpn-troubleshooting.md](vpn-troubleshooting.md) - Problemlösung
+
 ---
 
-## Quick Start - Neues Gerät hinzufügen
+## Quick Start
 
-### 1. User erstellen (auf dem VPS)
+### 1. User erstellen (VPS)
 
 ```bash
-# SSH zum VPS
 ssh zabooz@152.53.111.11
 
 # User erstellen
-sudo headscale users create BENUTZERNAME
-
-# Beispiele:
-sudo headscale users create familie
-sudo headscale users create arbeit
+docker exec headscale headscale users create BENUTZERNAME
 
 # User anzeigen
-sudo headscale users list
+docker exec headscale headscale users list
 ```
 
-### 2. Tailscale installieren
+### 2. Tailscale auf Client installieren
 
-### 3. Gerät verbinden
+Siehe Abschnitte unten für Linux/Windows/macOS/Mobile.
 
-### 4. Node registrieren (auf dem VPS)
+### 3. Client verbinden
 
-### 5. Überprüfen
+```bash
+sudo tailscale up --login-server=https://zabooz.duckdns.org --accept-dns --accept-routes
+```
+
+### 4. Node registrieren (VPS)
+
+```bash
+# NodeKey vom Client-Output kopieren
+docker exec headscale headscale nodes register --user BENUTZERNAME --key nodekey:xxxxxxxxx
+```
+
+### 5. Testen
+
+```bash
+tailscale status
+ping 192.168.0.101  # Proxmox
+```
 
 ---
 
-## Download & Installation
+## Installation
 
 | Platform | Link |
 |----------|------|
 | Linux | https://tailscale.com/download/linux |
 | Windows | https://tailscale.com/download/windows |
 | macOS | https://tailscale.com/download/mac |
-| Android | https://play.google.com/store/apps/details?id=com.tailscale.ipn |
-| iOS | https://apps.apple.com/app/tailscale/id1470499037 |
+| Android | Play Store: Tailscale |
+| iOS | App Store: Tailscale |
 
 ---
 
 ## Linux
 
-### Quick Install (auto-detects distro)
+### Quick Install
 
 ```bash
 curl -fsSL https://tailscale.com/install.sh | sh
@@ -63,13 +79,6 @@ sudo apt update
 sudo apt install tailscale
 ```
 
-**Fedora:**
-```bash
-sudo dnf config-manager --add-repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo
-sudo dnf install tailscale
-sudo systemctl enable --now tailscaled
-```
-
 **Arch / CachyOS:**
 ```bash
 sudo pacman -S tailscale
@@ -82,16 +91,7 @@ sudo systemctl enable --now tailscaled
 sudo tailscale up --login-server=https://zabooz.duckdns.org --accept-dns --accept-routes
 ```
 
-Das Gerät zeigt dir jetzt einen Key an:
-```
-To authenticate, visit:
-  https://zabooz.duckdns.org/register/nodekey:abc123def456...
-
-Or run:
-  headscale nodes register --key nodekey:abc123def456... --user USERNAME
-```
-
-**Kopiere den `nodekey:xxxxxxxxx`** und registriere auf dem VPS.
+Kopiere den `nodekey:xxxxxxxxx` aus dem Output und registriere auf dem VPS.
 
 ---
 
@@ -105,14 +105,14 @@ Or run:
 ### Verbinden (PowerShell als Admin)
 
 ```powershell
-tailscale up --login-server=https://zabooz.duckdns.org --accept-routes
+tailscale up --login-server=https://zabooz.duckdns.org --accept-routes --accept-dns
 ```
 
 ### GUI-Methode
 
 1. Tailscale Icon im System Tray → Settings
 2. "Use custom coordination server" aktivieren
-3. URL eingeben: `https://zabooz.duckdns.org`
+3. URL: `https://zabooz.duckdns.org`
 4. Enable: **Accept Routes** + **Accept DNS**
 5. Connect
 
@@ -121,21 +121,20 @@ tailscale up --login-server=https://zabooz.duckdns.org --accept-routes
 ## macOS
 
 1. Download von https://tailscale.com/download/mac
-2. Install und öffnen
-3. Settings → "Use custom coordination server"
-4. URL: `https://zabooz.duckdns.org`
-5. Enable: Accept Routes + Accept DNS
-6. Connect und authorize
+2. Settings → "Use custom coordination server"
+3. URL: `https://zabooz.duckdns.org`
+4. Enable: Accept Routes + Accept DNS
+5. Connect
 
 ---
 
 ## Android / iOS
 
-1. Tailscale App installieren (App Store / Play Store)
+1. Tailscale App installieren
 2. **Vor dem Einloggen:** Settings → "Use custom coordination server"
-3. URL eingeben: `https://zabooz.duckdns.org`
+3. URL: `https://zabooz.duckdns.org`
 4. Enable: **Accept DNS** + **Accept Routes**
-5. Connect und authorize
+5. Connect
 
 ---
 
@@ -144,50 +143,13 @@ tailscale up --login-server=https://zabooz.duckdns.org --accept-routes
 Nach dem Verbinden eines neuen Geräts:
 
 ```bash
-# SSH zum VPS
 ssh zabooz@152.53.111.11
 
 # Node registrieren
-sudo headscale nodes register --user BENUTZERNAME --key nodekey:xxxxxxxxx
+docker exec headscale headscale nodes register --user BENUTZERNAME --key nodekey:xxxxxxxxx
 
-# Beispiele:
-sudo headscale nodes register --user zabooz --key nodekey:abc123
-sudo headscale nodes register --user familie --key nodekey:def456
-```
-
-**Output:**
-```
-Node GERÄTENAME registered
-```
-
----
-
-## Verifizierung
-
-### Auf dem neuen Gerät
-
-```bash
-# Status checken
-tailscale status
-
-# Proxmox testen
-ping 192.168.0.101
-
-# Browser öffnen
-firefox https://192.168.0.101:8006
-```
-
-### Weitere Checks
-
-```bash
-# Verbindungsqualität
-tailscale netcheck
-
-# Ping über Tailscale
-tailscale ping <ip>
-
-# DNS testen (MagicDNS)
-ping home.lab
+# Alle Nodes anzeigen
+docker exec headscale headscale nodes list
 ```
 
 ---
@@ -218,7 +180,7 @@ ping home.lab
 ### Verbindung
 
 ```bash
-# Verbinden mit allen Optionen
+# Verbinden
 sudo tailscale up --login-server=https://zabooz.duckdns.org --accept-routes --accept-dns
 
 # Temporär trennen
@@ -226,9 +188,6 @@ sudo tailscale down
 
 # Komplett abmelden
 sudo tailscale logout
-
-# Neu verbinden nach Logout
-sudo tailscale up --login-server=https://zabooz.duckdns.org --accept-routes
 ```
 
 ### Status
@@ -240,8 +199,8 @@ tailscale status
 # Verbindungsqualität
 tailscale netcheck
 
-# Detaillierte Infos (JSON)
-tailscale status --json | jq '.Peer[].AllowedIPs'
+# DNS testen
+ping home.lab
 ```
 
 ### Exit-Node nutzen
@@ -250,40 +209,20 @@ tailscale status --json | jq '.Peer[].AllowedIPs'
 # Exit-Node aktivieren (kompletter Traffic über Heimnetz)
 sudo tailscale up --exit-node=100.64.0.1 --accept-routes
 
-# Verfügbare Exit-Nodes auflisten
-tailscale exit-node list
-
 # Exit-Node deaktivieren
 sudo tailscale up --exit-node= --accept-routes
 
-# Eigene IP checken (sollte Heimnetz-IP sein)
+# Eigene öffentliche IP checken
 curl ifconfig.me
 ```
 
-### Service
+### Service (Linux)
 
 ```bash
-# Tailscale Daemon Status
 systemctl status tailscaled
-
-# Daemon neustarten
 sudo systemctl restart tailscaled
-
-# Logs
 sudo journalctl -u tailscaled -f
 ```
-
----
-
-## Netzwerk-Übersicht
-
-| Gerät | Tailscale IP | LAN IP | Rolle |
-|-------|--------------|--------|-------|
-| VPS (Headscale) | 100.64.0.5 | 152.53.111.11 | Coordinator |
-| tailscale-router | 100.64.0.1 | 192.168.0.112 | Subnet router, exit node |
-| maschinchen | 100.64.0.2 | variabel | Client |
-| Debian VM | 100.64.0.6 | 192.168.0.111 | Homepage host |
-| Proxmox | - | 192.168.0.101 | Hypervisor |
 
 ---
 
@@ -294,9 +233,11 @@ Nach erfolgreicher Verbindung:
 | Service | URL | Zugriff |
 |---------|-----|---------|
 | Proxmox | https://192.168.0.101:8006 | Subnet Routing |
-| Homepage | http://home.lab | MagicDNS + Subnet |
+| Homepage | http://home.lab | MagicDNS |
 | Vaultwarden | https://zabooz.duckdns.org/vault/ | VPN only |
+| SearXNG | https://zabooz.duckdns.org/searx/ | VPN only |
+| Headscale UI | https://zabooz.duckdns.org/web | VPN only |
 
 ---
 
-*Siehe auch: [vpn-infrastructure.md](vpn-infrastructure.md) | [vpn-troubleshooting.md](vpn-troubleshooting.md)*
+*Letzte Aktualisierung: Januar 2026*

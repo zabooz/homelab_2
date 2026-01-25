@@ -209,15 +209,17 @@ sudo sysctl -p
 | Merkmal | Host | Router |
 |---------|------|--------|
 | **IP Forwarding** | Aus | An |
-| **Gateway** | Hat Gateway | Kein Gateway |
-| **Interfaces** | 1 | Mehrere |
-| **Routing** | Fragt Gateway | Entscheidet selbst |
+| **Gateway** | Hat immer Gateway | Kann Gateway haben (für Internet) |
+| **Interfaces** | Meist 1 | Meist mehrere |
+| **Routing** | Schickt alles zum Gateway | Leitet Pakete zwischen Netzen weiter |
 
 **Merksatz:**
 ```
-Host   = Hat Gateway (fragt bei Unbekanntem)
-Router = Kein Gateway (entscheidet selbst)
+Host   = Schickt fremde Pakete zum Gateway
+Router = Leitet Pakete selbst weiter (IP Forwarding an)
 ```
+
+**Wichtig:** Auch ein Router kann ein Default-Gateway haben (z.B. für Internet-Traffic). Der Unterschied ist: Ein Router leitet Pakete zwischen seinen Interfaces weiter, ein Host nicht.
 
 ---
 

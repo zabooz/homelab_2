@@ -15,9 +15,9 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | Infrastruktur | Services | Betrieb |
 |:---:|:---:|:---:|
 | [Netzwerk Übersicht](/en/NETWORK_OVERVIEW) | [Wiki.js Setup](/en/services/wikijs-setup) | [Backup & Recovery](/en/operations/backup-recovery) |
-| [Stats API](/en/services/stats-api) | Bun API für System-Monitoring |
-| [Netzwerk Setup](/en/infrastructure/NETWORK_SETUP) | [Homepage Dashboard](/en/services/homepage-dashboard-setup) | [Disaster Recovery](/en/operations/disaster-recovery) |
-| [Proxmox Setup](/en/infrastructure/proxmox-netzwerk-setup) | [Apache Reverse Proxy](/en/services/apache-reverse-proxy-setup) | [Security Hardening](/en/operations/security-hardening) |
+| [Linux VM Overview](/en/LINUXVM) | [Stats API](/en/services/stats-api) | [Disaster Recovery](/en/operations/disaster-recovery) |
+| [Netzwerk Setup](/en/infrastructure/NETWORK_SETUP) | [Homepage Dashboard](/en/services/homepage-dashboard-setup) | [Security Hardening](/en/operations/security-hardening) |
+| [Proxmox Setup](/en/infrastructure/proxmox-netzwerk-setup) | [Apache Reverse Proxy](/en/services/apache-reverse-proxy-setup) | |
 
 ---
 
@@ -25,6 +25,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 
 - [Core Concepts](/en/core-concepts) - Grundlegende Konzepte und Architektur
 - [Netzwerk Übersicht](/en/NETWORK_OVERVIEW) - Vollständige Netzwerkdokumentation
+- [Linux VM Overview](/en/LINUXVM) - Übersicht der Zentralen Debian VM
 - [README](/en/README) - Projektübersicht
 
 ---
@@ -35,6 +36,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 |----------|--------------|
 | [Netzwerk Setup](/en/infrastructure/NETWORK_SETUP) | Netzwerk-Infrastruktur Konfiguration |
 | [Proxmox Netzwerk Setup](/en/infrastructure/proxmox-netzwerk-setup) | Proxmox Virtualisierung Netzwerk |
+| [Linux VM Overview](/en/LINUXVM) | Zentrale Debian VM & Services |
 
 ---
 
