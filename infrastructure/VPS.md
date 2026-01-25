@@ -1,4 +1,13 @@
-# VPS Netzwerk-Konfiguration
+# VPS - zaboozMegaFescherSuperServer
+
+**IP:** 152.53.111.11 (Public) | 100.64.0.5 (Tailscale)
+**Domain:** zabooz.duckdns.org
+**OS:** Debian 13
+
+**Siehe auch:**
+- [Reverse Proxy](../konzepte/reverse-proxy.md) - Forward vs. Reverse Proxy
+- [Ports](../konzepte/ports.md) - Wichtige Netzwerk-Ports
+- [VPN-Typen](../konzepte/vpn.md) - Mesh VPN, WireGuard
 
 ## Übersicht
 

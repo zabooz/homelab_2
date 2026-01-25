@@ -12,8 +12,11 @@
 Self-hosted Mesh-VPN mit Headscale als Tailscale-Alternative. Läuft als Docker Container auf dem VPS.
 
 **Siehe auch:**
+- [VPS](../infrastructure/VPS.md) - VPS wo Headscale läuft
 - [NETWORK_OVERVIEW.md](../infrastructure/NETWORK_OVERVIEW.md) - Master-Diagramm und alle IPs
 - [VPN-Typen](../konzepte/vpn.md) - WireGuard vs OpenVPN
+- [IP-Forwarding](../konzepte/ip-forwarding.md) - Router-Funktion aktivieren
+- [DNS](../konzepte/dns.md) - MagicDNS
 - [vpn-client-guide.md](vpn-client-guide.md) - Client-Installation
 - [vpn-troubleshooting.md](vpn-troubleshooting.md) - Problemlösung
 

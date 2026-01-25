@@ -41,4 +41,4 @@ Automatische IP-Adressvergabe im Netzwerk.
 
 ---
 
-*Siehe auch: [IP-Subnetting](ip-subnetting) | [Routing](routing)*
+*Siehe auch: [IP-Adressen](ip-adressen) | [Routing](routing)*

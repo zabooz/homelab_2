@@ -2,6 +2,11 @@
 
 Master-Referenz für die gesamte Infrastruktur.
 
+**Siehe auch:**
+- [IP-Adressen](../konzepte/ip-adressen.md) - IPv4, IPv6, Private/Public
+- [Subnetting](../konzepte/subnetting.md) - CIDR, Subnetzmasken
+- [Routing](../konzepte/routing.md) - Gateway, Routing-Tabellen
+
 ---
 
 ## Infrastruktur-Diagramm

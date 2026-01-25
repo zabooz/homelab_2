@@ -8,7 +8,7 @@ Häufige Fragen und Antworten für die IT-Systemtechnik Prüfung.
 
 DHCP vergibt IP-Adressen automatisch, kann sich aber ändern. Statische IPs werden manuell konfiguriert und bleiben gleich. Server brauchen statische IPs für Erreichbarkeit, Clients können DHCP nutzen.
 
-**Siehe:** [DHCP](dhcp) | [IP-Subnetting](ip-subnetting)
+**Siehe:** [DHCP](dhcp) | [Subnetting](subnetting)
 
 ---
 
@@ -48,7 +48,7 @@ Die Fähigkeit eines Linux-Systems, Pakete zwischen Interfaces weiterzuleiten. A
 
 Eine Default-Route, die ALLE IP-Adressen matched. Das /0 bedeutet "keine Netzwerk-Bits festgelegt". Wird für Internet-Traffic und Exit-Nodes verwendet.
 
-**Siehe:** [Routing](routing) | [IP-Subnetting](ip-subnetting)
+**Siehe:** [Routing](routing) | [Subnetting](subnetting)
 
 ---
 
@@ -65,7 +65,7 @@ Eine Default-Route, die ALLE IP-Adressen matched. Das /0 bedeutet "keine Netzwer
 
 Classless Inter-Domain Routing. Notation wie /24 gibt an, wie viele Bits für das Netzwerk reserviert sind. /24 = 256 Adressen, /16 = 65.536 Adressen.
 
-**Siehe:** [IP-Subnetting](ip-subnetting)
+**Siehe:** [Subnetting](subnetting)
 
 ---
 

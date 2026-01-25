@@ -3,8 +3,12 @@
 Sammlung aller VPN-Probleme und Lösungen.
 
 **Siehe auch:**
+- [VPS](../infrastructure/VPS.md) - VPS wo Headscale läuft
 - [NAT](../konzepte/nat.md) - MASQUERADE, SNAT/DNAT
 - [Routing](../konzepte/routing.md) - Gateway, Routing-Tabellen
+- [IP-Forwarding](../konzepte/ip-forwarding.md) - Router vs. Host
+- [iptables](../konzepte/iptables.md) - Firewall-Regeln
+- [Diagnose-Befehle](../konzepte/diagnose.md) - Troubleshooting Commands
 - [vpn-infrastructure.md](vpn-infrastructure.md) - Server Setup
 - [vpn-client-guide.md](vpn-client-guide.md) - Client Installation
 

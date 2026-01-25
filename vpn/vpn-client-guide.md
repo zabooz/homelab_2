@@ -3,7 +3,10 @@
 **Server:** `https://zabooz.duckdns.org`
 
 **Siehe auch:**
+- [VPS](../infrastructure/VPS.md) - VPS wo Headscale läuft (152.53.111.11)
 - [NETWORK_OVERVIEW.md](../infrastructure/NETWORK_OVERVIEW.md) - Alle IPs und Dienste
+- [DNS](../konzepte/dns.md) - MagicDNS, Namensauflösung
+- [Routing](../konzepte/routing.md) - Subnet Routes verstehen
 - [vpn-infrastructure.md](vpn-infrastructure.md) - Server Setup
 - [vpn-troubleshooting.md](vpn-troubleshooting.md) - Problemlösung
 

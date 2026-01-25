@@ -19,7 +19,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | Dokument | Beschreibung |
 |----------|--------------|
 | [Netzwerk Übersicht](/en/infrastructure/NETWORK_OVERVIEW) | Master-Diagramm, IP-Liste, Quick Reference |
-| [Netzwerk Setup](/en/infrastructure/NETWORK_SETUP) | VPS Netzwerk-Konfiguration |
+| [VPS](/en/infrastructure/VPS) | VPS Konfiguration & Services |
 | [Proxmox Netzwerk Setup](/en/infrastructure/proxmox-netzwerk-setup) | Proxmox Virtualisierung Netzwerk |
 | [Linux VM Overview](/en/infrastructure/LINUXVM) | Zentrale Debian VM & Services |
 
@@ -29,7 +29,8 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 
 | Konzept | Beschreibung |
 |---------|--------------|
-| [IP-Subnetting](/en/konzepte/ip-subnetting) | CIDR, Private IPs, Subnetzmasken |
+| [IP-Adressen](/en/konzepte/ip-adressen) | IPv4, IPv6, Private/Public |
+| [Subnetting](/en/konzepte/subnetting) | CIDR, Subnetzmasken, Berechnung |
 | [DHCP](/en/konzepte/dhcp) | DORA-Prozess, Statisch vs. Dynamisch |
 | [Routing](/en/konzepte/routing) | Gateway, Routing-Tabellen, Policy-Based |
 | [NAT](/en/konzepte/nat) | SNAT, DNAT, MASQUERADE |
@@ -39,7 +40,6 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [Linux Interfaces](/en/konzepte/linux-interfaces) | Interface-Benennung |
 | [VPN-Typen](/en/konzepte/vpn) | WireGuard vs. OpenVPN |
 | [Ports](/en/konzepte/ports) | Wichtige Netzwerk-Ports |
-| [IPv6](/en/konzepte/ipv6) | SLAAC, Adresstypen |
 | [Reverse Proxy](/en/konzepte/reverse-proxy) | Forward vs. Reverse |
 | [Diagnose-Befehle](/en/konzepte/diagnose) | Troubleshooting Commands |
 | [Prüfungsfragen](/en/konzepte/pruefungsfragen) | LAP Q&A |

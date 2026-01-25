@@ -16,6 +16,10 @@
 - Hardware-Inventar
 - Unterstützt Windows, Linux, macOS
 
+**Siehe auch:**
+- [DHCP](../konzepte/dhcp.md) - DORA-Prozess, DHCP-Server Grundlagen
+- [IP-Adressen](../konzepte/ip-adressen.md) - Statische vs. Dynamische IPs
+
 ---
 
 ## 🌐 Netzwerk-Setup
