@@ -2,6 +2,10 @@
 title: Startseite
 description: Homelab Wiki - Zentrale Dokumentation
 published: true
+date: 2026-01-25T20:29:09.858Z
+tags: 
+editor: markdown
+dateCreated: 2026-01-24T15:37:11.693Z
 ---
 
 # Willkommen im Homelab Wiki
