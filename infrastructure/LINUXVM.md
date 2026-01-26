@@ -15,10 +15,12 @@ This Virtual Machine acts as a centralized host for self-hosted services, manage
 graph TD
     User[User / Browser] -->|http://192.168.0.111| Homepage[Homepage Dashboard :80]
     User -->|http://192.168.0.111:3000| Wiki[Wiki.js :3000]
+    User -->|http://192.168.0.111:8081| Drawio[Draw.io :8081]
 
     subgraph "Docker Services"
         Homepage
         Wiki
+        Drawio
         Paperless[Paperless-ngx :8000]
     end
 
@@ -37,6 +39,7 @@ graph TD
 |:---|:---|:---|:---|:---|
 | **Homepage** | :80 | `http://192.168.0.111` / `http://home.lab` | Docker | Active |
 | **Wiki.js** | :3000 | `http://192.168.0.111:3000` | Docker | Active |
+| **Draw.io** | :8081 | `http://192.168.0.111:8081` | Docker | Active |
 | **VPS Stats API** | :4000 | `localhost:4000/stats` | Native (Bun) | Active |
 | **Paperless** | :8000 | *(Config dependent)* | Docker | Setup |
 | **Apache** | - | - | Native (Systemd) | Disabled |
@@ -59,7 +62,13 @@ Documentation platform for storing system knowledge and guides.
 - **Features:** Git Sync (Backup to GitHub), Markdown support.
 - **Documentation:** [Wiki.js Setup](../services/wikijs-setup.md)
 
-### 3. VPS Stats API
+### 3. Draw.io
+Self-hosted Diagramm-Editor für Netzwerk-Diagramme, Flowcharts, etc.
+- **Port:** 8081 (HTTP), 8443 (HTTPS)
+- **URL:** `http://192.168.0.111:8081`
+- **Image:** `jgraph/drawio`
+
+### 5. VPS Stats API
 A lightweight custom API built with **Bun** to provide system metrics to the Homepage dashboard.
 - **Port:** 4000
 - **Directory:** `~/vps-stats-api`
@@ -67,14 +76,14 @@ A lightweight custom API built with **Bun** to provide system metrics to the Hom
 - **Endpoint:** `GET /stats`
 - **Documentation:** [Stats API](../services/stats-api.md)
 
-### 4. Paperless-ngx
+### 6. Paperless-ngx
 Document management system for archiving scanned documents.
 - **Port:** 8000
 - **Directory:** `/opt/paperless` (or `~/paperless`)
 - **Key Features:** OCR, Tagging, Full-text search.
 - **Documentation:** [Paperless-ngx](../services/paperless-ngx.md)
 
-### 5. Apache (Disabled)
+### 7. Apache (Disabled)
 Apache ist installiert aber deaktiviert. Kann bei Bedarf als Reverse Proxy aktiviert werden.
 - **Config Path:** `/etc/apache2/sites-available/`
 - **Status:** Disabled (syntax error in config)

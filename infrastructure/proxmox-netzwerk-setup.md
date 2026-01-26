@@ -13,7 +13,7 @@ Anleitung zur Konfiguration statischer IP-Adressen für VMs und LXC-Container in
 **Siehe auch:**
 - [NETWORK_OVERVIEW.md](NETWORK_OVERVIEW.md) - Master-Diagramm und IP-Liste
 - [DHCP](../konzepte/dhcp.md) - DORA-Prozess, Statisch vs. Dynamisch
-- [IP-Subnetting](../konzepte/ip-subnetting.md) - CIDR, Subnetzmasken
+- [Subnetting](../konzepte/subnetting.md) - CIDR, Subnetzmasken
 
 ---
 
