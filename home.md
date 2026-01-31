@@ -55,6 +55,10 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [Stats API](/en/services/stats-api) | Bun API für System-Monitoring |
 | [Paperless-ngx](/en/services/paperless-ngx) | Dokumentenverwaltung mit OCR |
 | [FOG Project](/en/services/fog_project_setup_dokumentation_debian_12_lxc) | DHCP Server, PXE Boot, Imaging |
+| [Linkwarden](/en/services/linkwarden-setup) | Bookmark Manager (192.168.0.119) |
+| [Draw.io](/en/services/drawio-setup) | Diagramm-Editor (192.168.0.111:8081) |
+| [Home Assistant](/en/services/homeassistant-setup) | Smart Home Steuerung (192.168.0.114) |
+| [Pterodactyl](/en/services/pterodactyl-setup) | Gameserver Panel (192.168.0.120) |
 
 ---
 

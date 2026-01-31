@@ -100,8 +100,10 @@ docker compose restart
 ```
 
 **Aktuell konfiguriert:**
-- **Infrastructure:** Proxmox (mit Widget)
+- **Infrastructure:** Proxmox (mit Widget), Proxmox Storage, Tailscale Router, Debian VM, Windows 2025
+- **VPS:** System Stats (Custom API Widget)
 - **VPS Services:** Vaultwarden, SearXNG, Headscale
+- **Homelab Services:** Wiki.js, Linkwarden, Paperless-ngx, Draw.io, Home Assistant, FOG Deploy Server, Pterodactyl
 
 ---
 
