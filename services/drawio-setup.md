@@ -3,7 +3,7 @@ title: Draw.io Setup
 description: Self-hosted Draw.io Diagramm-Editor auf dem VPS
 published: true
 date: 2026-01-25T23:30:00.000Z
-tags:
+tags: service, docker, vps, vpn, diagramme, diagrams
 editor: markdown
 dateCreated: 2026-01-25T23:30:00.000Z
 ---

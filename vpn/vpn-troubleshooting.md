@@ -1,3 +1,13 @@
+---
+title: VPN Fehlerbehebung
+description: Häufige VPN-Probleme und Lösungen
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: vpn, tailscale, troubleshooting, fehlerbehebung, diagnose
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # VPN Troubleshooting Guide
 
 Sammlung aller VPN-Probleme und Lösungen.

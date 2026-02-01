@@ -1,3 +1,13 @@
+---
+title: Routing & Gateway
+description: Wie Pakete ihren Weg durch Netzwerke finden
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: konzept, concept, netzwerk, network, routing, gateway, lap
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # Routing & Gateway
 
 Wie Pakete ihren Weg durch Netzwerke finden.

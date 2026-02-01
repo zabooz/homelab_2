@@ -1,3 +1,13 @@
+---
+title: DNS
+description: Domain Name System - Namensauflösung im Netzwerk
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: konzept, concept, netzwerk, network, dns, protokoll, protocol, lap
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # DNS (Domain Name System)
 
 Namensauflösung im Netzwerk.

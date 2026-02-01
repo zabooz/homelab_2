@@ -1,3 +1,13 @@
+---
+title: Linux Interface-Benennung
+description: Netzwerk-Interface-Namen verstehen
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: konzept, concept, netzwerk, network, linux, interfaces, lap
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # Linux Interface-Benennung
 
 Netzwerk-Interface-Namen verstehen.

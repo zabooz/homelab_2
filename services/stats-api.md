@@ -2,6 +2,10 @@
 title: Stats API
 description: Bun API für System-Monitoring in Homepage
 published: true
+date: 2026-01-25T00:00:00.000Z
+tags: service, api, monitoring, bun, überwachung
+editor: markdown
+dateCreated: 2026-01-25T00:00:00.000Z
 ---
 
 # Stats API für Homepage

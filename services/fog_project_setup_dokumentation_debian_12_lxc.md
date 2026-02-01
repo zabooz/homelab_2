@@ -1,3 +1,13 @@
+---
+title: FOG Project Setup
+description: DHCP Server, PXE Boot und Imaging mit FOG Project
+published: true
+date: 2026-01-20T00:00:00.000Z
+tags: service, dhcp, pxe, imaging, netzwerk, network, proxmox, lxc
+editor: markdown
+dateCreated: 2026-01-20T00:00:00.000Z
+---
+
 # 📝 FOG Project – Setup Dokumentation
 
 **Erstellt:** 20. Januar 2026  

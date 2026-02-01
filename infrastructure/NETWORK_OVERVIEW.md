@@ -1,3 +1,13 @@
+---
+title: Netzwerk-Übersicht
+description: Master-Referenz für IP-Adressen, Dienste und Netzwerk-Topologie
+published: true
+date: 2026-02-01T00:00:00.000Z
+tags: infrastructure, netzwerk, network, ip-adressen, dns, dhcp, übersicht, overview
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # Netzwerk-Übersicht
 
 Master-Referenz für die gesamte Infrastruktur.
@@ -84,7 +94,7 @@ Master-Referenz für die gesamte Infrastruktur.
 
 | Hostname | Public IP | Tailscale IP | Dienste |
 |----------|-----------|--------------|---------|
-| zaboozMegaFescherSuperServer | 152.53.111.11 | 100.64.0.5 | Headscale, Vaultwarden, SearXNG |
+| zaboozMegaFescherSuperServer | 152.53.111.11 | 100.64.0.5 | Headscale, Vaultwarden, SearXNG, Gameserver Proxy |
 
 ### Heimnetzwerk (192.168.0.0/24)
 
@@ -146,6 +156,8 @@ Master-Referenz für die gesamte Infrastruktur.
 | Headscale UI | https://zabooz.duckdns.org/web/ | 8080 | **VPN only** |
 | SearXNG | https://zabooz.duckdns.org/searx/ | 8888 | **VPN only** |
 | Vaultwarden | https://zabooz.duckdns.org/vault/ | 8000 | **VPN only** |
+| Veloren | 152.53.111.11:14004 | 14004 (→ 192.168.0.120) | Public (TCP) |
+| Xonotic | 152.53.111.11:14005 | 14005 (→ 192.168.0.120) | Public (TCP+UDP) |
 
 ### Heimnetz-Dienste
 
@@ -160,6 +172,8 @@ Master-Referenz für die gesamte Infrastruktur.
 | Paperless-ngx | http://192.168.0.115:8000 | Paperless LXC | 8000 |
 | Linkwarden | http://192.168.0.119:3000 | Linkwarden LXC | 3000 |
 | Pterodactyl | http://192.168.0.120 | Pterodactyl LXC/VM | 80 |
+| Veloren | 152.53.111.11:14004 | Pterodactyl (via VPS Proxy) | 14004 |
+| Xonotic | 152.53.111.11:14005 | Pterodactyl (via VPS Proxy) | 14005 |
 
 ### MagicDNS (über Tailscale)
 
@@ -245,4 +259,4 @@ Homepage:    http://home.lab  (über VPN)
 
 ---
 
-*Letzte Aktualisierung: 31. Januar 2026*
+*Letzte Aktualisierung: 1. Februar 2026*

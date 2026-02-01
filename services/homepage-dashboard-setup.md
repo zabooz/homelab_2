@@ -1,3 +1,13 @@
+---
+title: Homepage Dashboard Setup
+description: Homepage Dashboard Konfiguration und Services
+published: true
+date: 2026-01-24T00:00:00.000Z
+tags: service, dashboard, docker, monitoring, überwachung
+editor: markdown
+dateCreated: 2026-01-24T00:00:00.000Z
+---
+
 # 🏠 Homepage Dashboard - Setup Dokumentation
 
 **Erstellt:** 24. Januar 2026

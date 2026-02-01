@@ -1,3 +1,13 @@
+---
+title: DHCP
+description: Dynamic Host Configuration Protocol - Automatische IP-Adressvergabe
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: konzept, concept, netzwerk, network, dhcp, ip, protokoll, protocol, lap
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # DHCP (Dynamic Host Configuration Protocol)
 
 Automatische IP-Adressvergabe im Netzwerk.

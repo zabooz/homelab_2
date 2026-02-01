@@ -1,3 +1,13 @@
+---
+title: Backup & Recovery
+description: Backup Prozeduren und Wiederherstellung
+published: true
+date: 2026-01-24T00:00:00.000Z
+tags: operations, backup, recovery, wiederherstellung, sicherung, betrieb
+editor: markdown
+dateCreated: 2026-01-24T00:00:00.000Z
+---
+
 # Backup & Recovery
 
 **Aktualisiert:** 24. Januar 2026

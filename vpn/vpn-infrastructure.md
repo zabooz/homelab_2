@@ -1,3 +1,13 @@
+---
+title: VPN Infrastruktur
+description: Headscale VPN Server Setup und Konfiguration
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: vpn, headscale, tailscale, wireguard, netzwerk, network, infrastructure
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # Headscale VPN Infrastruktur
 
 **Erstellt:** 18. Januar 2026

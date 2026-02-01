@@ -1,3 +1,13 @@
+---
+title: Linux VM Overview
+description: Zentrale Debian VM und ihre Services
+published: true
+date: 2026-01-25T00:00:00.000Z
+tags: infrastructure, linux, debian, vm, proxmox, server
+editor: markdown
+dateCreated: 2026-01-25T00:00:00.000Z
+---
+
 # Linux VM Overview
 
 **System:** Debian 13 "Trixie"

@@ -1,3 +1,13 @@
+---
+title: iptables Grundlagen
+description: Linux Firewall und Paketfilterung
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: konzept, concept, netzwerk, network, firewall, iptables, sicherheit, security, linux, lap
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # iptables Grundlagen
 
 Linux Firewall und Paketfilterung.

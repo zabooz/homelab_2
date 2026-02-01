@@ -1,3 +1,13 @@
+---
+title: VPN-Typen
+description: Virtual Private Networks - WireGuard, OpenVPN, Mesh VPN
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: konzept, concept, netzwerk, network, vpn, wireguard, verschlüsselung, encryption, lap
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # VPN-Typen
 
 Virtual Private Networks verstehen.

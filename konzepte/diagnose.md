@@ -1,3 +1,13 @@
+---
+title: Diagnose-Befehle
+description: Wichtige Befehle für Netzwerk-Troubleshooting
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: konzept, concept, netzwerk, network, diagnose, troubleshooting, befehle, commands, linux, lap
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # Diagnose-Befehle
 
 Wichtige Befehle für Netzwerk-Troubleshooting.

@@ -1,3 +1,13 @@
+---
+title: VPS - zaboozMegaFescherSuperServer
+description: VPS Konfiguration, Nginx Reverse Proxy, Dienste und Stream Proxy
+published: true
+date: 2026-02-01T00:00:00.000Z
+tags: infrastructure, vps, nginx, reverse-proxy, stream-proxy, headscale, docker, server
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # VPS - zaboozMegaFescherSuperServer
 
 **IP:** 152.53.111.11 (Public) | 100.64.0.5 (Tailscale)
@@ -38,6 +48,8 @@ Dieser Server betreibt mehrere Dienste hinter einem Nginx Reverse Proxy. Headsca
 
 ## Dienste
 
+### HTTP Reverse Proxy (Nginx)
+
 | Dienst | URL | Zugriff | Port (intern) |
 |--------|-----|---------|---------------|
 | Headscale | https://zabooz.duckdns.org/ | Öffentlich | 127.0.0.1:8090 |
@@ -45,6 +57,17 @@ Dieser Server betreibt mehrere Dienste hinter einem Nginx Reverse Proxy. Headsca
 | SearXNG | https://zabooz.duckdns.org/searx/ | **Nur VPN** | 127.0.0.1:8888 |
 | Vaultwarden | https://zabooz.duckdns.org/vault/ | **Nur VPN** | 127.0.0.1:8000 |
 | Draw.io | https://zabooz.duckdns.org/draw/ | **Nur VPN** | 127.0.0.1:8081 |
+
+### TCP/UDP Stream Proxy (Nginx → Heimnetz via Tailscale)
+
+Gameserver-Traffic wird über Nginx Stream Proxy direkt an den Pterodactyl-Host (192.168.0.120) im Heimnetz weitergeleitet. Die Verbindung läuft über den Tailscale Subnet Router.
+
+| Dienst | Adresse | Protokoll | Backend |
+|--------|---------|-----------|---------|
+| Veloren | 152.53.111.11:14004 | TCP | 192.168.0.120:14004 |
+| Xonotic | 152.53.111.11:14005 | TCP + UDP | 192.168.0.120:14005 |
+
+> **Wichtig:** Der Tailscale Subnet Router (100.64.0.1) muss online sein, damit die Weiterleitung funktioniert. VPS benötigt `--accept-routes` in der Tailscale-Konfiguration.
 
 ## VPN Nodes
 
@@ -99,6 +122,7 @@ location /vault/ {
 | `/etc/nginx/sites-available/default` | Nginx Reverse Proxy Konfiguration |
 | `/home/zabooz/vaultwarden/docker-compose.yml` | Vaultwarden Docker Setup |
 | `/home/zabooz/draw.io/docker-compose.yml` | Draw.io Docker Setup |
+| `/etc/nginx/nginx.conf` | Nginx Stream Proxy (Gameserver-Ports) |
 
 ### Wichtige Headscale Einstellungen
 
@@ -207,4 +231,4 @@ sudo tail -f /var/log/nginx/error.log
 
 ---
 
-*Letzte Aktualisierung: 25. Januar 2026*
+*Letzte Aktualisierung: 1. Februar 2026*

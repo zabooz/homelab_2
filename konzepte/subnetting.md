@@ -1,3 +1,13 @@
+---
+title: Subnetting
+description: Netzwerke in kleinere Subnetze aufteilen - CIDR und Subnetzmasken
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: konzept, concept, netzwerk, network, subnetting, cidr, lap
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # Subnetting
 
 Netzwerke in kleinere Subnetze aufteilen.

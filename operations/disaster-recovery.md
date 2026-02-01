@@ -1,3 +1,13 @@
+---
+title: Disaster Recovery
+description: Disaster Recovery Planung und Notfallprozeduren
+published: true
+date: 2026-01-24T00:00:00.000Z
+tags: operations, disaster-recovery, notfall, betrieb, wiederherstellung
+editor: markdown
+dateCreated: 2026-01-24T00:00:00.000Z
+---
+
 # Disaster Recovery
 
 **Aktualisiert:** 24. Januar 2026

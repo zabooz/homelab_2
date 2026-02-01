@@ -1,3 +1,13 @@
+---
+title: IP-Adressen
+description: Grundlagen zu IPv4 und IPv6 Adressen
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: konzept, concept, netzwerk, network, ip, ipv4, ipv6, lap
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # IP-Adressen
 
 Grundlagen zu IPv4 und IPv6 Adressen.

@@ -3,7 +3,7 @@ title: Startseite
 description: Homelab Wiki - Zentrale Dokumentation
 published: true
 date: 2026-01-25T20:29:09.858Z
-tags: 
+tags: homelab, wiki, startseite, overview
 editor: markdown
 dateCreated: 2026-01-24T15:37:11.693Z
 ---
@@ -40,7 +40,8 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [Linux Interfaces](/en/konzepte/linux-interfaces) | Interface-Benennung |
 | [VPN-Typen](/en/konzepte/vpn) | WireGuard vs. OpenVPN |
 | [Ports](/en/konzepte/ports) | Wichtige Netzwerk-Ports |
-| [Reverse Proxy](/en/konzepte/reverse-proxy) | Forward vs. Reverse |
+| [OSI-Schichtenmodell](/en/konzepte/layer) | Die 7 Schichten, TCP/IP-Modell |
+| [Reverse Proxy](/en/konzepte/reverse-proxy) | Forward vs. Reverse, Stream Proxy |
 | [Diagnose-Befehle](/en/konzepte/diagnose) | Troubleshooting Commands |
 | [Prüfungsfragen](/en/konzepte/pruefungsfragen) | LAP Q&A |
 
@@ -58,7 +59,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [Linkwarden](/en/services/linkwarden-setup) | Bookmark Manager (192.168.0.119) |
 | [Draw.io](/en/services/drawio-setup) | Diagramm-Editor (192.168.0.111:8081) |
 | [Home Assistant](/en/services/homeassistant-setup) | Smart Home Steuerung (192.168.0.114) |
-| [Pterodactyl](/en/services/pterodactyl-setup) | Gameserver Panel (192.168.0.120) |
+| [Pterodactyl](/en/services/pterodactyl-setup) | Gameserver Panel (192.168.0.120, Public via VPS) |
 
 ---
 

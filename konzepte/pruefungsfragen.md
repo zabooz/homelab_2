@@ -1,3 +1,13 @@
+---
+title: LAP Prüfungsfragen
+description: Häufige Fragen und Antworten für die IT-Systemtechnik Prüfung
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: konzept, concept, prüfung, exam, lap, fragen, questions
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # LAP Prüfungsfragen
 
 Häufige Fragen und Antworten für die IT-Systemtechnik Prüfung.

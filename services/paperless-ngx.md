@@ -2,6 +2,10 @@
 title: Paperless-ngx
 description: Dokumentenverwaltung mit OCR
 published: true
+date: 2026-01-25T00:00:00.000Z
+tags: service, docker, ocr, dokumentenverwaltung, document-management, proxmox
+editor: markdown
+dateCreated: 2026-01-25T00:00:00.000Z
 ---
 
 # Paperless-ngx

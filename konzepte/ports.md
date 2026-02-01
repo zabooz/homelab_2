@@ -1,3 +1,13 @@
+---
+title: Wichtige Ports
+description: Häufig verwendete Netzwerk-Ports
+published: true
+date: 2026-02-01T00:00:00.000Z
+tags: konzept, concept, netzwerk, network, ports, tcp, udp, protokoll, protocol, lap
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # Wichtige Ports
 
 Häufig verwendete Netzwerk-Ports.
@@ -27,6 +37,8 @@ Häufig verwendete Netzwerk-Ports.
 | 8000 | Paperless-ngx |
 | 8080 | Headscale UI |
 | 8090 | Headscale API |
+| 14004 | Veloren Gameserver (TCP) |
+| 14005 | Xonotic Gameserver (TCP+UDP) |
 
 ---
 

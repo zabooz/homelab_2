@@ -1,3 +1,13 @@
+---
+title: Security Hardening
+description: Sicherheits Best Practices und Härtung
+published: true
+date: 2026-01-24T00:00:00.000Z
+tags: operations, security, sicherheit, hardening, härtung, betrieb
+editor: markdown
+dateCreated: 2026-01-24T00:00:00.000Z
+---
+
 # Security Hardening Guide
 
 **Aktualisiert:** 24. Januar 2026

@@ -1,3 +1,13 @@
+---
+title: IP Forwarding
+description: Die Router-Funktion in Linux aktivieren
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: konzept, concept, netzwerk, network, routing, linux, forwarding, lap
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # IP Forwarding
 
 Die Router-Funktion in Linux aktivieren.

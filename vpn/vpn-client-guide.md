@@ -1,3 +1,13 @@
+---
+title: VPN Client Anleitung
+description: Tailscale Client Setup und Verbindung zum VPN
+published: true
+date: 2026-01-18T00:00:00.000Z
+tags: vpn, tailscale, client, anleitung, guide
+editor: markdown
+dateCreated: 2026-01-18T00:00:00.000Z
+---
+
 # Tailscale Client Setup Guide
 
 **Server:** `https://zabooz.duckdns.org`

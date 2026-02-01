@@ -1,3 +1,13 @@
+---
+title: Linkwarden Setup
+description: Bookmark Manager auf Debian LXC
+published: true
+date: 2026-01-31T00:00:00.000Z
+tags: service, docker, bookmarks, lesezeichen, proxmox, lxc
+editor: markdown
+dateCreated: 2026-01-31T00:00:00.000Z
+---
+
 # Linkwarden - Bookmark Manager
 
 **System:** Debian 13 LXC (CT 105)

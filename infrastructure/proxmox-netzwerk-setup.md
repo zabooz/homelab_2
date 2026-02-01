@@ -1,3 +1,13 @@
+---
+title: Proxmox Netzwerk-Setup
+description: Statische IP-Konfiguration für Proxmox VMs und LXCs
+published: true
+date: 2026-01-19T00:00:00.000Z
+tags: infrastructure, proxmox, netzwerk, network, virtualisierung, virtualization, ip-adressen
+editor: markdown
+dateCreated: 2026-01-19T00:00:00.000Z
+---
+
 # Proxmox Netzwerk-Setup - Statische IP-Konfiguration
 
 **Erstellt:** 19. Januar 2026
