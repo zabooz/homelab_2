@@ -29,8 +29,9 @@ Dieser Server betreibt mehrere Dienste hinter einem Nginx Reverse Proxy. Headsca
  ┌──────────────┐                   │   │  /web      → Headscale UI(:8080)│   │
  │ VPN Clients  │                   │   │  /searx/   → SearXNG (:8888)    │   │
  │ (Tailscale)  │───────────────────┤   │  /vault/   → Vaultwarden (:8000)│   │
- │ 100.64.0.0/10│                   │   │             (Nur VPN!)          │   │
- └──────────────┘                   │   └─────────────────────────────────┘   │
+ │ 100.64.0.0/10│                   │   │  /draw/    → Draw.io (:8081)    │   │
+ └──────────────┘                   │   │             (Nur VPN!)          │   │
+                                    │   └─────────────────────────────────┘   │
                                     │                                         │
                                     └─────────────────────────────────────────┘
 ```
@@ -43,6 +44,7 @@ Dieser Server betreibt mehrere Dienste hinter einem Nginx Reverse Proxy. Headsca
 | Headscale UI | https://zabooz.duckdns.org/web | **Nur VPN** | 127.0.0.1:8080 |
 | SearXNG | https://zabooz.duckdns.org/searx/ | **Nur VPN** | 127.0.0.1:8888 |
 | Vaultwarden | https://zabooz.duckdns.org/vault/ | **Nur VPN** | 127.0.0.1:8000 |
+| Draw.io | https://zabooz.duckdns.org/draw/ | **Nur VPN** | 127.0.0.1:8081 |
 
 ## VPN Nodes
 
@@ -96,6 +98,7 @@ location /vault/ {
 | `/etc/headscale/config.yaml` | Headscale Konfiguration, MagicDNS, extra_records |
 | `/etc/nginx/sites-available/default` | Nginx Reverse Proxy Konfiguration |
 | `/home/zabooz/vaultwarden/docker-compose.yml` | Vaultwarden Docker Setup |
+| `/home/zabooz/draw.io/docker-compose.yml` | Draw.io Docker Setup |
 
 ### Wichtige Headscale Einstellungen
 
@@ -196,6 +199,7 @@ sudo tail -f /var/log/nginx/error.log
 
 - **Vaultwarden**: Nur über VPN erreichbar (100.64.0.0/10)
 - **SearXNG**: Nur über VPN erreichbar (100.64.0.0/10)
+- **Draw.io**: Nur über VPN erreichbar (100.64.0.0/10)
 - **Headscale**: Öffentlich erreichbar (muss für VPN-Verbindung erreichbar sein)
 - **Alle Dienste**: Hinter HTTPS mit gültigem Let's Encrypt Zertifikat
 - **Docker Container**: Nur an 127.0.0.1 gebunden (nicht im Netzwerk exponiert)
