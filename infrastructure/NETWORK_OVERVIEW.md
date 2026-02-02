@@ -31,13 +31,20 @@ Master-Referenz für die gesamte Infrastruktur.
               │         zabooz.duckdns.org            │
               │                                       │
               │    ┌─────────────────────────────┐    │
-              │    │ Nginx (443)                 │    │
+              │    │ Nginx HTTP (443)            │    │
               │    │  ├── / → Headscale (8090)   │    │
               │    │  ├── /vault/ → Vaultwarden  │    │
               │    │  ├── /searx/ → SearXNG      │    │
               │    │  └── /web → Headscale UI    │    │
               │    └─────────────────────────────┘    │
-              │                                       │
+              │    ┌─────────────────────────────┐    │
+              │    │ Nginx Stream (Layer 4)      │    │
+              │    │  ├── :14004 → .120:14004    │    │
+              │    │  │   (Veloren, TCP)         │    │
+              │    │  └── :14005 → .120:14005    │    │
+              │    │      (Xonotic, TCP+UDP)     │    │
+              │    └──────────────┬──────────────┘    │
+              │                   │ via Tailscale     │
               │    Tailscale IP: 100.64.0.5           │
               └───────────────────┬───────────────────┘
                                   │
