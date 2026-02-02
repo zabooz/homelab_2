@@ -51,4 +51,4 @@ Automatische IP-Adressvergabe im Netzwerk.
 
 ---
 
-*Siehe auch: [IP-Adressen](ip-adressen) | [Routing](routing)*
+*Siehe auch: [IP-Adressen](/konzepte/ip-adressen) | [Routing](/konzepte/routing)*

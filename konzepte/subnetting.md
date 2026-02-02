@@ -127,4 +127,4 @@ Subnetze: 0, 64, 128, 192
 
 ---
 
-*Siehe auch: [IP-Adressen](ip-adressen) | [Routing](routing)*
+*Siehe auch: [IP-Adressen](/konzepte/ip-adressen) | [Routing](/konzepte/routing)*

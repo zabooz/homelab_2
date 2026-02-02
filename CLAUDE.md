@@ -20,6 +20,8 @@ homelab_2/
 │   ├── fog_project_setup_dokumentation_debian_12_lxc.md  # FOG/PXE/DHCP
 │   ├── drawio-setup.md              # Draw.io auf VPS
 │   ├── linkwarden-setup.md          # Bookmark Manager
+│   ├── homeassistant-setup.md       # Home Assistant Smart Home
+│   ├── azerothcore-playerbots-setup.md  # WoW Server (AzerothCore)
 │   └── pterodactyl-setup.md         # Gameserver Panel + Wings
 ├── vpn/                             # VPN Dokumentation
 │   ├── vpn-infrastructure.md        # Headscale Server Setup
@@ -69,7 +71,7 @@ homelab_2/
 - Sprache: Deutsch (mit englischen Fachbegriffen)
 - Alle .md Dateien haben Wiki.js YAML Frontmatter (title, description, published, date, tags, editor, dateCreated)
 - Tags: bilingual (deutsch + englisch), kommagetrennt
-- Dateien referenzieren sich gegenseitig mit relativen Pfaden
+- Wiki.js Links müssen absolute Pfade verwenden (z.B. `(/konzepte/routing)`, NICHT `(routing)`). Bare names werden von Wiki.js relativ zur aktuellen Seiten-URL aufgelöst und brechen.
 - Diagramme als ASCII-Art in Code-Blöcken
 
 ## Wichtige Konfigurationsdateien (auf VPS)

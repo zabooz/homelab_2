@@ -207,4 +207,4 @@ Spieler von außen brauchen kein VPN - sie verbinden sich direkt zur öffentlich
 
 ---
 
-*Siehe auch: [Ports](ports) | [Linux Interfaces](linux-interfaces) | [VPN](vpn) | [VPS](../infrastructure/VPS.md)*
+*Siehe auch: [Ports](/konzepte/ports) | [Linux Interfaces](/konzepte/linux-interfaces) | [VPN](/konzepte/vpn) | [VPS](/infrastructure/VPS)*

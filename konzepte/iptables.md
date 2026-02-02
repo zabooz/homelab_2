@@ -61,4 +61,4 @@ sudo netfilter-persistent save
 
 ---
 
-*Siehe auch: [NAT](nat) | [IP-Forwarding](ip-forwarding)*
+*Siehe auch: [NAT](/konzepte/nat) | [IP-Forwarding](/konzepte/ip-forwarding)*

@@ -67,4 +67,4 @@ Test-NetConnection <ip> -Port <port>  # Port-Test
 
 ---
 
-*Siehe auch: [DNS](dns) | [Routing](routing)*
+*Siehe auch: [DNS](/konzepte/dns) | [Routing](/konzepte/routing)*

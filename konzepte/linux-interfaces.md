@@ -58,4 +58,4 @@ allow-hotplug ens18
 
 ---
 
-*Siehe auch: [Diagnose-Befehle](diagnose)*
+*Siehe auch: [Diagnose-Befehle](/konzepte/diagnose)*

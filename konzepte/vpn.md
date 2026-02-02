@@ -35,4 +35,4 @@ Virtual Private Networks verstehen.
 
 ---
 
-*Siehe auch: [VPN Infrastruktur](../vpn/vpn-infrastructure.md) | [VPN Client Guide](../vpn/vpn-client-guide.md)*
+*Siehe auch: [VPN Infrastruktur](/vpn/vpn-infrastructure) | [VPN Client Guide](/vpn/vpn-client-guide)*
