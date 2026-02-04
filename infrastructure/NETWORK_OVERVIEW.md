@@ -13,9 +13,9 @@ dateCreated: 2026-01-18T00:00:00.000Z
 Master-Referenz für die gesamte Infrastruktur.
 
 **Siehe auch:**
-- [IP-Adressen](../konzepte/ip-adressen.md) - IPv4, IPv6, Private/Public
-- [Subnetting](../konzepte/subnetting.md) - CIDR, Subnetzmasken
-- [Routing](../konzepte/routing.md) - Gateway, Routing-Tabellen
+- [IP-Adressen](/en/konzepte/ip-adressen) - IPv4, IPv6, Private/Public
+- [Subnetting](/en/konzepte/subnetting) - CIDR, Subnetzmasken
+- [Routing](/en/konzepte/routing) - Gateway, Routing-Tabellen
 
 ---
 
@@ -85,6 +85,8 @@ Master-Referenz für die gesamte Infrastruktur.
                        │  │ ├───────────┤ │  │
                        │  │ │Paper .115 │ │  │
                        │  │ ├───────────┤ │  │
+                       │  │ │n8n  .116  │ │  │
+                       │  │ ├───────────┤ │  │
                        │  │ │LW   .119  │ │  │
                        │  │ ├───────────┤ │  │
                        │  │ │Ptero .120 │ │  │
@@ -116,6 +118,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | **Home Assistant** | 192.168.0.114 | - | LXC/VM | Smart Home Steuerung |
 | **Paperless-ngx** | 192.168.0.115 | - | LXC | Dokumentenverwaltung |
 | **Linkwarden** | 192.168.0.119 | - | LXC | Bookmark Manager |
+| **n8n** | 192.168.0.116 | - | LXC | Workflow Automation |
 | **Pterodactyl** | 192.168.0.120 | - | LXC/VM | Gameserver Panel |
 
 ### Tailscale VPN (100.64.0.0/10)
@@ -178,6 +181,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | Home Assistant | http://192.168.0.114:8123 | HA LXC/VM | 8123 |
 | Paperless-ngx | http://192.168.0.115:8000 | Paperless LXC | 8000 |
 | Linkwarden | http://192.168.0.119:3000 | Linkwarden LXC | 3000 |
+| n8n | http://192.168.0.116:5678 | n8n LXC | 5678 |
 | Pterodactyl | http://192.168.0.120 | Pterodactyl LXC/VM | 80 |
 | Veloren | 152.53.111.11:14004 | Pterodactyl (via VPS Proxy) | 14004 |
 | Xonotic | 152.53.111.11:14005 | Pterodactyl (via VPS Proxy) | 14005 |

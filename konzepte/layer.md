@@ -301,4 +301,4 @@ Layer 1: Elektrische Signale über Kabel / Funk
 
 ---
 
-*Siehe auch: [Reverse Proxy](/konzepte/reverse-proxy) | [Ports](/konzepte/ports) | [Routing](/konzepte/routing) | [IP-Adressen](/konzepte/ip-adressen)*
+*Siehe auch: [Reverse Proxy](/en/konzepte/reverse-proxy) | [Ports](/en/konzepte/ports) | [Routing](/en/konzepte/routing) | [IP-Adressen](/en/konzepte/ip-adressen)*

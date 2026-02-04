@@ -13,14 +13,14 @@ dateCreated: 2026-01-18T00:00:00.000Z
 Sammlung aller VPN-Probleme und Lösungen.
 
 **Siehe auch:**
-- [VPS](../infrastructure/VPS.md) - VPS wo Headscale läuft
-- [NAT](../konzepte/nat.md) - MASQUERADE, SNAT/DNAT
-- [Routing](../konzepte/routing.md) - Gateway, Routing-Tabellen
-- [IP-Forwarding](../konzepte/ip-forwarding.md) - Router vs. Host
-- [iptables](../konzepte/iptables.md) - Firewall-Regeln
-- [Diagnose-Befehle](../konzepte/diagnose.md) - Troubleshooting Commands
-- [vpn-infrastructure.md](vpn-infrastructure.md) - Server Setup
-- [vpn-client-guide.md](vpn-client-guide.md) - Client Installation
+- [VPS](/en/infrastructure/VPS) - VPS wo Headscale läuft
+- [NAT](/en/konzepte/nat) - MASQUERADE, SNAT/DNAT
+- [Routing](/en/konzepte/routing) - Gateway, Routing-Tabellen
+- [IP-Forwarding](/en/konzepte/ip-forwarding) - Router vs. Host
+- [iptables](/en/konzepte/iptables) - Firewall-Regeln
+- [Diagnose-Befehle](/en/konzepte/diagnose) - Troubleshooting Commands
+- [VPN Infrastruktur](/en/vpn/vpn-infrastructure) - Server Setup
+- [VPN Client Guide](/en/vpn/vpn-client-guide) - Client Installation
 
 ---
 

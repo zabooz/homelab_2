@@ -22,7 +22,10 @@ homelab_2/
 │   ├── linkwarden-setup.md          # Bookmark Manager
 │   ├── homeassistant-setup.md       # Home Assistant Smart Home
 │   ├── azerothcore-playerbots-setup.md  # WoW Server (AzerothCore)
-│   └── pterodactyl-setup.md         # Gameserver Panel + Wings
+│   ├── pterodactyl-setup.md         # Gameserver Panel + Wings
+│   └── n8n-setup.md                     # n8n Workflow Automation (192.168.0.116)
+├── workflows/                           # n8n Workflow-Dokumentationen
+│   └── vm-image-update.md               # VM Image Update Workflow (FOG + Proxmox)
 ├── vpn/                             # VPN Dokumentation
 │   ├── vpn-infrastructure.md        # Headscale Server Setup
 │   ├── vpn-client-guide.md          # Client Verbindungsanleitung
@@ -71,7 +74,7 @@ homelab_2/
 - Sprache: Deutsch (mit englischen Fachbegriffen)
 - Alle .md Dateien haben Wiki.js YAML Frontmatter (title, description, published, date, tags, editor, dateCreated)
 - Tags: bilingual (deutsch + englisch), kommagetrennt
-- Wiki.js Links müssen absolute Pfade verwenden (z.B. `(/konzepte/routing)`, NICHT `(routing)`). Bare names werden von Wiki.js relativ zur aktuellen Seiten-URL aufgelöst und brechen.
+- Wiki.js Links müssen absolute Pfade mit `/en/` Locale-Prefix verwenden, ohne `.md` Extension (z.B. `(/en/konzepte/routing)`, NICHT `(routing)` oder `(../konzepte/routing.md)`). Bare names und relative Pfade werden von Wiki.js falsch aufgelöst.
 - Diagramme als ASCII-Art in Code-Blöcken
 
 ## Wichtige Konfigurationsdateien (auf VPS)

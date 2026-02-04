@@ -96,4 +96,4 @@ iface ens18 inet6 auto  # SLAAC aktiviert
 
 ---
 
-*Siehe auch: [Subnetting](/konzepte/subnetting) | [DHCP](/konzepte/dhcp) | [NAT](/konzepte/nat)*
+*Siehe auch: [Subnetting](/en/konzepte/subnetting) | [DHCP](/en/konzepte/dhcp) | [NAT](/en/konzepte/nat)*

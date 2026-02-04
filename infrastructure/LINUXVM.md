@@ -63,14 +63,14 @@ The main landing page. It connects to the **VPS Stats API** to display real-time
 - **Port:** 80 (mapped to container port 3000)
 - **Directory:** `~/homepage`
 - **Config:** `~/homepage/config/services.yaml`
-- **Documentation:** [Homepage Setup](../services/homepage-dashboard-setup.md)
+- **Documentation:** [Homepage Setup](/en/services/homepage-dashboard-setup)
 
 ### 2. Wiki.js
 Documentation platform for storing system knowledge and guides.
 - **Port:** 3000
 - **Directory:** `~/wikiJS`
 - **Features:** Git Sync (Backup to GitHub), Markdown support.
-- **Documentation:** [Wiki.js Setup](../services/wikijs-setup.md)
+- **Documentation:** [Wiki.js Setup](/en/services/wikijs-setup)
 
 ### 3. Draw.io
 Self-hosted Diagramm-Editor für Netzwerk-Diagramme, Flowcharts, etc.
@@ -84,14 +84,14 @@ A lightweight custom API built with **Bun** to provide system metrics to the Hom
 - **Directory:** `~/vps-stats-api`
 - **Technology:** TypeScript / Bun
 - **Endpoint:** `GET /stats`
-- **Documentation:** [Stats API](../services/stats-api.md)
+- **Documentation:** [Stats API](/en/services/stats-api)
 
 ### 6. Paperless-ngx
 Document management system for archiving scanned documents.
 - **Port:** 8000
 - **Directory:** `/opt/paperless` (or `~/paperless`)
 - **Key Features:** OCR, Tagging, Full-text search.
-- **Documentation:** [Paperless-ngx](../services/paperless-ngx.md)
+- **Documentation:** [Paperless-ngx](/en/services/paperless-ngx)
 
 ### 7. Apache (Disabled)
 Apache ist installiert aber deaktiviert. Kann bei Bedarf als Reverse Proxy aktiviert werden.

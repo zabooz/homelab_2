@@ -21,9 +21,9 @@ dateCreated: 2026-01-19T00:00:00.000Z
 Anleitung zur Konfiguration statischer IP-Adressen für VMs und LXC-Container in Proxmox VE.
 
 **Siehe auch:**
-- [NETWORK_OVERVIEW.md](NETWORK_OVERVIEW.md) - Master-Diagramm und IP-Liste
-- [DHCP](../konzepte/dhcp.md) - DORA-Prozess, Statisch vs. Dynamisch
-- [Subnetting](../konzepte/subnetting.md) - CIDR, Subnetzmasken
+- [Netzwerk Übersicht](/en/infrastructure/NETWORK_OVERVIEW) - Master-Diagramm und IP-Liste
+- [DHCP](/en/konzepte/dhcp) - DORA-Prozess, Statisch vs. Dynamisch
+- [Subnetting](/en/konzepte/subnetting) - CIDR, Subnetzmasken
 
 ---
 

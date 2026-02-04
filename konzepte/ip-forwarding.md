@@ -61,4 +61,4 @@ Router = Leitet Pakete selbst weiter (IP Forwarding an)
 
 ---
 
-*Siehe auch: [Routing](/konzepte/routing) | [NAT](/konzepte/nat)*
+*Siehe auch: [Routing](/en/konzepte/routing) | [NAT](/en/konzepte/nat)*

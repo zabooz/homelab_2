@@ -18,9 +18,9 @@ dateCreated: 2026-02-01T15:00:00.000Z
 **Zugriff:** Lokal / VPN / Public (Gameserver-Ports via VPS)
 
 **Siehe auch:**
-- [VPS](../infrastructure/VPS.md) - Stream Proxy Konfiguration für öffentlichen Zugang
-- [Reverse Proxy](../konzepte/reverse-proxy.md) - Layer 4 vs Layer 7 Proxy
-- [Netzwerk Übersicht](../infrastructure/NETWORK_OVERVIEW.md) - IP-Adressen
+- [VPS](/en/infrastructure/VPS) - Stream Proxy Konfiguration für öffentlichen Zugang
+- [Reverse Proxy](/en/konzepte/reverse-proxy) - Layer 4 vs Layer 7 Proxy
+- [Netzwerk Übersicht](/en/infrastructure/NETWORK_OVERVIEW) - IP-Adressen
 
 ---
 
@@ -68,7 +68,7 @@ Spieler können sich auf zwei Wegen verbinden:
 | **Lokal / VPN** | 192.168.0.120:14004 / :14005 | Im Heimnetz oder über Tailscale |
 | **Internet** | 152.53.111.11:14004 / :14005 | Spieler von außen (kein VPN nötig) |
 
-Der öffentliche Zugang läuft über einen Nginx Stream Proxy auf dem VPS, der den Traffic via Tailscale-Tunnel weiterleitet. Siehe [VPS Dokumentation](../infrastructure/VPS.md).
+Der öffentliche Zugang läuft über einen Nginx Stream Proxy auf dem VPS, der den Traffic via Tailscale-Tunnel weiterleitet. Siehe [VPS Dokumentation](/en/infrastructure/VPS).
 
 ## Installation
 

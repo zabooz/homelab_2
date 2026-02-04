@@ -65,4 +65,4 @@ dns:
 
 ---
 
-*Siehe auch: [Diagnose-Befehle](/konzepte/diagnose)*
+*Siehe auch: [Diagnose-Befehle](/en/konzepte/diagnose)*

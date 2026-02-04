@@ -352,4 +352,4 @@ maxfiles: 5    # Maximale Backups pro VM behalten
 
 ---
 
-*Siehe auch: [disaster-recovery.md](disaster-recovery.md) | [security-hardening.md](security-hardening.md)*
+*Siehe auch: [Disaster Recovery](/en/operations/disaster-recovery) | [Security Hardening](/en/operations/security-hardening)*

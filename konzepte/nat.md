@@ -52,4 +52,4 @@ sudo iptables -t nat -A POSTROUTING -o eth0 -s 100.64.0.0/10 -j MASQUERADE
 
 ---
 
-*Siehe auch: [IP-Forwarding](/konzepte/ip-forwarding) | [iptables](/konzepte/iptables)*
+*Siehe auch: [IP-Forwarding](/en/konzepte/ip-forwarding) | [iptables](/en/konzepte/iptables)*

@@ -60,6 +60,14 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [Draw.io](/en/services/drawio-setup) | Diagramm-Editor (192.168.0.111:8081) |
 | [Home Assistant](/en/services/homeassistant-setup) | Smart Home Steuerung (192.168.0.114) |
 | [Pterodactyl](/en/services/pterodactyl-setup) | Gameserver Panel (192.168.0.120, Public via VPS) |
+| [n8n Automation](/en/services/n8n-setup) | Workflow-Automation (192.168.0.116) |
+---
+
+## Workflows
+
+| Workflow | Beschreibung |
+|----------|--------------|
+| [VM Image Update](/en/workflows/vm-image-update) | Automatisches OS-Update & FOG Capture |
 
 ---
 

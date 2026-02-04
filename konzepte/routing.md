@@ -72,4 +72,4 @@ ip route get 192.168.0.101
 
 ---
 
-*Siehe auch: [NAT](/konzepte/nat) | [IP-Forwarding](/konzepte/ip-forwarding)*
+*Siehe auch: [NAT](/en/konzepte/nat) | [IP-Forwarding](/en/konzepte/ip-forwarding)*

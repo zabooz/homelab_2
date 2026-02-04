@@ -27,8 +27,8 @@ dateCreated: 2026-01-20T00:00:00.000Z
 - Unterstützt Windows, Linux, macOS
 
 **Siehe auch:**
-- [DHCP](../konzepte/dhcp.md) - DORA-Prozess, DHCP-Server Grundlagen
-- [IP-Adressen](../konzepte/ip-adressen.md) - Statische vs. Dynamische IPs
+- [DHCP](/en/konzepte/dhcp) - DORA-Prozess, DHCP-Server Grundlagen
+- [IP-Adressen](/en/konzepte/ip-adressen) - Statische vs. Dynamische IPs
 
 ---
 

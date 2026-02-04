@@ -23,5 +23,5 @@ Aktuell sind keine Geräte angebunden — die Installation ist vorbereitet für 
 
 ## Siehe auch
 
-- [Netzwerk Übersicht](../infrastructure/NETWORK_OVERVIEW.md) - IP-Adressen und Topologie
-- [Proxmox Netzwerk Setup](../infrastructure/proxmox-netzwerk-setup.md) - Virtualisierung
+- [Netzwerk Übersicht](/en/infrastructure/NETWORK_OVERVIEW) - IP-Adressen und Topologie
+- [Proxmox Netzwerk Setup](/en/infrastructure/proxmox-netzwerk-setup) - Virtualisierung

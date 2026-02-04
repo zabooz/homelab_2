@@ -42,4 +42,4 @@ Häufig verwendete Netzwerk-Ports.
 
 ---
 
-*Siehe auch: [iptables](/konzepte/iptables) | [Diagnose-Befehle](/konzepte/diagnose)*
+*Siehe auch: [iptables](/en/konzepte/iptables) | [Diagnose-Befehle](/en/konzepte/diagnose)*

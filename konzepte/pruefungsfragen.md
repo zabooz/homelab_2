@@ -18,7 +18,7 @@ Häufige Fragen und Antworten für die IT-Systemtechnik Prüfung.
 
 DHCP vergibt IP-Adressen automatisch, kann sich aber ändern. Statische IPs werden manuell konfiguriert und bleiben gleich. Server brauchen statische IPs für Erreichbarkeit, Clients können DHCP nutzen.
 
-**Siehe:** [DHCP](/konzepte/dhcp) | [Subnetting](/konzepte/subnetting)
+**Siehe:** [DHCP](/en/konzepte/dhcp) | [Subnetting](/en/konzepte/subnetting)
 
 ---
 
@@ -26,7 +26,7 @@ DHCP vergibt IP-Adressen automatisch, kann sich aber ändern. Statische IPs werd
 
 Ein Gateway ist der Zugang zu anderen Netzwerken. In Heimnetzen ist das meist der Router. Alle Pakete zu unbekannten Zielen werden an das Gateway geschickt.
 
-**Siehe:** [Routing](/konzepte/routing)
+**Siehe:** [Routing](/en/konzepte/routing)
 
 ---
 
@@ -34,7 +34,7 @@ Ein Gateway ist der Zugang zu anderen Netzwerken. In Heimnetzen ist das meist de
 
 Ein Router verbindet selbst Netzwerke und trifft eigene Routing-Entscheidungen. Ein Gateway würde bedeuten "frag jemand anderen" - aber der Router IST die Entscheidungsinstanz.
 
-**Siehe:** [Routing](/konzepte/routing) | [IP-Forwarding](/konzepte/ip-forwarding)
+**Siehe:** [Routing](/en/konzepte/routing) | [IP-Forwarding](/en/konzepte/ip-forwarding)
 
 ---
 
@@ -42,7 +42,7 @@ Ein Router verbindet selbst Netzwerke und trifft eigene Routing-Entscheidungen. 
 
 NAT ändert IP-Adressen in Paketen. MASQUERADE ist dynamisches Source-NAT, das die Quell-IP durch die eigene ersetzt. Nötig, damit Antworten zurückfinden.
 
-**Siehe:** [NAT](/konzepte/nat)
+**Siehe:** [NAT](/en/konzepte/nat)
 
 ---
 
@@ -50,7 +50,7 @@ NAT ändert IP-Adressen in Paketen. MASQUERADE ist dynamisches Source-NAT, das d
 
 Die Fähigkeit eines Linux-Systems, Pakete zwischen Interfaces weiterzuleiten. Aus = normaler Host, An = Router. Ohne IP Forwarding verwirft das System fremde Pakete.
 
-**Siehe:** [IP-Forwarding](/konzepte/ip-forwarding)
+**Siehe:** [IP-Forwarding](/en/konzepte/ip-forwarding)
 
 ---
 
@@ -58,7 +58,7 @@ Die Fähigkeit eines Linux-Systems, Pakete zwischen Interfaces weiterzuleiten. A
 
 Eine Default-Route, die ALLE IP-Adressen matched. Das /0 bedeutet "keine Netzwerk-Bits festgelegt". Wird für Internet-Traffic und Exit-Nodes verwendet.
 
-**Siehe:** [Routing](/konzepte/routing) | [Subnetting](/konzepte/subnetting)
+**Siehe:** [Routing](/en/konzepte/routing) | [Subnetting](/en/konzepte/subnetting)
 
 ---
 
@@ -67,7 +67,7 @@ Eine Default-Route, die ALLE IP-Adressen matched. Das /0 bedeutet "keine Netzwer
 **Forward Proxy:** Client → Proxy → Internet (Client kennt Proxy)
 **Reverse Proxy:** Client → Proxy → Backend (Client kennt nur Proxy)
 
-**Siehe:** [Reverse Proxy](/konzepte/reverse-proxy)
+**Siehe:** [Reverse Proxy](/en/konzepte/reverse-proxy)
 
 ---
 
@@ -75,7 +75,7 @@ Eine Default-Route, die ALLE IP-Adressen matched. Das /0 bedeutet "keine Netzwer
 
 Classless Inter-Domain Routing. Notation wie /24 gibt an, wie viele Bits für das Netzwerk reserviert sind. /24 = 256 Adressen, /16 = 65.536 Adressen.
 
-**Siehe:** [Subnetting](/konzepte/subnetting)
+**Siehe:** [Subnetting](/en/konzepte/subnetting)
 
 ---
 

@@ -16,8 +16,8 @@ dateCreated: 2026-01-25T23:30:00.000Z
 **Port (intern):** 127.0.0.1:8081
 
 **Siehe auch:**
-- [VPS](../infrastructure/VPS.md) - VPS Konfiguration & Services
-- [Reverse Proxy](../konzepte/reverse-proxy.md) - Forward vs. Reverse Proxy
+- [VPS](/en/infrastructure/VPS) - VPS Konfiguration & Services
+- [Reverse Proxy](/en/konzepte/reverse-proxy) - Forward vs. Reverse Proxy
 
 ---
 

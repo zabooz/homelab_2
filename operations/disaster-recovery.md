@@ -322,4 +322,4 @@ ip addr > $BACKUP_DIR/ip-config.txt
 
 ---
 
-*Siehe auch: [backup-recovery.md](backup-recovery.md) | [security-hardening.md](security-hardening.md)*
+*Siehe auch: [Backup & Recovery](/en/operations/backup-recovery) | [Security Hardening](/en/operations/security-hardening)*

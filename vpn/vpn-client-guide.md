@@ -13,12 +13,12 @@ dateCreated: 2026-01-18T00:00:00.000Z
 **Server:** `https://zabooz.duckdns.org`
 
 **Siehe auch:**
-- [VPS](../infrastructure/VPS.md) - VPS wo Headscale läuft (152.53.111.11)
-- [NETWORK_OVERVIEW.md](../infrastructure/NETWORK_OVERVIEW.md) - Alle IPs und Dienste
-- [DNS](../konzepte/dns.md) - MagicDNS, Namensauflösung
-- [Routing](../konzepte/routing.md) - Subnet Routes verstehen
-- [vpn-infrastructure.md](vpn-infrastructure.md) - Server Setup
-- [vpn-troubleshooting.md](vpn-troubleshooting.md) - Problemlösung
+- [VPS](/en/infrastructure/VPS) - VPS wo Headscale läuft (152.53.111.11)
+- [Netzwerk Übersicht](/en/infrastructure/NETWORK_OVERVIEW) - Alle IPs und Dienste
+- [DNS](/en/konzepte/dns) - MagicDNS, Namensauflösung
+- [Routing](/en/konzepte/routing) - Subnet Routes verstehen
+- [VPN Infrastruktur](/en/vpn/vpn-infrastructure) - Server Setup
+- [VPN Troubleshooting](/en/vpn/vpn-troubleshooting) - Problemlösung
 
 ---
 

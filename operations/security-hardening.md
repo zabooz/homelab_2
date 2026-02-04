@@ -14,8 +14,8 @@ dateCreated: 2026-01-24T00:00:00.000Z
 **Zweck:** Sicherheitskonfiguration für alle Systeme
 
 **Siehe auch:**
-- [iptables](../konzepte/iptables.md) - Chains, Tables, Firewall-Regeln
-- [Ports](../konzepte/ports.md) - Wichtige Netzwerk-Ports
+- [iptables](/en/konzepte/iptables) - Chains, Tables, Firewall-Regeln
+- [Ports](/en/konzepte/ports) - Wichtige Netzwerk-Ports
 
 ---
 
@@ -482,4 +482,4 @@ find / -mtime -1 -type f 2>/dev/null
 
 ---
 
-*Siehe auch: [backup-recovery.md](backup-recovery.md) | [disaster-recovery.md](disaster-recovery.md)*
+*Siehe auch: [Backup & Recovery](/en/operations/backup-recovery) | [Disaster Recovery](/en/operations/disaster-recovery)*

@@ -15,9 +15,9 @@ dateCreated: 2026-01-18T00:00:00.000Z
 **OS:** Debian 13
 
 **Siehe auch:**
-- [Reverse Proxy](../konzepte/reverse-proxy.md) - Forward vs. Reverse Proxy
-- [Ports](../konzepte/ports.md) - Wichtige Netzwerk-Ports
-- [VPN-Typen](../konzepte/vpn.md) - Mesh VPN, WireGuard
+- [Reverse Proxy](/en/konzepte/reverse-proxy) - Forward vs. Reverse Proxy
+- [Ports](/en/konzepte/ports) - Wichtige Netzwerk-Ports
+- [VPN-Typen](/en/konzepte/vpn) - Mesh VPN, WireGuard
 
 ## Übersicht
 
