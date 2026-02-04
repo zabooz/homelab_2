@@ -90,6 +90,14 @@ Master-Referenz für die gesamte Infrastruktur.
                        │  │ │LW   .119  │ │  │
                        │  │ ├───────────┤ │  │
                        │  │ │Ptero .120 │ │  │
+                       │  │ ├───────────┤ │  │
+                       │  │ │WoW  .121  │ │  │
+                       │  │ ├───────────┤ │  │
+                       │  │ │Draw .122  │ │  │
+                       │  │ ├───────────┤ │  │
+                       │  │ │Home .123  │ │  │
+                       │  │ ├───────────┤ │  │
+                       │  │ │Wiki .124  │ │  │
                        │  │ └───────────┘ │  │
                        │  └───────────────┘  │
                        └─────────────────────┘
@@ -112,7 +120,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | **Router** | 192.168.0.1 | - | Gateway | Internet-Gateway (DHCP deaktiviert) |
 | **Proxmox** | 192.168.0.101 | ec:b1:d7:72:c9:d1 | Host | Virtualisierungs-Host |
 | **Windows VM** | 192.168.0.110 | bc:24:11:a9:bf:52 | VM | Windows Server 2025 |
-| **Debian VM** | 192.168.0.111 | bc:24:11:1a:24:3d | VM | Homepage Dashboard |
+| **Debian VM** | 192.168.0.111 | bc:24:11:1a:24:3d | VM | VPS Stats API |
 | **Tailscale LXC** | 192.168.0.112 | bc:24:11:d8:a7:b2 | LXC | VPN Exit-Node/Subnet Router |
 | **FOG Server** | 192.168.0.113 | - | LXC | DHCP Server, PXE/Imaging |
 | **Home Assistant** | 192.168.0.114 | - | LXC/VM | Smart Home Steuerung |
@@ -120,6 +128,10 @@ Master-Referenz für die gesamte Infrastruktur.
 | **Linkwarden** | 192.168.0.119 | - | LXC | Bookmark Manager |
 | **n8n** | 192.168.0.116 | - | LXC | Workflow Automation |
 | **Pterodactyl** | 192.168.0.120 | - | LXC/VM | Gameserver Panel |
+| **AzerothCore** | 192.168.0.121 | - | LXC | WoW Server |
+| **Draw.io** | 192.168.0.122 | - | LXC | Diagramm-Editor |
+| **Homepage** | 192.168.0.123 | - | LXC | Homepage Dashboard |
+| **Wiki.js** | 192.168.0.124 | - | LXC | Wiki + Git Sync |
 
 ### Tailscale VPN (100.64.0.0/10)
 
@@ -174,9 +186,9 @@ Master-Referenz für die gesamte Infrastruktur.
 | Dienst | URL | Host | Port |
 |--------|-----|------|------|
 | Proxmox | https://192.168.0.101:8006 | Proxmox | 8006 |
-| Homepage | http://192.168.0.111 | Debian VM | 80 |
-| Wiki.js | http://192.168.0.111:3000 | Debian VM | 3000 |
-| Draw.io | http://192.168.0.111:8081 | Debian VM | 8081 |
+| Homepage | http://192.168.0.123 | Homepage LXC | 80 |
+| Wiki.js | http://192.168.0.124 | Wiki.js LXC | 80 |
+| Draw.io | http://192.168.0.122 | Draw.io LXC | 80 |
 | FOG Project | http://192.168.0.113/fog/management | FOG LXC | 80 |
 | Home Assistant | http://192.168.0.114:8123 | HA LXC/VM | 8123 |
 | Paperless-ngx | http://192.168.0.115:8000 | Paperless LXC | 8000 |
@@ -190,7 +202,7 @@ Master-Referenz für die gesamte Infrastruktur.
 
 | Name | Auflösung | Zweck |
 |------|-----------|-------|
-| home.lab | 192.168.0.111 | Homepage Dashboard |
+| home.lab | 192.168.0.123 | Homepage Dashboard |
 | vps.lab | 100.64.0.5 | VPS via Tailscale |
 | zabooz.duckdns.org | 100.64.0.5 | VPS (überschreibt Public DNS für VPN-Clients) |
 
@@ -257,7 +269,7 @@ sudo tailscale up --login-server=https://zabooz.duckdns.org --accept-routes --ac
 VPS:         152.53.111.11 / 100.64.0.5
 Proxmox:     192.168.0.101
 Subnet LXC:  192.168.0.112 / 100.64.0.1
-Homepage:    192.168.0.111
+Homepage:    192.168.0.123
 ```
 
 ### Management-URLs

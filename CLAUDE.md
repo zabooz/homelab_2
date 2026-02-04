@@ -13,12 +13,12 @@ homelab_2/
 │   ├── LINUXVM.md                   # Debian VM (192.168.0.111)
 │   └── proxmox-netzwerk-setup.md    # Proxmox Netzwerk-Konfiguration
 ├── services/                        # Service-Dokumentationen
-│   ├── homepage-dashboard-setup.md  # Homepage Dashboard
-│   ├── wikijs-setup.md              # Wiki.js + Git Sync
+│   ├── homepage-dashboard-setup.md  # Homepage Dashboard (192.168.0.123)
+│   ├── wikijs-setup.md              # Wiki.js + Git Sync (192.168.0.124)
 │   ├── stats-api.md                 # Bun Monitoring API
 │   ├── paperless-ngx.md             # Dokumentenverwaltung
 │   ├── fog_project_setup_dokumentation_debian_12_lxc.md  # FOG/PXE/DHCP
-│   ├── drawio-setup.md              # Draw.io auf VPS
+│   ├── drawio-setup.md              # Draw.io (192.168.0.122)
 │   ├── linkwarden-setup.md          # Bookmark Manager
 │   ├── homeassistant-setup.md       # Home Assistant Smart Home
 │   ├── azerothcore-playerbots-setup.md  # WoW Server (AzerothCore)
@@ -57,9 +57,13 @@ homelab_2/
 |------|-----|-------------|----------|
 | VPS | 152.53.111.11 | 100.64.0.5 | Nginx, Headscale, Stream Proxy |
 | Proxmox | 192.168.0.101 | - | Virtualisierung |
-| Debian VM | 192.168.0.111 | - | Homepage, Wiki.js, Draw.io |
+| Debian VM | 192.168.0.111 | - | VPS Stats API |
 | Tailscale LXC | 192.168.0.112 | 100.64.0.1 | Subnet Router, Exit Node |
 | Pterodactyl | 192.168.0.120 | - | Gameserver (Veloren, Xonotic) |
+| AzerothCore | 192.168.0.121 | - | WoW Server |
+| Draw.io LXC | 192.168.0.122 | - | Diagramm-Editor |
+| Homepage LXC | 192.168.0.123 | - | Homepage Dashboard |
+| Wiki.js LXC | 192.168.0.124 | - | Wiki.js + Git Sync |
 
 ## Architektur
 

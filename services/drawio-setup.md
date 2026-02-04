@@ -1,19 +1,18 @@
 ---
 title: Draw.io Setup
-description: Self-hosted Draw.io Diagramm-Editor auf dem VPS
+description: Self-hosted Draw.io Diagramm-Editor (LXC 192.168.0.122)
 published: true
 date: 2026-01-25T23:30:00.000Z
-tags: service, docker, vps, vpn, diagramme, diagrams
+tags: service, docker, lxc, diagramme, diagrams
 editor: markdown
 dateCreated: 2026-01-25T23:30:00.000Z
 ---
 
 # Draw.io Setup
 
-**Host:** VPS (zaboozMegaFescherSuperServer)
-**URL:** https://zabooz.duckdns.org/draw/
-**Zugriff:** Nur VPN (Tailscale)
-**Port (intern):** 127.0.0.1:8081
+**Host:** Draw.io LXC (192.168.0.122)
+**URL:** http://192.168.0.122
+**Port:** 80
 
 **Siehe auch:**
 - [VPS](/en/infrastructure/VPS) - VPS Konfiguration & Services
