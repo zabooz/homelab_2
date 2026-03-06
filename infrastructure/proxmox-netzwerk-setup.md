@@ -1,9 +1,9 @@
 ---
 title: Proxmox Netzwerk-Setup
-description: Statische IP-Konfiguration für Proxmox VMs und LXCs
+description: Statische IP-Konfiguration für den Proxmox Cluster und seine VMs/LXCs
 published: true
-date: 2026-01-19T00:00:00.000Z
-tags: infrastructure, proxmox, netzwerk, network, virtualisierung, virtualization, ip-adressen
+date: 2026-03-06T00:00:00.000Z
+tags: infrastructure, proxmox, netzwerk, network, virtualisierung, virtualization, ip-adressen, cluster
 editor: markdown
 dateCreated: 2026-01-19T00:00:00.000Z
 ---
@@ -18,7 +18,7 @@ dateCreated: 2026-01-19T00:00:00.000Z
 
 ## Übersicht
 
-Anleitung zur Konfiguration statischer IP-Adressen für VMs und LXC-Container in Proxmox VE.
+Anleitung zur Konfiguration statischer IP-Adressen für VMs und LXC-Container im Proxmox Cluster "homelab" (2 Nodes).
 
 **Siehe auch:**
 - [Netzwerk Übersicht](/en/infrastructure/NETWORK_OVERVIEW) - Master-Diagramm und IP-Liste
@@ -29,14 +29,30 @@ Anleitung zur Konfiguration statischer IP-Adressen für VMs und LXC-Container in
 
 ## IP-Adressen
 
+### homeserver (Node 1)
+
 | Gerät | IP-Adresse | Typ | Interface |
 |-------|------------|-----|-----------|
-| Proxmox Host | 192.168.0.101 | Statisch | vmbr0 |
-| Windows Server (VM 100) | 192.168.0.110 | Statisch | Ethernet |
-| Debian Server (VM 101) | 192.168.0.111 | Statisch | ens18 |
+| homeserver (Host) | 192.168.0.101 | Statisch | vmbr0 |
 | Tailscale LXC (CT 102) | 192.168.0.112 | Statisch | eth0 |
 | FOG Server (CT 103) | 192.168.0.113 | Statisch | eth0 |
 | Paperless-ngx (CT 104) | 192.168.0.115 | Statisch | eth0 |
+| Linkwarden (CT 105) | 192.168.0.119 | Statisch | eth0 |
+| Draw.io (CT 107) | 192.168.0.122 | Statisch | eth0 |
+| Homepage (CT 108) | 192.168.0.123 | Statisch | eth0 |
+| Wiki.js (CT 109) | 192.168.0.124 | Statisch | eth0 |
+| Changedetection (CT 110) | 192.168.0.125 | Statisch | eth0 |
+| Gotify (CT 111) | 192.168.0.126 | Statisch | eth0 |
+| Webserver (VM 302) | 192.168.0.128 | Statisch | ens18 |
+| Stirling PDF (CT 114) | 192.168.0.131 | Statisch | eth0 |
+
+### homeserver2 (Node 2)
+
+| Gerät | IP-Adresse | Typ | Interface |
+|-------|------------|-----|-----------|
+| homeserver2 (Host) | 192.168.0.102 | Statisch | vmbr0 |
+| n8n (CT 106) | 192.168.0.116 | Statisch | eth0 |
+| ntopng (CT 115) | 192.168.0.140 | Statisch | eth0 |
 
 **Netzwerk-Parameter:**
 - Gateway: 192.168.0.1
@@ -270,4 +286,4 @@ Alle Pings sollten erfolgreich sein mit < 1ms im lokalen Netz.
 
 ---
 
-*Letzte Aktualisierung: Januar 2026*
+*Letzte Aktualisierung: März 2026*

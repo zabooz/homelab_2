@@ -85,7 +85,7 @@ Gameserver-Traffic wird über Nginx Stream Proxy direkt an den Pterodactyl-Host 
 
 Headscale stellt MagicDNS mit der Basis-Domain `headnet.com` bereit. VPN-Clients können auflösen:
 - `<hostname>.headnet.com` → Tailscale IP des Nodes
-- `home.lab` → 192.168.0.111 (Homepage Dashboard)
+- `home.lab` → 192.168.0.123 (Homepage Dashboard)
 - `vps.lab` → 100.64.0.5 (VPS via Tailscale)
 - `zabooz.duckdns.org` → 100.64.0.5 (VPS via Tailscale, für VPN-only Services)
 
@@ -143,7 +143,7 @@ dns:
   extra_records:
     - name: "home.lab"
       type: "A"
-      value: "192.168.0.111"
+      value: "192.168.0.123"
     - name: "vps.lab"
       type: "A"
       value: "100.64.0.5"
@@ -170,6 +170,15 @@ Let's Encrypt Zertifikat für `zabooz.duckdns.org`:
 - Zertifikat: `/etc/letsencrypt/live/zabooz.duckdns.org/fullchain.pem`
 - Schlüssel: `/etc/letsencrypt/live/zabooz.duckdns.org/privkey.pem`
 - Automatische Erneuerung via certbot
+
+## Cronjobs
+
+```bash
+# Headscale Route-Fix: Re-approved stündlich wegen Bug in v0.27.x
+# Route-Serving-State geht ohne Grund verloren (nur im Speicher gehalten)
+# Siehe: vpn/vpn-troubleshooting.md → "Subnet Route nicht aktiv"
+0 * * * * docker exec headscale headscale nodes approve-routes -i 1 -r 192.168.0.0/24 2>&1 | logger -t headscale-route-fix
+```
 
 ## Wartungs-Befehle
 
@@ -231,4 +240,4 @@ sudo tail -f /var/log/nginx/error.log
 
 ---
 
-*Letzte Aktualisierung: 1. Februar 2026*
+*Letzte Aktualisierung: 6. März 2026*

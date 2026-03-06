@@ -10,7 +10,6 @@ homelab_2/
 ├── infrastructure/                  # Server & Netzwerk Infrastruktur
 │   ├── NETWORK_OVERVIEW.md          # Master-Referenz: IPs, Dienste, Topologie
 │   ├── VPS.md                       # VPS: Nginx, Headscale, Stream Proxy
-│   ├── LINUXVM.md                   # Debian VM (192.168.0.111)
 │   └── proxmox-netzwerk-setup.md    # Proxmox Netzwerk-Konfiguration
 ├── services/                        # Service-Dokumentationen
 │   ├── homepage-dashboard-setup.md  # Homepage Dashboard (192.168.0.123)
@@ -23,9 +22,15 @@ homelab_2/
 │   ├── homeassistant-setup.md       # Home Assistant Smart Home
 │   ├── azerothcore-playerbots-setup.md  # WoW Server (AzerothCore)
 │   ├── pterodactyl-setup.md         # Gameserver Panel + Wings
-│   └── n8n-setup.md                     # n8n Workflow Automation (192.168.0.116)
-├── workflows/                           # n8n Workflow-Dokumentationen
-│   └── vm-image-update.md               # VM Image Update Workflow (FOG + Proxmox)
+│   ├── n8n-setup.md                 # n8n Workflow Automation (192.168.0.116)
+│   ├── changedetection-setup.md     # Website-Monitoring (192.168.0.125)
+│   ├── gotify-setup.md              # Push-Benachrichtigungen (192.168.0.126)
+│   ├── sterlingpdf-setup.md         # PDF-Tools (192.168.0.131)
+│   ├── ntopng-setup.md              # Netzwerk-Monitoring (192.168.0.140)
+│   ├── crawler4ai-setup.md          # Web Scraping
+│   └── node-red-setup.md            # Flow-basierte Automation
+├── workflows/                       # n8n Workflow-Dokumentationen
+│   └── vm-image-update.md           # VM Image Update Workflow (FOG + Proxmox)
 ├── vpn/                             # VPN Dokumentation
 │   ├── vpn-infrastructure.md        # Headscale Server Setup
 │   ├── vpn-client-guide.md          # Client Verbindungsanleitung
@@ -56,22 +61,23 @@ homelab_2/
 | Host | IP | Tailscale IP | Funktion |
 |------|-----|-------------|----------|
 | VPS | 152.53.111.11 | 100.64.0.5 | Nginx, Headscale, Stream Proxy |
-| Proxmox | 192.168.0.101 | - | Virtualisierung |
-| Debian VM | 192.168.0.111 | - | VPS Stats API |
+| homeserver | 192.168.0.101 | - | Proxmox Node 1 (i5-6500T, 32GB, 2TB SSD) |
+| homeserver2 | 192.168.0.102 | - | Proxmox Node 2 (i3-8100, 32GB, NVMe+SSD) |
 | Tailscale LXC | 192.168.0.112 | 100.64.0.1 | Subnet Router, Exit Node |
-| Pterodactyl | 192.168.0.120 | - | Gameserver (Veloren, Xonotic) |
-| AzerothCore | 192.168.0.121 | - | WoW Server |
 | Draw.io LXC | 192.168.0.122 | - | Diagramm-Editor |
 | Homepage LXC | 192.168.0.123 | - | Homepage Dashboard |
 | Wiki.js LXC | 192.168.0.124 | - | Wiki.js + Git Sync |
+| n8n LXC | 192.168.0.116 | - | Workflow Automation |
+| ntopng LXC | 192.168.0.140 | - | Netzwerk-Monitoring |
 
 ## Architektur
 
-- **VPS** läuft Nginx als HTTP Reverse Proxy (Port 443) und Stream Proxy (Ports 14004, 14005)
+- **Proxmox Cluster "homelab"** mit 2 Nodes: homeserver (.101) + homeserver2 (.102)
+- **VPS** läuft Nginx als HTTP Reverse Proxy (Port 443)
 - **Headscale** (selbst-gehostetes Tailscale) verbindet VPS mit Heimnetz
 - **Tailscale LXC** (100.64.0.1) ist Subnet Router für 192.168.0.0/24
-- Gameserver-Traffic: Internet → VPS:14004/14005 → Tailscale → 192.168.0.120
-- VPN-only Services (Vaultwarden, SearXNG, Draw.io): nur über Tailscale erreichbar
+- **homeserver2** hostet FOG Master-Images (VMs 500-509) für OS-Deployment
+- VPN-only Services (Vaultwarden, SearXNG): nur über Tailscale erreichbar
 
 ## Konventionen
 

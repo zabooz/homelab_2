@@ -20,8 +20,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 |----------|--------------|
 | [Netzwerk Übersicht](/en/infrastructure/NETWORK_OVERVIEW) | Master-Diagramm, IP-Liste, Quick Reference |
 | [VPS](/en/infrastructure/VPS) | VPS Konfiguration & Services |
-| [Proxmox Netzwerk Setup](/en/infrastructure/proxmox-netzwerk-setup) | Proxmox Virtualisierung Netzwerk |
-| [Linux VM Overview](/en/infrastructure/LINUXVM) | Zentrale Debian VM & Services |
+| [Proxmox Netzwerk Setup](/en/infrastructure/proxmox-netzwerk-setup) | Proxmox Cluster Netzwerk |
 
 ---
 
@@ -58,9 +57,15 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [FOG Project](/en/services/fog_project_setup_dokumentation_debian_12_lxc) | DHCP Server, PXE Boot, Imaging |
 | [Linkwarden](/en/services/linkwarden-setup) | Bookmark Manager (192.168.0.119) |
 | [Draw.io](/en/services/drawio-setup) | Diagramm-Editor (192.168.0.122) |
-| [Home Assistant](/en/services/homeassistant-setup) | Smart Home Steuerung (192.168.0.114) |
-| [Pterodactyl](/en/services/pterodactyl-setup) | Gameserver Panel (192.168.0.120, Public via VPS) |
+| [Home Assistant](/en/services/homeassistant-setup) | Smart Home Steuerung (gestoppt) |
+| [Pterodactyl](/en/services/pterodactyl-setup) | Gameserver Panel (gestoppt) |
 | [n8n Automation](/en/services/n8n-setup) | Workflow-Automation (192.168.0.116) |
+| [Changedetection](/en/services/changedetection-setup) | Website-Monitoring (192.168.0.125) |
+| [Gotify](/en/services/gotify-setup) | Push-Benachrichtigungen (192.168.0.126) |
+| [Stirling PDF](/en/services/sterlingpdf-setup) | PDF-Tools (192.168.0.131) |
+| [ntopng](/en/services/ntopng-setup) | Netzwerk-Monitoring (192.168.0.140) |
+| [Crawler4AI](/en/services/crawler4ai-setup) | AI Web Scraping (gestoppt) |
+| [Node-RED](/en/services/node-red-setup) | Flow-basierte Automation (gestoppt) |
 ---
 
 ## Workflows

@@ -353,4 +353,63 @@ ip addr show tailscale0    # Interface Details
 
 ---
 
-*Letzte Aktualisierung: Januar 2026*
+## Problem: Subnet Route nicht aktiv (Approved aber nicht Serving)
+
+### Symptome
+
+```bash
+ping 100.64.0.1   # Tailscale LXC   - SUCCESS
+ping 192.168.0.101 # Proxmox         - FAILED
+```
+
+Tailscale-Nodes sind erreichbar, aber 192.168.0.0/24 nicht. Auf dem VPS:
+
+```bash
+docker exec headscale headscale nodes list-routes
+# Approved: 192.168.0.0/24  |  Serving (Primary): LEER!
+```
+
+Route ist genehmigt und verfügbar, wird aber **nicht served**.
+
+### Ursache
+
+**Bekannter Headscale Bug (v0.27.x):** Route-Internals wurden umgeschrieben, Route-State wird nur noch im Speicher gehalten statt in der Datenbank. Der "Serving"-Status kann ohne Neustart oder ersichtlichen Grund verloren gehen.
+
+Siehe: [GitHub Issue #3020](https://github.com/juanfont/headscale/issues/3020)
+
+### Lösung
+
+Route auf dem VPS neu genehmigen:
+
+```bash
+docker exec headscale headscale nodes approve-routes -i 1 -r 192.168.0.0/24
+```
+
+Verifizieren:
+
+```bash
+docker exec headscale headscale nodes list-routes
+# Serving (Primary) sollte jetzt 192.168.0.0/24 zeigen
+```
+
+### Workaround: Cronjob
+
+Da der Bug jederzeit wieder auftreten kann, stündlich automatisch re-approven:
+
+```bash
+# crontab -e (auf VPS)
+0 * * * * docker exec headscale headscale nodes approve-routes -i 1 -r 192.168.0.0/24 2>&1 | logger -t headscale-route-fix
+```
+
+### Prävention
+
+Sicherstellen dass die Tailscale LXC die Route dauerhaft advertised:
+
+```bash
+# Auf der Tailscale LXC
+sudo tailscale set --advertise-routes=192.168.0.0/24 --advertise-exit-node
+```
+
+---
+
+*Letzte Aktualisierung: Februar 2026*
