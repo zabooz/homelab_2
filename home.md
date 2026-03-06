@@ -66,6 +66,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [ntopng](/en/services/ntopng-setup) | Netzwerk-Monitoring (192.168.0.140) |
 | [Crawler4AI](/en/services/crawler4ai-setup) | AI Web Scraping (gestoppt) |
 | [Node-RED](/en/services/node-red-setup) | Flow-basierte Automation (gestoppt) |
+| [Immich](/en/services/immich-setup) | Google Photos Alternative (192.168.0.144) |
 ---
 
 ## Workflows

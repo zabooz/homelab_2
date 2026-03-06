@@ -89,6 +89,7 @@ Master-Referenz für die gesamte Infrastruktur.
               │  │      changedetection .125        │  │
               │  │      gotify .126                 │  │
               │  │      sterlingPdf .131            │  │
+              │  │      immich .144                 │  │
               │  │ VM:  webserver .128              │  │
               │  └──────────────────────────────────┘  │
               │                                        │
@@ -128,6 +129,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | 110 | **[Changedetection](/en/services/changedetection-setup)** | 192.168.0.125 | LXC | Website-Monitoring |
 | 111 | **[Gotify](/en/services/gotify-setup)** | 192.168.0.126 | LXC | Push-Benachrichtigungen |
 | 114 | **[Stirling PDF](/en/services/sterlingpdf-setup)** | 192.168.0.131 | LXC | PDF-Tools |
+| 116 | **[Immich](/en/services/immich-setup)** | 192.168.0.144 | LXC | Google Photos Alternative |
 | 302 | **Webserver** | 192.168.0.128 | VM | Nginx Webserver |
 | 100 | **Debian** | - | VM | Gestoppt |
 | 101 | **Win2025** | - | VM | Windows Server 2025, gestoppt |
@@ -209,6 +211,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | Gotify | http://192.168.0.126:80 | Gotify LXC | homeserver |
 | Stirling PDF | http://192.168.0.131:8080 | SterlingPdf LXC | homeserver |
 | Webserver | http://192.168.0.128 | Webserver VM | homeserver |
+| Immich | http://192.168.0.144:2283 | Immich LXC | homeserver |
 | n8n | http://192.168.0.116:5678 | n8n LXC | homeserver2 |
 | ntopng | http://192.168.0.140:3000 | ntopng LXC | homeserver2 |
 
