@@ -26,7 +26,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | **IP** | 192.168.0.101 | 192.168.0.102 |
 | **CPU** | Intel i5-6500T @ 2.50GHz (4C) | Intel i3-8100 @ 3.60GHz (4C) |
 | **RAM** | 32 GB | 32 GB |
-| **Storage** | 2TB Samsung 850 PRO (SSD) | 256GB NVMe (System) + 500GB SanDisk SSD |
+| **Storage** | 2TB Samsung 850 PRO (SSD) | 256GB NVMe (System) + 500GB SanDisk SSD (~700GB gesamt) |
 | **Boot** | EFI | Legacy BIOS |
 | **Proxmox** | pve-manager 9.1.5 | pve-manager 9.1.5 |
 | **Kernel** | Linux 6.17.9-1-pve | Linux 6.17.9-1-pve |
@@ -118,21 +118,21 @@ Master-Referenz für die gesamte Infrastruktur.
 | VMID | Gerät | IP | Typ | Funktion |
 |------|-------|-----|-----|----------|
 | - | **homeserver** | 192.168.0.101 | Host | Proxmox Node 1 |
-| 102 | **Tailscale** | 192.168.0.112 | LXC | VPN Exit-Node/Subnet Router (100.64.0.1) |
-| 103 | **FOG Server** | 192.168.0.113 | LXC | DHCP Server, PXE/Imaging |
-| 104 | **Paperless-ngx** | 192.168.0.115 | LXC | Dokumentenverwaltung |
-| 105 | **Linkwarden** | 192.168.0.119 | LXC | Bookmark Manager |
-| 107 | **Draw.io** | 192.168.0.122 | LXC | Diagramm-Editor |
-| 108 | **Homepage** | 192.168.0.123 | LXC | Homepage Dashboard |
-| 109 | **Wiki.js** | 192.168.0.124 | LXC | Wiki + Git Sync |
-| 110 | **Changedetection** | 192.168.0.125 | LXC | Website-Monitoring |
-| 111 | **Gotify** | 192.168.0.126 | LXC | Push-Benachrichtigungen |
-| 114 | **Stirling PDF** | 192.168.0.131 | LXC | PDF-Tools |
+| 102 | **[Tailscale](/en/vpn/vpn-infrastructure)** | 192.168.0.112 | LXC | VPN Exit-Node/Subnet Router (100.64.0.1) |
+| 103 | **[FOG Server](/en/services/fog_project_setup_dokumentation_debian_12_lxc)** | 192.168.0.113 | LXC | DHCP Server, PXE/Imaging |
+| 104 | **[Paperless-ngx](/en/services/paperless-ngx)** | 192.168.0.115 | LXC | Dokumentenverwaltung |
+| 105 | **[Linkwarden](/en/services/linkwarden-setup)** | 192.168.0.119 | LXC | Bookmark Manager |
+| 107 | **[Draw.io](/en/services/drawio-setup)** | 192.168.0.122 | LXC | Diagramm-Editor |
+| 108 | **[Homepage](/en/services/homepage-dashboard-setup)** | 192.168.0.123 | LXC | Homepage Dashboard |
+| 109 | **[Wiki.js](/en/services/wikijs-setup)** | 192.168.0.124 | LXC | Wiki + Git Sync |
+| 110 | **[Changedetection](/en/services/changedetection-setup)** | 192.168.0.125 | LXC | Website-Monitoring |
+| 111 | **[Gotify](/en/services/gotify-setup)** | 192.168.0.126 | LXC | Push-Benachrichtigungen |
+| 114 | **[Stirling PDF](/en/services/sterlingpdf-setup)** | 192.168.0.131 | LXC | PDF-Tools |
 | 302 | **Webserver** | 192.168.0.128 | VM | Nginx Webserver |
 | 100 | **Debian** | - | VM | Gestoppt |
 | 101 | **Win2025** | - | VM | Windows Server 2025, gestoppt |
-| 300 | **Pterodactyl** | - | VM | Gameserver Panel, gestoppt |
-| 305 | **Home Assistant** | - | VM | Smart Home, gestoppt |
+| 300 | **[Pterodactyl](/en/services/pterodactyl-setup)** | - | VM | Gameserver Panel, gestoppt |
+| 305 | **[Home Assistant](/en/services/homeassistant-setup)** | - | VM | Smart Home, gestoppt |
 | 800 | **Win11-Client** | - | VM | Windows 11 Client, gestoppt |
 
 ### homeserver2 (192.168.0.102)
@@ -140,11 +140,11 @@ Master-Referenz für die gesamte Infrastruktur.
 | VMID | Gerät | IP | Typ | Funktion |
 |------|-------|-----|-----|----------|
 | - | **homeserver2** | 192.168.0.102 | Host | Proxmox Node 2 |
-| 106 | **n8n** | 192.168.0.116 | LXC | Workflow Automation |
-| 115 | **ntopng** | 192.168.0.140 | LXC | Netzwerk-Monitoring |
-| 112 | **Crawler4AI** | - | LXC | Web Scraping, gestoppt |
-| 113 | **Node-RED** | - | LXC | Flow Automation, gestoppt |
-| 301 | **WoW Server** | - | LXC | AzerothCore, gestoppt |
+| 106 | **[n8n](/en/services/n8n-setup)** | 192.168.0.116 | LXC | Workflow Automation |
+| 115 | **[ntopng](/en/services/ntopng-setup)** | 192.168.0.140 | LXC | Netzwerk-Monitoring |
+| 112 | **[Crawler4AI](/en/services/crawler4ai-setup)** | - | LXC | Web Scraping, gestoppt |
+| 113 | **[Node-RED](/en/services/node-red-setup)** | - | LXC | Flow Automation, gestoppt |
+| 301 | **[WoW Server](/en/services/azerothcore-playerbots-setup)** | - | LXC | AzerothCore, gestoppt |
 | 500-509 | **Master-Images** | - | VM | FOG OS-Images (CachyOS, Ubuntu, Fedora, Mint, Debian, Win11, Parrot, NixOS) |
 
 ### Tailscale VPN (100.64.0.0/10)
