@@ -132,6 +132,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | 114 | **[Stirling PDF](/en/services/sterlingpdf-setup)** | 192.168.0.131 | LXC | PDF-Tools |
 | 116 | **[Immich](/en/services/immich-setup)** | 192.168.0.144 | LXC | Google Photos Alternative |
 | - | **[AdGuard Home](/en/services/adguard-setup)** | 192.168.0.137 | LXC | DNS-Werbeblocker |
+| - | **[Dolibarr ERP](/en/services/dolibarr-setup)** | 192.168.0.149 | LXC | ERP/CRM, Rechnungen |
 | 302 | **Webserver** | 192.168.0.128 | VM | Nginx Webserver |
 | 100 | **Debian** | - | VM | Gestoppt |
 | 101 | **Win2025** | - | VM | Windows Server 2025, gestoppt |
@@ -227,6 +228,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | Immich | http://192.168.0.144:2283 | Immich LXC | homeserver |
 | AdGuard Home | http://192.168.0.137 | AdGuard LXC | homeserver |
 | n8n | http://192.168.0.116 | n8n LXC | homeserver2 |
+| Dolibarr ERP | http://192.168.0.149 | Dolibarr LXC | homeserver |
 | ntopng | http://192.168.0.140:3000 | ntopng LXC | homeserver2 |
 
 ### MagicDNS (über Tailscale)

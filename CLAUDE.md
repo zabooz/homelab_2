@@ -32,7 +32,8 @@ homelab_2/
 │   ├── immich-setup.md              # Google Photos Alternative (192.168.0.144)
 │   ├── adguard-setup.md             # DNS-Werbeblocker (192.168.0.137)
 │   ├── matrix-setup.md              # Matrix Synapse + Element (VPS)
-│   └── bookstack-setup.md           # BookStack Wiki (VPS)
+│   ├── bookstack-setup.md           # BookStack Wiki (VPS)
+│   └── dolibarr-setup.md            # ERP/CRM Rechnungen (192.168.0.149)
 ├── workflows/                       # n8n Workflow-Dokumentationen
 │   └── vm-image-update.md           # VM Image Update Workflow (FOG + Proxmox)
 ├── vpn/                             # VPN Dokumentation

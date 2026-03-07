@@ -71,6 +71,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [AdGuard Home](/en/services/adguard-setup) | DNS-Werbeblocker (192.168.0.137) |
 | [Matrix Synapse](/en/services/matrix-setup) | Chat-Server mit Element Web (VPS) |
 | [BookStack](/en/services/bookstack-setup) | Wiki fuer Schule (VPS) |
+| [Dolibarr ERP](/en/services/dolibarr-setup) | ERP/CRM - Rechnungen, Inventar (192.168.0.149) |
 ---
 
 ## Workflows
