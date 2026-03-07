@@ -62,23 +62,21 @@ cd /opt/n8n
 **Datei:** `/opt/n8n/docker-compose.yml`
 
 ```yaml
-version: '3.8'
-
 services:
   n8n:
-    image: n8nio/n8n:latest
-    container_name: n8n
-    restart: unless-stopped
+    image: docker.n8n.io/n8nio/n8n
+    restart: always
     ports:
-      - "5678:5678"
+      - "80:5678"
     environment:
       - N8N_HOST=192.168.0.116
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
-      - WEBHOOK_URL=http://192.168.0.116:5678/
       - GENERIC_TIMEZONE=Europe/Vienna
+      - N8N_SECURE_COOKIE=false
     volumes:
       - n8n_data:/home/node/.n8n
+      - ./local-files:/files
 
 volumes:
   n8n_data:
@@ -97,13 +95,13 @@ docker compose up -d
 
 ### Web-Interface
 
-- **URL:** http://192.168.0.116:5678
+- **URL:** http://192.168.0.116
 - **Zugriff:** Lokal im Heimnetz (192.168.0.0/24)
 - **VPN-Zugriff:** Über Tailscale VPN möglich
 
 ### Erster Login
 
-1. Browser öffnen: `http://192.168.0.116:5678`
+1. Browser öffnen: `http://192.168.0.116`
 2. Account erstellen (beim ersten Start)
 3. E-Mail und Passwort festlegen
 

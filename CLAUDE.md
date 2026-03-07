@@ -29,7 +29,8 @@ homelab_2/
 │   ├── ntopng-setup.md              # Netzwerk-Monitoring (192.168.0.140)
 │   ├── crawler4ai-setup.md          # Web Scraping
 │   ├── node-red-setup.md            # Flow-basierte Automation
-│   └── immich-setup.md              # Google Photos Alternative (192.168.0.144)
+│   ├── immich-setup.md              # Google Photos Alternative (192.168.0.144)
+│   └── adguard-setup.md             # DNS-Werbeblocker (192.168.0.137)
 ├── workflows/                       # n8n Workflow-Dokumentationen
 │   └── vm-image-update.md           # VM Image Update Workflow (FOG + Proxmox)
 ├── vpn/                             # VPN Dokumentation

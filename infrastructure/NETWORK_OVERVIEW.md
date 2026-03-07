@@ -89,6 +89,7 @@ Master-Referenz für die gesamte Infrastruktur.
               │  │      changedetection .125        │  │
               │  │      gotify .126                 │  │
               │  │      sterlingPdf .131            │  │
+              │  │      adguard .137                │  │
               │  │      immich .144                 │  │
               │  │ VM:  webserver .128              │  │
               │  └──────────────────────────────────┘  │
@@ -130,6 +131,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | 111 | **[Gotify](/en/services/gotify-setup)** | 192.168.0.126 | LXC | Push-Benachrichtigungen |
 | 114 | **[Stirling PDF](/en/services/sterlingpdf-setup)** | 192.168.0.131 | LXC | PDF-Tools |
 | 116 | **[Immich](/en/services/immich-setup)** | 192.168.0.144 | LXC | Google Photos Alternative |
+| - | **[AdGuard Home](/en/services/adguard-setup)** | 192.168.0.137 | LXC | DNS-Werbeblocker |
 | 302 | **Webserver** | 192.168.0.128 | VM | Nginx Webserver |
 | 100 | **Debian** | - | VM | Gestoppt |
 | 101 | **Win2025** | - | VM | Windows Server 2025, gestoppt |
@@ -187,7 +189,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | **Router DHCP** | Deaktiviert |
 | **DHCP Range** | 192.168.0.200 - 192.168.0.250 |
 | **Gateway** | 192.168.0.1 |
-| **DNS** | 192.168.0.1 (Router) |
+| **DNS** | 192.168.0.137 (AdGuard Home) |
 
 > **Wichtig:** Router-DHCP ist deaktiviert. FOG übernimmt DHCP für das gesamte Netzwerk inkl. PXE Boot.
 
@@ -221,7 +223,8 @@ Master-Referenz für die gesamte Infrastruktur.
 | Stirling PDF | http://192.168.0.131:8080 | SterlingPdf LXC | homeserver |
 | Webserver | http://192.168.0.128 | Webserver VM | homeserver |
 | Immich | http://192.168.0.144:2283 | Immich LXC | homeserver |
-| n8n | http://192.168.0.116:5678 | n8n LXC | homeserver2 |
+| AdGuard Home | http://192.168.0.137 | AdGuard LXC | homeserver |
+| n8n | http://192.168.0.116 | n8n LXC | homeserver2 |
 | ntopng | http://192.168.0.140:3000 | ntopng LXC | homeserver2 |
 
 ### MagicDNS (über Tailscale)
@@ -243,8 +246,8 @@ Master-Referenz für die gesamte Infrastruktur.
 | **Netzwerk** | 192.168.0.0/24 |
 | **Subnetzmaske** | 255.255.255.0 |
 | **Gateway** | 192.168.0.1 |
-| **DNS (primär)** | 192.168.0.1 |
-| **DNS (sekundär)** | 8.8.8.8 |
+| **DNS (primär)** | 192.168.0.137 (AdGuard Home) |
+| **DNS (sekundär)** | 192.168.0.1 |
 | **Tailscale-Netz** | 100.64.0.0/10 |
 
 ---
