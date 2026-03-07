@@ -21,8 +21,8 @@ AdGuard Home ist ein netzwerkweiter Werbeblocker und DNS-Server. Alle Geräte im
 | **Host** | LXC Container (Proxmox) |
 | **IP** | 192.168.0.137 |
 | **OS** | Debian |
-| **RAM** | 256 MB |
-| **CPU** | 1 Core |
+| **RAM** | 512 MB |
+| **CPU** | 2 Cores |
 | **Disk** | 4 GB |
 
 ---
@@ -34,8 +34,8 @@ AdGuard Home ist ein netzwerkweiter Werbeblocker und DNS-Server. Alle Geräte im
 ```bash
 pct create <CTID> local:vztmpl/debian-13-standard_13.0-1_amd64.tar.zst \
   --hostname adguard \
-  --memory 256 \
-  --cores 1 \
+  --memory 512 \
+  --cores 2 \
   --rootfs local-lvm:4 \
   --net0 name=eth0,bridge=vmbr0,ip=192.168.0.137/24,gw=192.168.0.1 \
   --features nesting=1
