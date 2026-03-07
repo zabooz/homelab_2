@@ -149,6 +149,14 @@ Master-Referenz für die gesamte Infrastruktur.
 | 301 | **[WoW Server](/en/services/azerothcore-playerbots-setup)** | - | LXC | AzerothCore, gestoppt |
 | 500-509 | **Master-Images** | - | VM | FOG OS-Images (CachyOS, Ubuntu, Fedora, Mint, Debian, Win11, Parrot, NixOS) |
 
+### Clients & Workstations
+
+| Gerät | IP | Tailscale IP | OS | Funktion |
+|-------|-----|-------------|-----|----------|
+| **[Halo Strixx](/en/infrastructure/halo-strixx)** | 192.168.0.103 | 100.64.0.9 | CachyOS | AI Workstation (Strix Halo) |
+| **maschinchen** | DHCP | 100.64.0.2 | - | Laptop |
+| **zabooz-phone** | DHCP | 100.64.0.4 | - | Handy |
+
 ### Tailscale VPN (100.64.0.0/10)
 
 | Hostname | Tailscale IP | User | Rolle |
@@ -158,6 +166,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | jules | 100.64.0.3 | jules | Client |
 | zabooz-phone | 100.64.0.4 | zabooz | Handy |
 | zaboozmegafeschersuperserver | 100.64.0.5 | zabooz | VPS |
+| halo-strixx | 100.64.0.9 | zabooz | AI Workstation |
 
 ---
 
@@ -302,4 +311,4 @@ Homepage:    http://home.lab  (über VPN)
 
 ---
 
-*Letzte Aktualisierung: 6. März 2026*
+*Letzte Aktualisierung: 7. März 2026*
