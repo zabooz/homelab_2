@@ -39,8 +39,10 @@ Dieser Server betreibt mehrere Dienste hinter einem Nginx Reverse Proxy. Headsca
  ┌──────────────┐                   │   │  /web      → Headscale UI(:8080)│   │
  │ VPN Clients  │                   │   │  /searx/   → SearXNG (:8888)    │   │
  │ (Tailscale)  │───────────────────┤   │  /vault/   → Vaultwarden (:8000)│   │
- │ 100.64.0.0/10│                   │   │  /draw/    → Draw.io (:8081)    │   │
- └──────────────┘                   │   │             (Nur VPN!)          │   │
+ │ 100.64.0.0/10│                   │   │  /chat/    → Element (:8010)    │   │
+ └──────────────┘                   │   │  /_matrix/ → Synapse (:8008)    │   │
+                                    │   │  /wiki/    → BookStack (:9000)  │   │
+                                    │   │             (Nur VPN!)          │   │
                                     │   └─────────────────────────────────┘   │
                                     │                                         │
                                     └─────────────────────────────────────────┘
@@ -57,6 +59,9 @@ Dieser Server betreibt mehrere Dienste hinter einem Nginx Reverse Proxy. Headsca
 | SearXNG | https://zabooz.duckdns.org/searx/ | **Nur VPN** | 127.0.0.1:8888 |
 | Vaultwarden | https://zabooz.duckdns.org/vault/ | **Nur VPN** | 127.0.0.1:8000 |
 | Draw.io | https://zabooz.duckdns.org/draw/ | **Nur VPN** | 127.0.0.1:8081 |
+| Matrix Synapse | https://zabooz.duckdns.org/_matrix/ | **Nur VPN** | 127.0.0.1:8008 |
+| Element Web | https://zabooz.duckdns.org/chat/ | **Nur VPN** | 127.0.0.1:8010 |
+| BookStack | https://zabooz.duckdns.org/wiki/ | Oeffentlich | 127.0.0.1:9000 |
 
 ### TCP/UDP Stream Proxy (Nginx → Heimnetz via Tailscale)
 

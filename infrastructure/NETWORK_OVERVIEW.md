@@ -113,7 +113,7 @@ Master-Referenz für die gesamte Infrastruktur.
 
 | Hostname | Public IP | Tailscale IP | Dienste |
 |----------|-----------|--------------|---------|
-| zaboozMegaFescherSuperServer | 152.53.111.11 | 100.64.0.5 | Headscale, Vaultwarden, SearXNG |
+| zaboozMegaFescherSuperServer | 152.53.111.11 | 100.64.0.5 | Headscale, Vaultwarden, SearXNG, Matrix, BookStack |
 
 ### homeserver (192.168.0.101)
 
@@ -205,6 +205,8 @@ Master-Referenz für die gesamte Infrastruktur.
 | Headscale UI | https://zabooz.duckdns.org/web/ | 8080 | **VPN only** |
 | SearXNG | https://zabooz.duckdns.org/searx/ | 8888 | **VPN only** |
 | Vaultwarden | https://zabooz.duckdns.org/vault/ | 8000 | **VPN only** |
+| Matrix/Element | https://zabooz.duckdns.org/chat/ | 8010 | **VPN only** |
+| BookStack | https://zabooz.duckdns.org/wiki/ | 9000 | Public |
 
 ### Heimnetz-Dienste
 

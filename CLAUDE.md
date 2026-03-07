@@ -30,7 +30,9 @@ homelab_2/
 │   ├── crawler4ai-setup.md          # Web Scraping
 │   ├── node-red-setup.md            # Flow-basierte Automation
 │   ├── immich-setup.md              # Google Photos Alternative (192.168.0.144)
-│   └── adguard-setup.md             # DNS-Werbeblocker (192.168.0.137)
+│   ├── adguard-setup.md             # DNS-Werbeblocker (192.168.0.137)
+│   ├── matrix-setup.md              # Matrix Synapse + Element (VPS)
+│   └── bookstack-setup.md           # BookStack Wiki (VPS)
 ├── workflows/                       # n8n Workflow-Dokumentationen
 │   └── vm-image-update.md           # VM Image Update Workflow (FOG + Proxmox)
 ├── vpn/                             # VPN Dokumentation

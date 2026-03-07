@@ -69,6 +69,8 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [Node-RED](/en/services/node-red-setup) | Flow-basierte Automation (gestoppt) |
 | [Immich](/en/services/immich-setup) | Google Photos Alternative (192.168.0.144) |
 | [AdGuard Home](/en/services/adguard-setup) | DNS-Werbeblocker (192.168.0.137) |
+| [Matrix Synapse](/en/services/matrix-setup) | Chat-Server mit Element Web (VPS) |
+| [BookStack](/en/services/bookstack-setup) | Wiki fuer Schule (VPS) |
 ---
 
 ## Workflows
