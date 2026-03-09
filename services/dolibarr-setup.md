@@ -19,11 +19,13 @@ Dolibarr ist ein Open-Source ERP/CRM-System fuer das IT-Gewerbe. Verwaltet Rechn
 | Parameter | Wert |
 |-----------|------|
 | **Host** | LXC Container (Proxmox) |
+| **CT ID** | 118 |
+| **Node** | homeserver2 |
 | **IP** | 192.168.0.149 |
 | **OS** | Debian |
-| **RAM** | 1024 MB |
+| **RAM** | 4196 MB |
 | **CPU** | 2 Cores |
-| **Disk** | 20 GB |
+| **Disk** | 25 GB |
 | **Web UI** | http://192.168.0.149 |
 
 ---

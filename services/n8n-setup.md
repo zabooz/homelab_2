@@ -24,9 +24,9 @@ n8n ist ein selbst-gehosteter Workflow-Automation-Server, der verschiedene IT-Pr
 | **IP** | 192.168.0.116 |
 | **OS** | Debian 13 |
 | **Hostname** | n8n-automation |
-| **RAM** | 2048 MB |
-| **CPU** | 2 Cores |
-| **Disk** | 20 GB |
+| **RAM** | 512 MB |
+| **CPU** | 1 Core |
+| **Disk** | 8 GB |
 
 ### Docker Installation
 

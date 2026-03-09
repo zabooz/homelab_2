@@ -10,7 +10,7 @@ dateCreated: 2026-02-01T15:00:00.000Z
 
 # Pterodactyl Setup
 
-**Host:** gameserver (LXC/VM auf Proxmox)
+**Host:** VM 300 auf homeserver
 **IP:** 192.168.0.120
 **Panel URL:** http://192.168.0.120
 **Wings API:** http://192.168.0.120:8080

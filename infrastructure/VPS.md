@@ -21,7 +21,7 @@ dateCreated: 2026-01-18T00:00:00.000Z
 
 ## Übersicht
 
-Dieser Server betreibt mehrere Dienste hinter einem Nginx Reverse Proxy. Headscale stellt ein selbst-gehostetes Tailscale VPN bereit. Vaultwarden (Passwort-Manager) ist nur über VPN erreichbar, während andere Dienste öffentlich zugänglich sind.
+Dieser Server betreibt mehrere Dienste hinter einem Nginx Reverse Proxy. Headscale stellt ein selbst-gehostetes Tailscale VPN bereit. Headscale UI und Matrix/Element sind nur über VPN erreichbar, andere Dienste sind öffentlich zugänglich.
 
 ## Netzwerk-Architektur
 
@@ -42,7 +42,7 @@ Dieser Server betreibt mehrere Dienste hinter einem Nginx Reverse Proxy. Headsca
  │ 100.64.0.0/10│                   │   │  /chat/    → Element (:8010)    │   │
  └──────────────┘                   │   │  /_matrix/ → Synapse (:8008)    │   │
                                     │   │  /wiki/    → BookStack (:9000)  │   │
-                                    │   │             (Nur VPN!)          │   │
+                                    │   │  /sommer/  → Statische Website  │   │
                                     │   └─────────────────────────────────┘   │
                                     │                                         │
                                     └─────────────────────────────────────────┘
@@ -56,12 +56,12 @@ Dieser Server betreibt mehrere Dienste hinter einem Nginx Reverse Proxy. Headsca
 |--------|-----|---------|---------------|
 | Headscale | https://zabooz.duckdns.org/ | Öffentlich | 127.0.0.1:8090 |
 | Headscale UI | https://zabooz.duckdns.org/web | **Nur VPN** | 127.0.0.1:8080 |
-| SearXNG | https://zabooz.duckdns.org/searx/ | **Nur VPN** | 127.0.0.1:8888 |
-| Vaultwarden | https://zabooz.duckdns.org/vault/ | **Nur VPN** | 127.0.0.1:8000 |
-| Draw.io | https://zabooz.duckdns.org/draw/ | **Nur VPN** | 127.0.0.1:8081 |
+| SearXNG | https://zabooz.duckdns.org/searx/ | Öffentlich | 127.0.0.1:8888 |
+| Vaultwarden | https://zabooz.duckdns.org/vault/ | Öffentlich (VPN-Restriction deaktiviert) | 127.0.0.1:8000 |
 | Matrix Synapse | https://zabooz.duckdns.org/_matrix/ | **Nur VPN** | 127.0.0.1:8008 |
 | Element Web | https://zabooz.duckdns.org/chat/ | **Nur VPN** | 127.0.0.1:8010 |
-| BookStack | https://zabooz.duckdns.org/wiki/ | Oeffentlich | 127.0.0.1:9000 |
+| BookStack | https://zabooz.duckdns.org/wiki/ | Öffentlich | 127.0.0.1:9000 |
+| Sommer Website | https://zabooz.duckdns.org/sommer/ | Öffentlich | Statische Dateien (/var/www/sommer/) |
 
 ### TCP/UDP Stream Proxy (Nginx → Heimnetz via Tailscale)
 
@@ -83,6 +83,7 @@ Gameserver-Traffic wird über Nginx Stream Proxy direkt an den Pterodactyl-Host 
 | jules | 100.64.0.3 | jules | - |
 | zabooz-phone | 100.64.0.4 | zabooz | Handy |
 | zaboozmegafeschersuperserver | 100.64.0.5 | zabooz | Dieser Server |
+| halo-strixx | 100.64.0.9 | zabooz | AI Workstation |
 
 ## Funktionsweise
 
@@ -104,20 +105,9 @@ Mit VPN:   zabooz.duckdns.org → 100.64.0.5    (Tailscale IP via MagicDNS)
 >
 > **Edge Case:** Falls VPN-Verbindung abbricht und nicht reconnecten kann (DNS-Cache zeigt auf Tailscale IP), DNS-Cache leeren: `resolvectl flush-caches`
 
-### Vaultwarden Nur-VPN-Zugriff
+### Vaultwarden Zugriff
 
-Nginx beschränkt `/vault/` auf den Tailscale IP-Bereich:
-
-```nginx
-location /vault/ {
-    allow 100.64.0.0/10;  # Tailscale Bereich
-    deny all;             # Alle anderen blockieren
-    ...
-}
-```
-
-- VPN-Client (100.64.0.x) → **200 OK**
-- Öffentliche IP → **403 Forbidden**
+> **Hinweis:** Die VPN-Restriction für Vaultwarden ist aktuell in der Nginx-Konfiguration **deaktiviert** (allow/deny Regeln auskommentiert). Vaultwarden ist damit öffentlich erreichbar.
 
 ## Konfigurations-Dateien
 
@@ -125,9 +115,12 @@ location /vault/ {
 |-------|-------|
 | `/etc/headscale/config.yaml` | Headscale Konfiguration, MagicDNS, extra_records |
 | `/etc/nginx/sites-available/default` | Nginx Reverse Proxy Konfiguration |
-| `/home/zabooz/vaultwarden/docker-compose.yml` | Vaultwarden Docker Setup |
-| `/home/zabooz/draw.io/docker-compose.yml` | Draw.io Docker Setup |
 | `/etc/nginx/nginx.conf` | Nginx Stream Proxy (Gameserver-Ports) |
+| `/opt/vaultwarden/docker-compose.yml` | Vaultwarden Docker Setup |
+| `/opt/headscale/docker-compose.yml` | Headscale Docker Setup |
+| `/opt/bookstack/compose.yml` | BookStack Docker Setup |
+| `/opt/matrix/docker-compose.yml` | Matrix Synapse + Element Docker Setup |
+| `/opt/searxng/docker-compose.yml` | SearXNG Docker Setup |
 
 ### Wichtige Headscale Einstellungen
 
@@ -214,11 +207,11 @@ sudo tail -f /var/log/nginx/error.log
 
 ## Fehlerbehebung
 
-### Vaultwarden gibt 403 zurück
+### Vaultwarden nicht erreichbar
 
-1. Prüfen ob Tailscale verbunden ist: `tailscale status`
-2. Verifizieren dass deine Tailscale IP im 100.64.0.0/10 Bereich ist
-3. Falls nicht verbunden, Tailscale neustarten: `sudo systemctl restart tailscaled`
+1. Container prüfen: `docker ps | grep vault`
+2. Logs prüfen: `docker logs vaultwarden`
+3. Nginx Proxy verifizieren: `curl -v http://127.0.0.1:8000/vault/`
 
 ### MagicDNS löst nicht auf
 
@@ -227,22 +220,17 @@ sudo tail -f /var/log/nginx/error.log
 3. Headscale neustarten: `docker restart headscale`
 4. Client Tailscale Daemon neustarten
 
-### Vaultwarden lädt nicht
-
-1. Container prüfen: `docker ps | grep vault`
-2. Logs prüfen: `docker logs vaultwarden`
-3. Nginx Proxy verifizieren: `curl -v http://127.0.0.1:8000/vault/`
-
 ## Sicherheits-Zusammenfassung
 
-- **Vaultwarden**: Nur über VPN erreichbar (100.64.0.0/10)
-- **SearXNG**: Nur über VPN erreichbar (100.64.0.0/10)
-- **Draw.io**: Nur über VPN erreichbar (100.64.0.0/10)
-- **Headscale**: Öffentlich erreichbar (muss für VPN-Verbindung erreichbar sein)
+- **Vaultwarden**: Öffentlich erreichbar (VPN-Restriction aktuell deaktiviert)
+- **SearXNG**: Öffentlich erreichbar (keine VPN-Restriction konfiguriert)
+- **Matrix/Element**: Nur über VPN erreichbar (100.64.0.0/10)
+- **Headscale UI**: Nur über VPN erreichbar (100.64.0.0/10)
+- **Headscale API**: Öffentlich erreichbar (muss für VPN-Verbindung erreichbar sein)
 - **Alle Dienste**: Hinter HTTPS mit gültigem Let's Encrypt Zertifikat
 - **Docker Container**: Nur an 127.0.0.1 gebunden (nicht im Netzwerk exponiert)
 - **Registrierung deaktiviert**: Vaultwarden ist nur auf Einladung
 
 ---
 
-*Letzte Aktualisierung: 6. März 2026*
+*Letzte Aktualisierung: 9. März 2026*

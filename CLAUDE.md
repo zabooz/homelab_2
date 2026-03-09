@@ -33,7 +33,9 @@ homelab_2/
 │   ├── adguard-setup.md             # DNS-Werbeblocker (192.168.0.137)
 │   ├── matrix-setup.md              # Matrix Synapse + Element (VPS)
 │   ├── bookstack-setup.md           # BookStack Wiki (VPS)
-│   └── dolibarr-setup.md            # ERP/CRM Rechnungen (192.168.0.149)
+│   ├── dolibarr-setup.md            # ERP/CRM Rechnungen (192.168.0.149)
+│   ├── samba-setup.md               # Netzwerk-Dateifreigabe (192.168.0.142)
+│   └── scanservjs-setup.md          # Web-Scanner-Interface (192.168.0.148)
 ├── workflows/                       # n8n Workflow-Dokumentationen
 │   └── vm-image-update.md           # VM Image Update Workflow (FOG + Proxmox)
 ├── vpn/                             # VPN Dokumentation
@@ -66,7 +68,7 @@ homelab_2/
 | Host | IP | Tailscale IP | Funktion |
 |------|-----|-------------|----------|
 | VPS | 152.53.111.11 | 100.64.0.5 | Nginx, Headscale, Stream Proxy |
-| homeserver | 192.168.0.101 | - | Proxmox Node 1 (i5-6500T, 32GB, 2TB SSD) |
+| homeserver | 192.168.0.101 | - | Proxmox Node 1 (i5-6500T, 32GB, 2TB SSD + 477GB NVMe) |
 | homeserver2 | 192.168.0.102 | - | Proxmox Node 2 (i3-8100, 32GB, NVMe+SSD) |
 | Tailscale LXC | 192.168.0.112 | 100.64.0.1 | Subnet Router, Exit Node |
 | Draw.io LXC | 192.168.0.122 | - | Diagramm-Editor |
@@ -82,7 +84,7 @@ homelab_2/
 - **Headscale** (selbst-gehostetes Tailscale) verbindet VPS mit Heimnetz
 - **Tailscale LXC** (100.64.0.1) ist Subnet Router für 192.168.0.0/24
 - **homeserver2** hostet FOG Master-Images (VMs 500-509) für OS-Deployment
-- VPN-only Services (Vaultwarden, SearXNG): nur über Tailscale erreichbar
+- VPN-only Services (Matrix/Element, Headscale UI): nur über Tailscale erreichbar
 
 ## Konventionen
 

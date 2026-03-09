@@ -22,19 +22,16 @@ dateCreated: 2026-01-25T23:30:00.000Z
 
 ## Übersicht
 
-Draw.io (diagrams.net) ist ein selbst-gehosteter Diagramm-Editor für Flowcharts, Netzwerkdiagramme, UML und mehr. Diese Installation läuft als Docker-Container auf dem VPS und ist nur über VPN erreichbar.
+Draw.io (diagrams.net) ist ein selbst-gehosteter Diagramm-Editor für Flowcharts, Netzwerkdiagramme, UML und mehr. Diese Installation läuft als Docker-Container auf homeserver (CT 107).
 
 ## Architektur
 
 ```
 ┌──────────────┐         ┌─────────────────────────────────┐
-│ VPN Client   │         │  VPS                            │
-│ (Tailscale)  │─────────│                                 │
-│ 100.64.0.x   │  HTTPS  │  Nginx (:443)                   │
-└──────────────┘         │    │                            │
-                         │    ├─ /draw/ ──► Draw.io (:8081)│
-                         │    │            (VPN only)      │
-                         │    └─ ...                       │
+│   Client     │         │  homeserver (CT 107)             │
+│  (Browser)   │─────────│                                 │
+│              │  HTTP    │  Draw.io Docker (:80)           │
+└──────────────┘         │  192.168.0.122                  │
                          └─────────────────────────────────┘
 ```
 
@@ -168,7 +165,7 @@ docker ps | grep drawio
 # Container Logs prüfen
 docker logs drawio
 
-# Lokaler Test (auf VPS)
+# Lokaler Test (im Container)
 curl -I http://127.0.0.1:8081
 ```
 

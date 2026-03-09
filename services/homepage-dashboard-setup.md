@@ -12,8 +12,8 @@ dateCreated: 2026-01-24T00:00:00.000Z
 
 **Erstellt:** 24. Januar 2026
 **Author:** Daniel (zabooz)
-**System:** Debian 12 VM (192.168.0.111)
-**Zugriff:** http://192.168.0.111 (LAN) | http://home.lab (VPN)
+**System:** LXC Container CT 108 (192.168.0.123)
+**Zugriff:** http://192.168.0.123 (LAN) | http://home.lab (VPN)
 
 ---
 
@@ -52,7 +52,7 @@ services:
     restart: unless-stopped
 ```
 
-> **Hinweis:** Port 80 wird direkt gemappt (kein Reverse Proxy). Zugriff über `http://192.168.0.111` oder via VPN über `http://home.lab`.
+> **Hinweis:** Port 80 wird direkt gemappt (kein Reverse Proxy). Zugriff über `http://192.168.0.123` oder via VPN über `http://home.lab`.
 
 ```bash
 # Container starten
@@ -374,7 +374,7 @@ volumes:
 - Lesezeichen (Github, Reddit, YouTube)
 
 **Zugriff:**
-- **LAN:** http://192.168.0.111
+- **LAN:** http://192.168.0.123
 - **VPN:** http://home.lab (via Tailscale/Headscale)
 
 **Status:** ✅ Funktionsfähig

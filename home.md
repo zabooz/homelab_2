@@ -72,6 +72,8 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [Matrix Synapse](/en/services/matrix-setup) | Chat-Server mit Element Web (VPS) |
 | [BookStack](/en/services/bookstack-setup) | Wiki fuer Schule (VPS) |
 | [Dolibarr ERP](/en/services/dolibarr-setup) | ERP/CRM - Rechnungen, Inventar (192.168.0.149) |
+| [Samba](/en/services/samba-setup) | Netzwerk-Dateifreigabe (192.168.0.142) |
+| [ScanServJS](/en/services/scanservjs-setup) | Web-Scanner-Interface (192.168.0.148) |
 ---
 
 ## Workflows

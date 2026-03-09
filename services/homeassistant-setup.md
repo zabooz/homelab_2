@@ -10,9 +10,9 @@ dateCreated: 2026-02-02T00:00:00.000Z
 
 # Home Assistant
 
-**Host:** Proxmox VM/LXC (192.168.0.114)
+**Host:** VM 305 auf homeserver
 **Port:** 8123
-**URL:** http://192.168.0.114:8123
+**URL:** http://192.168.0.114:8123 *(Hinweis: .114 war geplant, aber keine statische IP in Proxmox konfiguriert)*
 **Zugriff:** Heimnetz / VPN
 
 ## Beschreibung

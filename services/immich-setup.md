@@ -11,9 +11,8 @@ dateCreated: 2026-03-06T00:00:00.000Z
 # Immich
 
 **IP:** 192.168.0.144
-**Node:** homeserver (CT 116)
+**Node:** homeserver2 (CT 116)
 **Port:** 2283
-**Status:** Running
 
 ---
 

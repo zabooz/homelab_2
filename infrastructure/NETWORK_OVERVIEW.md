@@ -26,12 +26,21 @@ Master-Referenz für die gesamte Infrastruktur.
 | **IP** | 192.168.0.101 | 192.168.0.102 |
 | **CPU** | Intel i5-6500T @ 2.50GHz (4C) | Intel i3-8100 @ 3.60GHz (4C) |
 | **RAM** | 32 GB | 32 GB |
-| **Storage** | 2TB Samsung 850 PRO (SSD) | 256GB NVMe (System) + 500GB SanDisk SSD (~700GB gesamt) |
+| **Storage** | 2TB Samsung 850 PRO (SSD) + 477GB NVMe | 238GB NVMe (System) + 466GB SanDisk SSD (~700GB gesamt) |
 | **Boot** | EFI | Legacy BIOS |
 | **Proxmox** | pve-manager 9.1.5 | pve-manager 9.1.5 |
 | **Kernel** | Linux 6.17.9-1-pve | Linux 6.17.9-1-pve |
 
-**Cluster-Gesamt:** 8 CPUs, 64 GB RAM, ~2.7 TiB Storage
+**Cluster-Gesamt:** 8 CPUs, 64 GB RAM, ~3.1 TiB Storage
+
+### Storage-Pools
+
+| Storage | Typ | Grösse | Node | Inhalt |
+|---------|-----|--------|------|--------|
+| local | dir | ~96 GB (hs1) / ~69 GB (hs2) | beide | ISOs, Backups, Templates |
+| local-lvm | lvmthin | 1.7 TB (hs1) / 141 GB (hs2) | beide | VM/LXC Disks |
+| nvme-storage | lvmthin | 453 GB | homeserver | Samba Network Share (NVMe) |
+| ssd-storage | lvmthin | 456 GB | homeserver2 | VM/LXC Disks (Immich, Master-Images) |
 
 ---
 
@@ -77,11 +86,10 @@ Master-Referenz für die gesamte Infrastruktur.
               │                                        │
               │  ┌──────────────────────────────────┐  │
               │  │ homeserver (.101)                 │  │
-              │  │ i5-6500T, 32GB, 2TB SSD          │  │
+              │  │ i5-6500T, 32GB, 2TB SSD + NVMe   │  │
               │  │                                  │  │
               │  │ LXC: tailscale .112              │  │
               │  │      fog-server .113             │  │
-              │  │      paperless .115              │  │
               │  │      linkwarden .119             │  │
               │  │      draw.io .122                │  │
               │  │      homepage .123               │  │
@@ -89,17 +97,20 @@ Master-Referenz für die gesamte Infrastruktur.
               │  │      changedetection .125        │  │
               │  │      gotify .126                 │  │
               │  │      sterlingPdf .131            │  │
-              │  │      adguard .137                │  │
-              │  │      immich .144                 │  │
-              │  │ VM:  webserver .128              │  │
+              │  │      samba .142                  │  │
               │  └──────────────────────────────────┘  │
               │                                        │
               │  ┌──────────────────────────────────┐  │
               │  │ homeserver2 (.102)                │  │
               │  │ i3-8100, 32GB, NVMe+SSD          │  │
               │  │                                  │  │
-              │  │ LXC: n8n .116                    │  │
+              │  │ LXC: paperless .115              │  │
+              │  │      n8n .116                    │  │
+              │  │      adguard .137                │  │
               │  │      ntopng .140                 │  │
+              │  │      immich .144                 │  │
+              │  │      scanservjs .148             │  │
+              │  │      dolibarr .149               │  │
               │  │ VM:  FOG Master-Images (500-509) │  │
               │  └──────────────────────────────────┘  │
               └────────────────────────────────────────┘
@@ -113,7 +124,7 @@ Master-Referenz für die gesamte Infrastruktur.
 
 | Hostname | Public IP | Tailscale IP | Dienste |
 |----------|-----------|--------------|---------|
-| zaboozMegaFescherSuperServer | 152.53.111.11 | 100.64.0.5 | Headscale, Vaultwarden, SearXNG, Matrix, BookStack |
+| zaboozMegaFescherSuperServer | 152.53.111.11 | 100.64.0.5 | Headscale, Vaultwarden, SearXNG, Matrix, BookStack, Sommer-Website |
 
 ### homeserver (192.168.0.101)
 
@@ -122,7 +133,6 @@ Master-Referenz für die gesamte Infrastruktur.
 | - | **homeserver** | 192.168.0.101 | Host | Proxmox Node 1 |
 | 102 | **[Tailscale](/en/vpn/vpn-infrastructure)** | 192.168.0.112 | LXC | VPN Exit-Node/Subnet Router (100.64.0.1) |
 | 103 | **[FOG Server](/en/services/fog_project_setup_dokumentation_debian_12_lxc)** | 192.168.0.113 | LXC | DHCP Server, PXE/Imaging |
-| 104 | **[Paperless-ngx](/en/services/paperless-ngx)** | 192.168.0.115 | LXC | Dokumentenverwaltung |
 | 105 | **[Linkwarden](/en/services/linkwarden-setup)** | 192.168.0.119 | LXC | Bookmark Manager |
 | 107 | **[Draw.io](/en/services/drawio-setup)** | 192.168.0.122 | LXC | Diagramm-Editor |
 | 108 | **[Homepage](/en/services/homepage-dashboard-setup)** | 192.168.0.123 | LXC | Homepage Dashboard |
@@ -130,26 +140,29 @@ Master-Referenz für die gesamte Infrastruktur.
 | 110 | **[Changedetection](/en/services/changedetection-setup)** | 192.168.0.125 | LXC | Website-Monitoring |
 | 111 | **[Gotify](/en/services/gotify-setup)** | 192.168.0.126 | LXC | Push-Benachrichtigungen |
 | 114 | **[Stirling PDF](/en/services/sterlingpdf-setup)** | 192.168.0.131 | LXC | PDF-Tools |
-| 116 | **[Immich](/en/services/immich-setup)** | 192.168.0.144 | LXC | Google Photos Alternative |
-| - | **[AdGuard Home](/en/services/adguard-setup)** | 192.168.0.137 | LXC | DNS-Werbeblocker |
-| - | **[Dolibarr ERP](/en/services/dolibarr-setup)** | 192.168.0.149 | LXC | ERP/CRM, Rechnungen |
+| 120 | **[Samba](/en/services/samba-setup)** | 192.168.0.142 | LXC | Netzwerk-Dateifreigabe (NVMe) |
 | 302 | **Webserver** | 192.168.0.128 | VM | Nginx Webserver |
-| 100 | **Debian** | - | VM | Gestoppt |
-| 101 | **Win2025** | - | VM | Windows Server 2025, gestoppt |
-| 300 | **[Pterodactyl](/en/services/pterodactyl-setup)** | - | VM | Gameserver Panel, gestoppt |
-| 305 | **[Home Assistant](/en/services/homeassistant-setup)** | - | VM | Smart Home, gestoppt |
-| 800 | **Win11-Client** | - | VM | Windows 11 Client, gestoppt |
+| 100 | **Debian** | - | VM | Windows Server 2025 |
+| 101 | **Win2025** | - | VM | Windows Server 2025 |
+| 300 | **[Pterodactyl](/en/services/pterodactyl-setup)** | - | VM | Gameserver Panel |
+| 305 | **[Home Assistant](/en/services/homeassistant-setup)** | - | VM | Smart Home |
+| 800 | **Win11-Client** | - | VM | Windows 11 Client |
 
 ### homeserver2 (192.168.0.102)
 
 | VMID | Gerät | IP | Typ | Funktion |
 |------|-------|-----|-----|----------|
 | - | **homeserver2** | 192.168.0.102 | Host | Proxmox Node 2 |
+| 104 | **[Paperless-ngx](/en/services/paperless-ngx)** | 192.168.0.115 | LXC | Dokumentenverwaltung |
 | 106 | **[n8n](/en/services/n8n-setup)** | 192.168.0.116 | LXC | Workflow Automation |
+| 112 | **[Crawler4AI](/en/services/crawler4ai-setup)** | 192.168.0.127 | LXC | Web Scraping |
+| 113 | **[Node-RED](/en/services/node-red-setup)** | 192.168.0.129 | LXC | Flow Automation |
 | 115 | **[ntopng](/en/services/ntopng-setup)** | 192.168.0.140 | LXC | Netzwerk-Monitoring |
-| 112 | **[Crawler4AI](/en/services/crawler4ai-setup)** | - | LXC | Web Scraping, gestoppt |
-| 113 | **[Node-RED](/en/services/node-red-setup)** | - | LXC | Flow Automation, gestoppt |
-| 301 | **[WoW Server](/en/services/azerothcore-playerbots-setup)** | - | LXC | AzerothCore, gestoppt |
+| 116 | **[Immich](/en/services/immich-setup)** | 192.168.0.144 | LXC | Google Photos Alternative |
+| 117 | **[AdGuard Home](/en/services/adguard-setup)** | 192.168.0.137 | LXC | DNS-Werbeblocker |
+| 118 | **[Dolibarr ERP](/en/services/dolibarr-setup)** | 192.168.0.149 | LXC | ERP/CRM, Rechnungen |
+| 119 | **[ScanServJS](/en/services/scanservjs-setup)** | 192.168.0.148 | LXC | Web-Scanner-Interface |
+| 301 | **[WoW Server](/en/services/azerothcore-playerbots-setup)** | 192.168.0.121 | LXC | AzerothCore |
 | 500-509 | **Master-Images** | - | VM | FOG OS-Images (CachyOS, Ubuntu, Fedora, Mint, Debian, Win11, Parrot, NixOS) |
 
 ### Clients & Workstations
@@ -178,7 +191,8 @@ Master-Referenz für die gesamte Infrastruktur.
 ```
 192.168.0.1         - Gateway/Router (kein DHCP!)
 192.168.0.101-102   - Proxmox Cluster Nodes
-192.168.0.110-140   - Statische IPs (VMs/LXCs)
+192.168.0.103       - Halo Strixx (AI Workstation)
+192.168.0.110-149   - Statische IPs (VMs/LXCs)
 192.168.0.200-250   - FOG DHCP Pool (für alle Clients + PXE Boot)
 ```
 
@@ -204,8 +218,8 @@ Master-Referenz für die gesamte Infrastruktur.
 |--------|-----|---------------|---------|
 | Headscale | https://zabooz.duckdns.org/ | 8090 | Public |
 | Headscale UI | https://zabooz.duckdns.org/web/ | 8080 | **VPN only** |
-| SearXNG | https://zabooz.duckdns.org/searx/ | 8888 | **VPN only** |
-| Vaultwarden | https://zabooz.duckdns.org/vault/ | 8000 | **VPN only** |
+| SearXNG | https://zabooz.duckdns.org/searx/ | 8888 | Öffentlich |
+| Vaultwarden | https://zabooz.duckdns.org/vault/ | 8000 | Öffentlich (VPN-Restriction deaktiviert) |
 | Matrix/Element | https://zabooz.duckdns.org/chat/ | 8010 | **VPN only** |
 | BookStack | https://zabooz.duckdns.org/wiki/ | 9000 | Public |
 
@@ -219,16 +233,17 @@ Master-Referenz für die gesamte Infrastruktur.
 | Wiki.js | http://192.168.0.124 | Wiki.js LXC | homeserver |
 | Draw.io | http://192.168.0.122 | Draw.io LXC | homeserver |
 | FOG Project | http://192.168.0.113/fog/management | FOG LXC | homeserver |
-| Paperless-ngx | http://192.168.0.115:8000 | Paperless LXC | homeserver |
+| Paperless-ngx | http://192.168.0.115:8000 | Paperless LXC | homeserver2 |
 | Linkwarden | http://192.168.0.119:3000 | Linkwarden LXC | homeserver |
 | Changedetection | http://192.168.0.125:5000 | Changedetection LXC | homeserver |
 | Gotify | http://192.168.0.126:80 | Gotify LXC | homeserver |
 | Stirling PDF | http://192.168.0.131:8080 | SterlingPdf LXC | homeserver |
-| Webserver | http://192.168.0.128 | Webserver VM | homeserver |
-| Immich | http://192.168.0.144:2283 | Immich LXC | homeserver |
-| AdGuard Home | http://192.168.0.137 | AdGuard LXC | homeserver |
+| AdGuard Home | http://192.168.0.137 | AdGuard LXC | homeserver2 |
+| Samba | smb://192.168.0.142 | Samba LXC | homeserver |
+| Immich | http://192.168.0.144:2283 | Immich LXC | homeserver2 |
+| ScanServJS | http://192.168.0.148 | ScanServJS LXC | homeserver2 |
+| Dolibarr ERP | http://192.168.0.149 | Dolibarr LXC | homeserver2 |
 | n8n | http://192.168.0.116 | n8n LXC | homeserver2 |
-| Dolibarr ERP | http://192.168.0.149 | Dolibarr LXC | homeserver |
 | ntopng | http://192.168.0.140:3000 | ntopng LXC | homeserver2 |
 
 ### MagicDNS (über Tailscale)
@@ -318,4 +333,4 @@ Homepage:    http://home.lab  (über VPN)
 
 ---
 
-*Letzte Aktualisierung: 7. März 2026*
+*Letzte Aktualisierung: 9. März 2026*
