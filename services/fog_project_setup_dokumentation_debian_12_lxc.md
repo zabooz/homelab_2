@@ -179,9 +179,93 @@ option domain-name-servers 192.168.0.120, 192.168.0.1;
 
 ---
 
+## 🖥️ Master-VMs (Proxmox homeserver2)
+
+OS-Images werden in Proxmox-VMs auf homeserver2 (192.168.0.102) erstellt und via FOG captured.
+
+| VMID | Name | OS | Status |
+|------|------|----|--------|
+| 500 | elementaryOS-master | elementary OS | OEM-Image (Secure Boot deaktiviert) |
+| 503 | fedora-master | Fedora 43 Workstation | OEM-Image |
+| 504 | linuxMint-master | Linux Mint | OEM-Image |
+
+### VM-Konfiguration (alle VMs gleich)
+
+```
+bios: ovmf
+machine: q35
+cpu: host
+cores: 4
+scsihw: virtio-scsi-single
+scsi0: ssd-storage:32G
+efidisk0: ssd-storage:4M,efitype=4m
+net0: virtio,bridge=vmbr0
+boot: order=net0;scsi0
+```
+
+> **Wichtig: VM-Erstellung**
+> Alle Master-VMs müssen mit `cpu: host` erstellt werden. Andere CPU-Typen (z.B. `x86-64-v2-AES`) können dazu führen, dass PXE Boot in OVMF nicht funktioniert. Bei PXE-Problemen: VM komplett neu erstellen statt reparieren.
+
+> **Wichtig: EFI Disk**
+> Die EFI Disk (`efitype=4m`) darf NICHT mit `pre-enrolled-keys` erstellt werden, da sonst PXE Boot nicht funktioniert. Standard `efitype=4m` ohne Zusatzoptionen verwenden.
+
+### FOG EFI Exit Type
+
+Für UEFI-VMs und UEFI-Hardware muss in FOG der **EFI Exit Type** korrekt eingestellt sein:
+
+- **FOG Web UI → Host Management → [Host] → General → EFI Exit Type**
+- **Empfohlen: `Sanboot`** für Proxmox OVMF und die meisten UEFI-Systeme
+- `Sanboot` lässt iPXE die lokale Disk direkt booten (zuverlässiger als `Exit`)
+- `Refind` funktioniert ebenfalls, ist aber langsamer (Zwischenschritt über rEFInd Boot-Manager)
+
+| Exit Type | Beschreibung | Empfehlung |
+|-----------|-------------|------------|
+| Sanboot | iPXE bootet Disk direkt | Empfohlen |
+| Refind | Zwischenschritt über rEFInd | Alternative |
+| Exit | iPXE beendet sich, Firmware übernimmt | Funktioniert oft nicht mit OVMF |
+| Grub | Chainload über GRUB EFI | Möglich |
+
+> **Bemerkung: elementary OS und Secure Boot**
+> elementary OS (VM 500) wurde mit `pre-enrolled-keys=1` erstellt. Secure Boot muss im OVMF Setup (ESC beim Boot → Device Manager → Secure Boot Configuration) **deaktiviert** werden, damit sowohl FOG PXE Boot als auch normaler Disk Boot funktionieren. Die `pre-enrolled-keys=1` Einstellung in der Proxmox-Config kann bleiben — Secure Boot wird nur in der NVRAM deaktiviert.
+
+---
+
 ## 🖼️ Image-Strategien
 
-### Linux Images
+### Linux OEM Images (empfohlen für Deployment)
+
+OEM-Modus installiert das System ohne persönlichen Benutzer. Beim ersten Boot durch den Endbenutzer erscheint ein Einrichtungs-Wizard.
+
+**Unterstützte Distros:**
+
+| Distro | OEM-Modus | Mechanismus |
+|--------|-----------|-------------|
+| Linux Mint | Expliziter OEM-Modus im Installer | Calamares |
+| Ubuntu | Expliziter OEM-Modus im Installer | Ubiquity/Subiquity |
+| Fedora | User-Erstellung überspringen | GNOME Initial Setup beim ersten Boot |
+
+**Workflow:**
+```
+1. Linux in Master-VM installieren (OEM-Modus / ohne User)
+2. Fedora: dracut --regenerate-all --force --no-hostonly
+   Mint/Ubuntu: update-initramfs -u -k all
+3. truncate -s 0 /etc/machine-id
+4. Herunterfahren (NICHT rebooten!)
+5. VM über PXE/FOG booten → Image capturen
+6. Image auf Ziel-PCs deployen
+```
+
+> **Wichtig: initramfs für echte Hardware**
+> - **Mint/Ubuntu (aktuell):** Nutzt `initramfs-tools`, das standardmäßig portable initrds baut — enthält alle gängigen Hardware-Treiber (AHCI, NVMe, SATA, USB). Funktioniert ohne Änderung auf beliebiger Hardware.
+> - **Fedora:** Nutzt `dracut` mit `--hostonly` als Default — enthält **nur** die Treiber der aktuellen Maschine (= VirtIO in der VM). Auf echtem PC mit AHCI/NVMe **kommt Kernel Panic** `block(0,0)`. Fix: `dracut --regenerate-all --force --no-hostonly` vor dem Capture ausführen.
+> - **Hinweis:** Ubuntu 25.10+ wechselt auf dracut. Zukünftige Mint-Versionen könnten ebenfalls betroffen sein — dann gilt der gleiche Fix wie bei Fedora.
+
+> **Wichtig: machine-id**
+> `/etc/machine-id` muss vor dem Capture geleert werden (`truncate -s 0 /etc/machine-id`). Sonst bekommen alle deployten PCs die gleiche ID → DHCP-Konflikte, identische D-Bus IDs.
+
+---
+
+### Linux Images (ohne OEM)
 
 - Kein Sysprep nötig
 - Hardware-unabhängig
@@ -198,7 +282,7 @@ option domain-name-servers 192.168.0.120, 192.168.0.1;
 
 ### Windows Images
 
-#### ✅ Mit Sysprep (empfohlen)
+#### Mit Sysprep (empfohlen)
 ```
 1. Windows + Software installieren
 2. sysprep.exe → OOBE + Generalize + Shutdown
@@ -206,7 +290,7 @@ option domain-name-servers 192.168.0.120, 192.168.0.1;
 4. Deploy → hardwareflexibel
 ```
 
-#### ❌ Ohne Sysprep
+#### Ohne Sysprep
 ```
 - Nur identische Hardware
 - Schnell, aber unflexibel
@@ -219,7 +303,11 @@ option domain-name-servers 192.168.0.120, 192.168.0.1;
 ### Image erstellen
 ```
 FOG Web → Image Management → Create
+  - Image Type: Single Disk - Resizable
+  - Image Partition Type: GPT (für UEFI)
+  - OS Type: Linux
 FOG Web → Host Management → Create
+  - EFI Exit Type: Sanboot (für UEFI)
 Host → Basic Tasks → Capture
 ```
 
