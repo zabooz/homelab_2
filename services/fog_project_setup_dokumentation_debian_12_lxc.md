@@ -183,11 +183,12 @@ option domain-name-servers 192.168.0.120, 192.168.0.1;
 
 OS-Images werden in Proxmox-VMs auf homeserver2 (192.168.0.102) erstellt und via FOG captured.
 
-| VMID | Name | OS | Status |
-|------|------|----|--------|
-| 500 | elementaryOS-master | elementary OS | OEM-Image (Secure Boot deaktiviert) |
-| 503 | fedora-master | Fedora 43 Workstation | OEM-Image |
-| 504 | linuxMint-master | Linux Mint | OEM-Image |
+| VMID | Name | OS | Bootloader | Status |
+|------|------|----|------------|--------|
+| 500 | elementaryOS-master | elementary OS | GRUB | OEM-Image (Secure Boot deaktiviert) |
+| 501 | arch-master | Arch Linux | Limine | Image (siehe Limine-Hinweise unten) |
+| 503 | fedora-master | Fedora 43 Workstation | GRUB | OEM-Image |
+| 504 | linuxMint-master | Linux Mint | GRUB | OEM-Image |
 
 ### VM-Konfiguration (alle VMs gleich)
 
@@ -228,6 +229,35 @@ Für UEFI-VMs und UEFI-Hardware muss in FOG der **EFI Exit Type** korrekt einges
 > **Bemerkung: elementary OS und Secure Boot**
 > elementary OS (VM 500) wurde mit `pre-enrolled-keys=1` erstellt. Secure Boot muss im OVMF Setup (ESC beim Boot → Device Manager → Secure Boot Configuration) **deaktiviert** werden, damit sowohl FOG PXE Boot als auch normaler Disk Boot funktionieren. Die `pre-enrolled-keys=1` Einstellung in der Proxmox-Config kann bleiben — Secure Boot wird nur in der NVRAM deaktiviert.
 
+### Limine Bootloader und FOG (Arch Linux)
+
+Limine installiert sich unter `EFI/limine/BOOTX64.EFI` und registriert einen NVRAM-Eintrag via `efibootmgr`. Das funktioniert beim direkten Disk-Boot, aber **nicht nach FOG-Deployment**, weil:
+
+1. **NVRAM-Einträge gehen verloren** — FOG deployed nur die Disk-Partitionen, nicht die UEFI-NVRAM. Auf dem Ziel-PC existiert kein Boot-Eintrag für `EFI/limine/`.
+2. **Sanboot sucht den UEFI-Fallback-Pfad** — iPXE/Sanboot bootet die Disk über den Standard-Pfad `EFI/BOOT/BOOTX64.EFI`. Wenn dort nichts liegt, findet Sanboot (und auch Refind/Grub) den Bootloader nicht.
+
+**Fix:** Eine Kopie der Limine-EFI-Datei als UEFI-Fallback anlegen. Die originale Limine-Installation unter `EFI/limine/` bleibt unverändert:
+
+```bash
+mkdir -p /boot/EFI/BOOT
+cp /boot/EFI/limine/BOOTX64.EFI /boot/EFI/BOOT/BOOTX64.EFI
+```
+
+> **Wichtig:** Dieser Schritt muss vor jedem FOG Capture wiederholt werden, falls Limine aktualisiert wurde (z.B. nach `pacman -Syu`), damit die Fallback-Kopie aktuell bleibt.
+
+### Bootloader root= Parameter
+
+Bootloader-Configs dürfen **nicht** `/dev/sdaX` oder `/dev/nvme0n1pX` als `root=` verwenden — Devicenamen können sich auf anderer Hardware ändern. Stattdessen `PARTUUID` nutzen:
+
+```bash
+# PARTUUID ermitteln:
+blkid /dev/sda3
+
+# In limine.conf (oder GRUB etc.):
+# Statt:  root=/dev/sda3
+# Nutze:  root=PARTUUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+```
+
 ---
 
 ## 🖼️ Image-Strategien
@@ -247,17 +277,18 @@ OEM-Modus installiert das System ohne persönlichen Benutzer. Beim ersten Boot d
 **Workflow:**
 ```
 1. Linux in Master-VM installieren (OEM-Modus / ohne User)
-2. Fedora: dracut --regenerate-all --force --no-hostonly
-   Mint/Ubuntu: update-initramfs -u -k all
-3. truncate -s 0 /etc/machine-id
-4. Herunterfahren (NICHT rebooten!)
-5. VM über PXE/FOG booten → Image capturen
-6. Image auf Ziel-PCs deployen
+2. initramfs universell machen (siehe unten)
+3. Limine: EFI/BOOT Fallback anlegen (siehe oben)
+4. truncate -s 0 /etc/machine-id
+5. Herunterfahren (NICHT rebooten!)
+6. VM über PXE/FOG booten → Image capturen
+7. Image auf Ziel-PCs deployen
 ```
 
 > **Wichtig: initramfs für echte Hardware**
 > - **Mint/Ubuntu (aktuell):** Nutzt `initramfs-tools`, das standardmäßig portable initrds baut — enthält alle gängigen Hardware-Treiber (AHCI, NVMe, SATA, USB). Funktioniert ohne Änderung auf beliebiger Hardware.
 > - **Fedora:** Nutzt `dracut` mit `--hostonly` als Default — enthält **nur** die Treiber der aktuellen Maschine (= VirtIO in der VM). Auf echtem PC mit AHCI/NVMe **kommt Kernel Panic** `block(0,0)`. Fix: `dracut --regenerate-all --force --no-hostonly` vor dem Capture ausführen.
+> - **Arch/CachyOS:** Nutzt `mkinitcpio` mit `autodetect`-Hook als Default — gleiches Problem wie Fedora, nur VirtIO-Treiber im initramfs. Fix: `autodetect` aus der HOOKS-Zeile in `/etc/mkinitcpio.conf` entfernen und `mkinitcpio -P` ausführen. Ohne diesen Fix kommt Kernel Panic (`root fs not found`) auf echter Hardware.
 > - **Hinweis:** Ubuntu 25.10+ wechselt auf dracut. Zukünftige Mint-Versionen könnten ebenfalls betroffen sein — dann gilt der gleiche Fix wie bei Fedora.
 
 > **Wichtig: machine-id**
