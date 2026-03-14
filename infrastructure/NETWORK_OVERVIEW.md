@@ -161,7 +161,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | 116 | **[Immich](/en/services/immich-setup)** | 192.168.0.144 | LXC | Google Photos Alternative |
 | 117 | **[AdGuard Home](/en/services/adguard-setup)** | 192.168.0.137 | LXC | DNS-Werbeblocker |
 | 118 | **[Dolibarr ERP](/en/services/dolibarr-setup)** | 192.168.0.149 | LXC | ERP/CRM, Rechnungen |
-| 119 | **[ScanServJS](/en/services/scanservjs-setup)** | 192.168.0.148 | LXC | Web-Scanner-Interface |
+| 119 | **[ScanServJS](/en/infrastructure/peripherie)** | 192.168.0.148 | LXC | Web-Scanner-Interface |
 | 301 | **[WoW Server](/en/services/azerothcore-playerbots-setup)** | 192.168.0.121 | LXC | AzerothCore |
 | 500-509 | **Master-Images** | - | VM | FOG OS-Images (CachyOS, Ubuntu, Fedora, Mint, Debian, Win11, Parrot, NixOS) |
 
@@ -172,6 +172,13 @@ Master-Referenz für die gesamte Infrastruktur.
 | **[Halo Strixx](/en/infrastructure/halo-strixx)** | 192.168.0.103 | 100.64.0.9 | CachyOS | AI Workstation (Strix Halo) |
 | **maschinchen** | DHCP | 100.64.0.2 | - | Laptop |
 | **zabooz-phone** | DHCP | 100.64.0.4 | - | Handy |
+
+### Peripherie
+
+| Gerät | IP | Verbindung | Funktion |
+|-------|-----|-----------|----------|
+| **[DruckenStein](/en/infrastructure/peripherie)** | DHCP (~.201) | WLAN | HP LaserJet Pro M118dw (MAC: 38:22:e2:8d:a4:69, Hostname: NPI8DA469.local) |
+| **[CanoScan LiDE 400](/en/infrastructure/peripherie)** | USB an homeserver2 | USB | Flachbettscanner (via scanservjs .148) |
 
 ### Tailscale VPN (100.64.0.0/10)
 
@@ -333,4 +340,4 @@ Homepage:    http://home.lab  (über VPN)
 
 ---
 
-*Letzte Aktualisierung: 9. März 2026*
+*Letzte Aktualisierung: 14. März 2026*

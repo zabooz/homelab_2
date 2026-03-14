@@ -22,6 +22,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [VPS](/en/infrastructure/VPS) | VPS Konfiguration & Services |
 | [Proxmox Netzwerk Setup](/en/infrastructure/proxmox-netzwerk-setup) | Proxmox Cluster Netzwerk |
 | [Halo Strixx](/en/infrastructure/halo-strixx) | AI Workstation (AMD Strix Halo, 128GB UMA) |
+| [Peripherie](/en/infrastructure/peripherie) | Drucker, Netzwerk-Hardware |
 
 ---
 

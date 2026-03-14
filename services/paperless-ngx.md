@@ -16,7 +16,7 @@ Dokumentenverwaltung mit automatischer OCR-Texterkennung.
 
 | | |
 |---|---|
-| **URL** | http://192.168.0.115:8000 |
+| **URL** | http://192.168.0.115 |
 | **Server** | LXC Container (Proxmox) |
 | **CT ID** | 104 |
 | **IP** | 192.168.0.115 |

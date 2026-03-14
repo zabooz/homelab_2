@@ -12,8 +12,8 @@ dateCreated: 2026-01-31T00:00:00.000Z
 
 **System:** Debian 13 LXC (CT 105)
 **IP Address:** 192.168.0.119
-**Port:** 3000
-**URL:** http://192.168.0.119:3000
+**Port:** 80
+**URL:** http://192.168.0.119
 **Status:** Online
 
 ---
@@ -43,7 +43,7 @@ services:
     image: ghcr.io/linkwarden/linkwarden:latest
     restart: always
     ports:
-      - 3000:3000
+      - 80:3000
     env_file:
       - .env
     volumes:
@@ -68,7 +68,7 @@ volumes:
 **.env:**
 ```env
 NEXTAUTH_SECRET=<generierter-secret>
-NEXTAUTH_URL=http://192.168.0.119:3000/api/v1/auth
+NEXTAUTH_URL=http://192.168.0.119/api/v1/auth
 DATABASE_URL=postgresql://postgres:linkwarden_db_pass@postgres:5432/linkwarden
 NEXT_PUBLIC_DISABLE_REGISTRATION=false
 ```
@@ -84,7 +84,7 @@ docker compose up -d
 
 ## Erster Login
 
-Beim ersten Aufruf von `http://192.168.0.119:3000` klicke auf **"Register"** und erstelle deinen Admin-Account (Name, E-Mail, Passwort).
+Beim ersten Aufruf von `http://192.168.0.119` klicke auf **"Register"** und erstelle deinen Admin-Account (Name, E-Mail, Passwort).
 
 Nach der Registrierung kannst du die Registrierung deaktivieren:
 

@@ -24,7 +24,7 @@ Immich ist eine selbst-gehostete Google Photos Alternative mit automatischem Fot
 
 | Dienst | URL |
 |--------|-----|
-| Web UI | http://192.168.0.144:2283 |
+| Web UI | http://192.168.0.144 |
 | Mobile App | Android / iOS (Server-URL eintragen) |
 
 ## Installation
@@ -53,7 +53,7 @@ TZ=Europe/Vienna
 docker compose up -d
 ```
 
-Beim ersten Aufruf von `http://192.168.0.144:2283` wird der Admin-Account erstellt.
+Beim ersten Aufruf von `http://192.168.0.144` wird der Admin-Account erstellt.
 
 ## Features
 

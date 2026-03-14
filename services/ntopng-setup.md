@@ -22,7 +22,7 @@ Netzwerk-Traffic-Monitoring-Tool mit Echtzeit-Analyse des Netzwerkverkehrs.
 | **IP** | 192.168.0.140 |
 | **Node** | homeserver2 |
 | **OS** | Debian |
-| **Web UI** | http://192.168.0.140:3000 |
+| **Web UI** | http://192.168.0.140 |
 | **Edition** | Community |
 
 ---
@@ -59,6 +59,8 @@ services:
       - 192.168.0.0/24
       - --community
       - --dont-change-user
+      - -w
+      - "80"
     volumes:
       - ntopng_data:/var/lib/ntopng
 
@@ -78,7 +80,7 @@ volumes:
 
 ### Ersteinrichtung
 
-1. Browser: `http://192.168.0.140:3000`
+1. Browser: `http://192.168.0.140`
 2. Login: `admin` / `admin`
 3. Passwort ändern
 
