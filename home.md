@@ -59,7 +59,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [FOG Project](/en/services/fog_project_setup_dokumentation_debian_12_lxc) | DHCP Server, PXE Boot, Imaging |
 | [Linkwarden](/en/services/linkwarden-setup) | Bookmark Manager (192.168.0.119) |
 | [Draw.io](/en/services/drawio-setup) | Diagramm-Editor (192.168.0.122) |
-| [Home Assistant](/en/services/homeassistant-setup) | Smart Home Steuerung (gestoppt) |
+| [Home Assistant](/en/services/homeassistant-setup) | Smart Home Steuerung |
 | [Pterodactyl](/en/services/pterodactyl-setup) | Gameserver Panel (gestoppt) |
 | [n8n Automation](/en/services/n8n-setup) | Workflow-Automation (192.168.0.116) |
 | [Changedetection](/en/services/changedetection-setup) | Website-Monitoring (192.168.0.125) |
