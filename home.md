@@ -72,6 +72,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [BookStack](/en/services/bookstack-setup) | Wiki fuer Schule (VPS) |
 | [Dolibarr ERP](/en/services/dolibarr-setup) | ERP/CRM - Rechnungen, Inventar (192.168.0.149) |
 | [ScanServJS](/en/services/scanservjs-setup) | Web-Scanner-Interface (192.168.0.148) |
+| Portainer | Docker Management UI (192.168.0.146) |
 | OpenCloud | Cloud-Speicher (192.168.0.104) |
 | Collabora Online | Online Office für OpenCloud (192.168.0.150) |
 | PBS | Proxmox Backup Server (192.168.0.180) |

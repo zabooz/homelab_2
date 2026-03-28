@@ -110,10 +110,11 @@ docker compose restart
 ```
 
 **Aktuell konfiguriert:**
-- **Infrastructure:** Proxmox (mit Widget), Proxmox Storage, Tailscale Router, Debian VM, Windows 2025
+- **Infrastructure:** Proxmox 3-Node Cluster (mit Widget), PBS Backup Server, Tailscale Router, FOG Deploy Server
 - **VPS:** System Stats (Custom API Widget)
-- **VPS Services:** Vaultwarden, SearXNG, Headscale
-- **Homelab Services:** Wiki.js, Linkwarden, Paperless-ngx, Draw.io, Home Assistant, FOG Deploy Server, Pterodactyl
+- **VPS Services:** Vaultwarden, SearXNG, Headscale, Matrix, BookStack
+- **Homelab Services:** Wiki.js, Linkwarden, Paperless-ngx, Draw.io, Home Assistant, Grafana, OpenCloud, Collabora, Immich, Dolibarr ERP, n8n, Stirling PDF, Changedetection, Gotify, ntopng, AdGuard Home, ScanServJS
+- **Gameserver:** Pterodactyl (gestoppt)
 
 ---
 
@@ -369,7 +370,7 @@ volumes:
 - Proxmox Integration mit API
 
 **Konfiguriert:**
-- 3 Service-Kategorien (Infrastructure, VPS Services)
+- Service-Kategorien (Infrastructure, VPS, VPS Services, Homelab Services, Gameserver)
 - System-Widgets (CPU, RAM, Disk)
 - Lesezeichen (Github, Reddit, YouTube)
 
@@ -381,4 +382,4 @@ volumes:
 
 ---
 
-*Letzte Aktualisierung: Januar 2026*
+*Letzte Aktualisierung: März 2026*

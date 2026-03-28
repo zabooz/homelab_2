@@ -110,6 +110,7 @@ Master-Referenz für die gesamte Infrastruktur.
               │  │      scanservjs .148             │  │
               │  │      PBS .180                    │  │
               │  │      Grafana .190                │  │
+              │  │      Portainer .146              │  │
               │  └──────────────────────────────────┘  │
               │                                        │
               │  ┌──────────────────────────────────┐  │
@@ -165,6 +166,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | 119 | **[ScanServJS](/en/infrastructure/peripherie)** | 192.168.0.148 | LXC | Web-Scanner-Interface |
 | 120 | **PBS** | 192.168.0.180 | LXC | Proxmox Backup Server |
 | 124 | **Grafana** | 192.168.0.190 | LXC | Monitoring Dashboard |
+| - | **Portainer** | 192.168.0.146 | LXC | Docker Management UI |
 
 ### homeserver2 (192.168.0.102)
 
@@ -275,6 +277,7 @@ Master-Referenz für die gesamte Infrastruktur.
 | ScanServJS | http://192.168.0.148 | ScanServJS LXC | homeserver |
 | PBS | http://192.168.0.180:8007 | PBS LXC | homeserver |
 | Grafana | http://192.168.0.190:3000 | Grafana LXC | homeserver |
+| Portainer | http://192.168.0.146:9443 | Portainer LXC | homeserver |
 | Linkwarden | http://192.168.0.119:3000 | Linkwarden LXC | homeserver2 |
 | Homepage | http://192.168.0.123 | Homepage LXC | homeserver2 |
 | Wiki.js | http://192.168.0.124 | Wiki.js LXC | homeserver2 |

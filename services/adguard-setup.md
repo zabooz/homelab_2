@@ -140,6 +140,40 @@ systemctl restart isc-dhcp-server
 
 ---
 
+## Custom DNS Rewrites (`.lab` Domain)
+
+Alle Homelab-Services sind über `.lab`-Domains erreichbar. Die DNS Rewrites werden in der AdGuard Web-UI unter **Filter → DNS-Rewrites** konfiguriert.
+
+| Domain | IP / Ziel | Service |
+|--------|-----------|---------|
+| wiki.lab | 192.168.0.124 | Wiki.js |
+| fog.lab | 192.168.0.113 | FOG Server |
+| n8n.lab | 192.168.0.116 | n8n Automation |
+| homepage.lab | 192.168.0.123 | Homepage Dashboard |
+| ntopng.lab | 192.168.0.140 | ntopng Monitoring |
+| adguard.lab | 192.168.0.137 | AdGuard Home |
+| immich.lab | 192.168.0.144 | Immich |
+| dolibarr.lab | 192.168.0.149 | Dolibarr ERP |
+| pdf.lab | 192.168.0.131 | Stirling PDF |
+| paperless.lab | 192.168.0.115 | Paperless-ngx |
+| links.lab | 192.168.0.119 | Linkwarden |
+| drawio.lab | 192.168.0.122 | Draw.io |
+| detect.lab | 192.168.0.125 | Changedetection |
+| gotify.lab | 192.168.0.126 | Gotify |
+| scanner.lab | 192.168.0.148 | ScanServJS |
+| collabora.lab | 192.168.0.150 | Collabora Online |
+| homeassistant.lab | 192.168.0.114 | Home Assistant |
+
+Für jede Domain gibt es auch einen `www.`-CNAME-Eintrag (z.B. `www.wiki.lab → wiki.lab`).
+
+| portainer.lab | 192.168.0.146 | Portainer |
+
+> **Veralteter Eintrag:** `shared.lab` (.142) verweist auf einen nicht mehr existierenden Service (ehemals Samba) und kann entfernt werden.
+
+> **Fehlend:** OpenCloud (.104), PBS (.180) und Grafana (.190) haben noch keine `.lab`-Domains. Diese können bei Bedarf hinzugefügt werden.
+
+---
+
 ## Wartung
 
 ### Container Management
