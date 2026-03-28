@@ -21,6 +21,7 @@ n8n ist ein selbst-gehosteter Workflow-Automation-Server, der verschiedene IT-Pr
 | Parameter | Wert |
 |-----------|------|
 | **Host** | LXC Container 106 (Proxmox) |
+| **Node** | homeserver3 |
 | **IP** | 192.168.0.116 |
 | **OS** | Debian 13 |
 | **Hostname** | n8n-automation |

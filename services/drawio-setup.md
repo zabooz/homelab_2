@@ -22,13 +22,13 @@ dateCreated: 2026-01-25T23:30:00.000Z
 
 ## Übersicht
 
-Draw.io (diagrams.net) ist ein selbst-gehosteter Diagramm-Editor für Flowcharts, Netzwerkdiagramme, UML und mehr. Diese Installation läuft als Docker-Container auf homeserver (CT 107).
+Draw.io (diagrams.net) ist ein selbst-gehosteter Diagramm-Editor für Flowcharts, Netzwerkdiagramme, UML und mehr. Diese Installation läuft als Docker-Container auf homeserver3 (CT 107).
 
 ## Architektur
 
 ```
 ┌──────────────┐         ┌─────────────────────────────────┐
-│   Client     │         │  homeserver (CT 107)             │
+│   Client     │         │  homeserver3 (CT 107)            │
 │  (Browser)   │─────────│                                 │
 │              │  HTTP    │  Draw.io Docker (:80)           │
 └──────────────┘         │  192.168.0.122                  │

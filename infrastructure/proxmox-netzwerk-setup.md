@@ -18,7 +18,7 @@ dateCreated: 2026-01-19T00:00:00.000Z
 
 ## Übersicht
 
-Anleitung zur Konfiguration statischer IP-Adressen für VMs und LXC-Container im Proxmox Cluster "homelab" (2 Nodes).
+Anleitung zur Konfiguration statischer IP-Adressen für VMs und LXC-Container im Proxmox Cluster "homelab" (3 Nodes).
 
 **Siehe auch:**
 - [Netzwerk Übersicht](/en/infrastructure/NETWORK_OVERVIEW) - Master-Diagramm und IP-Liste
@@ -29,6 +29,20 @@ Anleitung zur Konfiguration statischer IP-Adressen für VMs und LXC-Container im
 
 ## IP-Adressen
 
+### homeserver3 (Node 3)
+
+| Gerät | IP-Adresse | Typ | Interface |
+|-------|------------|-----|-----------|
+| homeserver3 (Host) | 192.168.0.100 | Statisch | vmbr0 |
+| Paperless-ngx (CT 104) | 192.168.0.115 | Statisch | eth0 |
+| n8n (CT 106) | 192.168.0.116 | Statisch | eth0 |
+| Draw.io (CT 107) | 192.168.0.122 | Statisch | eth0 |
+| Stirling PDF (CT 114) | 192.168.0.131 | Statisch | eth0 |
+| Immich (CT 116) | 192.168.0.144 | Statisch | eth0 |
+| Dolibarr ERP (CT 118) | 192.168.0.149 | Statisch | eth0 |
+| Collabora (CT 122) | 192.168.0.150 | Statisch | eth0 |
+| OpenCloud (CT 123) | 192.168.0.104 | Statisch | eth0 |
+
 ### homeserver (Node 1)
 
 | Gerät | IP-Adresse | Typ | Interface |
@@ -36,31 +50,24 @@ Anleitung zur Konfiguration statischer IP-Adressen für VMs und LXC-Container im
 | homeserver (Host) | 192.168.0.101 | Statisch | vmbr0 |
 | Tailscale LXC (CT 102) | 192.168.0.112 | Statisch | eth0 |
 | FOG Server (CT 103) | 192.168.0.113 | Statisch | eth0 |
-| Linkwarden (CT 105) | 192.168.0.119 | Statisch | eth0 |
-| Draw.io (CT 107) | 192.168.0.122 | Statisch | eth0 |
-| Homepage (CT 108) | 192.168.0.123 | Statisch | eth0 |
-| Wiki.js (CT 109) | 192.168.0.124 | Statisch | eth0 |
-| Changedetection (CT 110) | 192.168.0.125 | Statisch | eth0 |
 | Gotify (CT 111) | 192.168.0.126 | Statisch | eth0 |
-| Webserver (VM 302) | 192.168.0.128 | Statisch | ens18 |
-| Stirling PDF (CT 114) | 192.168.0.131 | Statisch | eth0 |
-| Samba (CT 120) | 192.168.0.142 | Statisch | eth0 |
+| ntopng (CT 115) | 192.168.0.140 | Statisch | eth0 |
+| AdGuard Home (CT 117) | 192.168.0.137 | Statisch | eth0 |
+| ScanServJS (CT 119) | 192.168.0.148 | Statisch | eth0 |
+| PBS (CT 120) | 192.168.0.180 | Statisch | eth0 |
+| Grafana (CT 124) | 192.168.0.190 | Statisch | eth0 |
 
 ### homeserver2 (Node 2)
 
 | Gerät | IP-Adresse | Typ | Interface |
 |-------|------------|-----|-----------|
 | homeserver2 (Host) | 192.168.0.102 | Statisch | vmbr0 |
-| Paperless-ngx (CT 104) | 192.168.0.115 | Statisch | eth0 |
-| n8n (CT 106) | 192.168.0.116 | Statisch | eth0 |
-| Crawler4AI (CT 112) | 192.168.0.127 | Statisch | eth0 |
-| Node-RED (CT 113) | 192.168.0.129 | Statisch | eth0 |
-| ntopng (CT 115) | 192.168.0.140 | Statisch | eth0 |
-| Immich (CT 116) | 192.168.0.144 | Statisch | eth0 |
-| AdGuard Home (CT 117) | 192.168.0.137 | Statisch | eth0 |
-| Dolibarr ERP (CT 118) | 192.168.0.149 | Statisch | eth0 |
-| ScanServJS (CT 119) | 192.168.0.148 | Statisch | eth0 |
-| WoW Server (CT 301) | 192.168.0.121 | Statisch | eth0 |
+| Linkwarden (CT 105) | 192.168.0.119 | Statisch | eth0 |
+| Homepage (CT 108) | 192.168.0.123 | Statisch | eth0 |
+| Wiki.js (CT 109) | 192.168.0.124 | Statisch | eth0 |
+| Changedetection (CT 110) | 192.168.0.125 | Statisch | eth0 |
+| Webserver (VM 302) | 192.168.0.128 | Statisch | ens18 |
+| Home Assistant (VM 305) | - | DHCP | - |
 
 **Netzwerk-Parameter:**
 - Gateway: 192.168.0.1

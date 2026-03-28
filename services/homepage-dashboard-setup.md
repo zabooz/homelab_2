@@ -12,7 +12,7 @@ dateCreated: 2026-01-24T00:00:00.000Z
 
 **Erstellt:** 24. Januar 2026
 **Author:** Daniel (zabooz)
-**System:** LXC Container CT 108 (192.168.0.123)
+**System:** LXC Container CT 108 auf homeserver2 (192.168.0.123)
 **Zugriff:** http://192.168.0.123 (LAN) | http://home.lab (VPN)
 
 ---

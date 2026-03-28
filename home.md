@@ -20,7 +20,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 |----------|--------------|
 | [Netzwerk Übersicht](/en/infrastructure/NETWORK_OVERVIEW) | Master-Diagramm, IP-Liste, Quick Reference |
 | [VPS](/en/infrastructure/VPS) | VPS Konfiguration & Services |
-| [Proxmox Netzwerk Setup](/en/infrastructure/proxmox-netzwerk-setup) | Proxmox Cluster Netzwerk |
+| [Proxmox Netzwerk Setup](/en/infrastructure/proxmox-netzwerk-setup) | Proxmox 3-Node Cluster Netzwerk |
 | [Halo Strixx](/en/infrastructure/halo-strixx) | AI Workstation (AMD Strix Halo, 128GB UMA) |
 | [Peripherie](/en/infrastructure/peripherie) | Drucker, Netzwerk-Hardware |
 
@@ -55,7 +55,7 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [Homepage Dashboard](/en/services/homepage-dashboard-setup) | Dashboard Konfiguration |
 | [Wiki.js Setup](/en/services/wikijs-setup) | Wiki.js Installation und Git Sync |
 | [Stats API](/en/services/stats-api) | Bun API für System-Monitoring |
-| [Paperless-ngx](/en/services/paperless-ngx) | Dokumentenverwaltung mit OCR |
+| [Paperless-ngx](/en/services/paperless-ngx) | Dokumentenverwaltung mit OCR (192.168.0.115) |
 | [FOG Project](/en/services/fog_project_setup_dokumentation_debian_12_lxc) | DHCP Server, PXE Boot, Imaging |
 | [Linkwarden](/en/services/linkwarden-setup) | Bookmark Manager (192.168.0.119) |
 | [Draw.io](/en/services/drawio-setup) | Diagramm-Editor (192.168.0.122) |
@@ -66,15 +66,16 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [Gotify](/en/services/gotify-setup) | Push-Benachrichtigungen (192.168.0.126) |
 | [Stirling PDF](/en/services/sterlingpdf-setup) | PDF-Tools (192.168.0.131) |
 | [ntopng](/en/services/ntopng-setup) | Netzwerk-Monitoring (192.168.0.140) |
-| [Crawler4AI](/en/services/crawler4ai-setup) | AI Web Scraping (gestoppt) |
-| [Node-RED](/en/services/node-red-setup) | Flow-basierte Automation (gestoppt) |
 | [Immich](/en/services/immich-setup) | Google Photos Alternative (192.168.0.144) |
 | [AdGuard Home](/en/services/adguard-setup) | DNS-Werbeblocker (192.168.0.137) |
 | [Matrix Synapse](/en/services/matrix-setup) | Chat-Server mit Element Web (VPS) |
 | [BookStack](/en/services/bookstack-setup) | Wiki fuer Schule (VPS) |
 | [Dolibarr ERP](/en/services/dolibarr-setup) | ERP/CRM - Rechnungen, Inventar (192.168.0.149) |
-| [Samba](/en/services/samba-setup) | Netzwerk-Dateifreigabe (192.168.0.142) |
 | [ScanServJS](/en/services/scanservjs-setup) | Web-Scanner-Interface (192.168.0.148) |
+| OpenCloud | Cloud-Speicher (192.168.0.104) |
+| Collabora Online | Online Office für OpenCloud (192.168.0.150) |
+| PBS | Proxmox Backup Server (192.168.0.180) |
+| Grafana | Monitoring Dashboard (192.168.0.190) |
 ---
 
 ## Workflows

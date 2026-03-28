@@ -10,7 +10,7 @@ dateCreated: 2026-01-24T00:00:00.000Z
 
 # Backup & Recovery
 
-**Aktualisiert:** 24. Januar 2026
+**Aktualisiert:** 28. März 2026
 **Zweck:** Backup-Strategien und Wiederherstellungsprozeduren
 
 ---
@@ -27,28 +27,47 @@ dateCreated: 2026-01-24T00:00:00.000Z
 
 | Komponente | Backup-Methode | Ziel | Frequenz |
 |------------|----------------|------|----------|
-| Proxmox VMs/LXC | vzdump | Lokal + VPS | Täglich |
+| Proxmox VMs/LXC | PBS (Proxmox Backup Server) | pbs-backup (192.168.0.180) | Täglich |
 | Headscale Config | rsync | VPS → lokal | Täglich |
 | Vaultwarden | Docker Volume | VPS + lokal | Täglich |
 | Homepage Config | Git | Repository | Bei Änderung |
 
 ---
 
-## Proxmox Backup (vzdump)
+## Proxmox Backup Server (PBS)
 
-### Manuelles Backup
+Der Proxmox Backup Server läuft als LXC (VMID 120) auf homeserver (192.168.0.101) und ist als shared Storage `pbs-backup` in allen drei Cluster-Nodes eingebunden.
+
+- **IP:** 192.168.0.180
+- **Web-UI:** https://192.168.0.180:8007
+- **Storage:** ~1.8 TB verfügbar
+- **Fingerprint:** `9c:90:5f:99:8c:9d:40:6f:d0:ec:68:dc:81:7f:ff:e0:c5:83:3d:1b:6c:3d:18:78:30:3e:42:72:76:b6:c8:a0`
+
+### Vorteile gegenüber vzdump
+
+- **Inkrementelle Backups** — nur geänderte Blöcke werden übertragen
+- **Deduplizierung** — spart erheblich Speicherplatz
+- **Integrität** — automatische Checksummen-Verifizierung
+- **Zentrales Management** — ein Dashboard für alle drei Nodes
+- **Pruning** — automatische Aufbewahrungsregeln
+
+### Backup über Proxmox Web-UI
+
+1. Datacenter → Backup → Add
+2. Storage: **pbs-backup**
+3. Schedule: Täglich 03:00
+4. Selection: Alle oder spezifische VMs
+5. Mode: Snapshot
+6. Notification: Bei Fehler
+
+### Manuelles Backup (vzdump an PBS)
 
 ```bash
-# Einzelne VM/LXC sichern
-vzdump <vmid> --storage local --compress zstd --mode snapshot
+# Einzelne VM/LXC an PBS sichern
+vzdump <vmid> --storage pbs-backup --mode snapshot
 
-# Beispiele
-vzdump 100 --storage local --compress zstd --mode snapshot  # Windows VM
-vzdump 101 --storage local --compress zstd --mode snapshot  # Debian VM
-vzdump 102 --storage local --compress zstd --mode snapshot  # Tailscale LXC
-
-# Mit Beschreibung
-vzdump 100 --storage local --compress zstd --notes "Pre-Update Backup"
+# Beispiel
+vzdump 102 --storage pbs-backup --mode snapshot  # Tailscale LXC
 ```
 
 ### Backup-Modi
@@ -58,35 +77,6 @@ vzdump 100 --storage local --compress zstd --notes "Pre-Update Backup"
 | `snapshot` | Live-Backup (empfohlen) | Keine |
 | `suspend` | RAM auf Disk, dann Backup | Kurz |
 | `stop` | VM/LXC stoppen | Länger |
-
-### Automatisches Backup (Cronjob)
-
-```bash
-# /etc/cron.d/proxmox-backup
-# Täglich um 03:00 alle VMs/LXCs sichern
-0 3 * * * root vzdump --all --storage local --compress zstd --mode snapshot --mailnotification failure
-```
-
-### Über Web-UI konfigurieren
-
-1. Datacenter → Backup → Add
-2. Storage: local
-3. Schedule: Täglich 03:00
-4. Selection: Alle oder spezifische VMs
-5. Mode: Snapshot
-6. Compression: ZSTD
-7. Notification: Bei Fehler
-
-### Backup-Verzeichnis
-
-```bash
-# Standard-Speicherort
-ls /var/lib/vz/dump/
-
-# Backup-Dateien
-vzdump-lxc-102-2026_01_24-03_00_01.tar.zst
-vzdump-lxc-102-2026_01_24-03_00_01.log
-```
 
 ---
 
@@ -212,24 +202,28 @@ echo "Vaultwarden backup completed: $DATE"
 
 ## Restore-Prozeduren
 
-### Proxmox VM/LXC wiederherstellen
+### Proxmox VM/LXC wiederherstellen (PBS)
+
+**Über Web-UI (empfohlen):**
+
+1. Storage → pbs-backup → Content
+2. Backup auswählen → Restore
+3. Target Storage wählen (local-lvm oder ssd-storage)
+4. Optional: Unique MAC-Adressen
+
+**Über CLI:**
 
 ```bash
-# Über CLI
-qmrestore /var/lib/vz/dump/vzdump-qemu-100-*.tar.zst 100 --storage local-lvm
-pct restore 102 /var/lib/vz/dump/vzdump-lxc-102-*.tar.zst --storage local-lvm
+# LXC aus PBS wiederherstellen
+pct restore 102 pbs-backup:backup/ct/102/2026-03-28T03:00:00Z --storage local-lvm
+
+# VM aus PBS wiederherstellen
+qmrestore pbs-backup:backup/vm/305/2026-03-28T03:00:00Z 305 --storage ssd-storage
 
 # Mit Überschreiben
-qmrestore ... --force
 pct restore ... --force
+qmrestore ... --force
 ```
-
-### Über Web-UI
-
-1. Storage → Backups
-2. Backup auswählen → Restore
-3. Target Storage wählen
-4. Optional: Unique MAC-Adressen
 
 ### Headscale wiederherstellen (VPS)
 
@@ -267,15 +261,12 @@ curl https://zabooz.duckdns.org/vault/
 
 ## Backup-Integrität testen
 
-### Proxmox Backup verifizieren
+### PBS Verify
 
-```bash
-# Backup-Integrität prüfen
-vzdump --verify /var/lib/vz/dump/vzdump-*.tar.zst
+PBS verifiziert Backup-Integrität automatisch via Checksummen. Manuell:
 
-# Backup-Inhalt auflisten
-tar -tvf /var/lib/vz/dump/vzdump-lxc-102-*.tar.zst
-```
+1. PBS Web-UI (https://192.168.0.180:8007) → Datastore → Verify
+2. Oder im Proxmox: Storage → pbs-backup → Content → Verify
 
 ### Regelmäßige Restore-Tests
 
@@ -287,7 +278,7 @@ tar -tvf /var/lib/vz/dump/vzdump-lxc-102-*.tar.zst
 
 ```bash
 # Test-Restore in andere VMID
-pct restore 999 /var/lib/vz/dump/vzdump-lxc-102-*.tar.zst \
+pct restore 999 pbs-backup:backup/ct/102/2026-03-28T03:00:00Z \
     --storage local-lvm
 
 # Nach Test löschen
@@ -298,18 +289,17 @@ pct destroy 999
 
 ## Backup-Monitoring
 
-### Backup-Status prüfen
+### PBS Dashboard
 
-```bash
-# Letzte Backups anzeigen
-ls -la /var/lib/vz/dump/
+Die PBS Web-UI (https://192.168.0.180:8007) zeigt:
+- Letzte Backups und deren Status
+- Speicherauslastung und Deduplizierungsrate
+- Verify-Ergebnisse
 
-# Backup-Logs prüfen
-cat /var/lib/vz/dump/vzdump-*.log | tail -50
+### Im Proxmox Cluster
 
-# Speicherplatz prüfen
-df -h /var/lib/vz/dump/
-```
+- Datacenter → Backup → letzte Backup-Jobs prüfen
+- Storage → pbs-backup → Content → alle Backups aller Nodes
 
 ### Benachrichtigung bei Fehler
 
@@ -323,22 +313,19 @@ Proxmox kann E-Mails senden:
 
 ## Speicherplatz-Management
 
-### Alte Backups löschen
+### PBS Pruning (Aufbewahrungsregeln)
 
-```bash
-# Backups älter als 30 Tage löschen
-find /var/lib/vz/dump/ -name "vzdump-*.tar.zst" -mtime +30 -delete
+PBS unterstützt automatisches Pruning mit Aufbewahrungsregeln:
 
-# Nur die letzten 5 Backups pro VM behalten
-# (manuelle Aufräumaktion nötig)
-```
+1. PBS Web-UI → Datastore → Prune & GC
+2. Regeln konfigurieren (z.B. keep-last: 7, keep-weekly: 4, keep-monthly: 3)
 
-### Backup-Rotation in Proxmox
+### Garbage Collection
 
-```bash
-# /etc/vzdump.conf
-maxfiles: 5    # Maximale Backups pro VM behalten
-```
+Nach dem Pruning müssen nicht mehr referenzierte Chunks aufgeräumt werden:
+
+1. PBS Web-UI → Datastore → Prune & GC → Start Garbage Collection
+2. Oder per Cronjob in PBS konfigurieren
 
 ---
 

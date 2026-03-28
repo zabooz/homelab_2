@@ -10,7 +10,7 @@ dateCreated: 2026-01-31T00:00:00.000Z
 
 # Linkwarden - Bookmark Manager
 
-**System:** Debian 13 LXC (CT 105)
+**System:** Debian 13 LXC (CT 105) auf homeserver2
 **IP Address:** 192.168.0.119
 **Port:** 80
 **URL:** http://192.168.0.119

@@ -19,7 +19,7 @@ ScanServJS ist ein web-basiertes Scanner-Interface. Der Container laeuft als pri
 | Parameter | Wert |
 |-----------|------|
 | **Host** | LXC Container CT 119 (Proxmox) |
-| **Node** | homeserver2 |
+| **Node** | homeserver |
 | **IP** | 192.168.0.148 |
 | **OS** | Debian |
 | **RAM** | 512 MB |

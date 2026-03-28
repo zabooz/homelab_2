@@ -20,7 +20,7 @@ AdGuard Home ist ein netzwerkweiter Werbeblocker und DNS-Server. Alle Geräte im
 |-----------|------|
 | **Host** | LXC Container (Proxmox) |
 | **CT ID** | 117 |
-| **Node** | homeserver2 |
+| **Node** | homeserver |
 | **IP** | 192.168.0.137 |
 | **OS** | Debian |
 | **RAM** | 512 MB |

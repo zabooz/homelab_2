@@ -11,7 +11,7 @@ dateCreated: 2026-03-06T00:00:00.000Z
 # Changedetection.io
 
 **IP:** 192.168.0.125
-**Node:** homeserver (CT 110)
+**Node:** homeserver2 (CT 110)
 **Port:** 5000
 **Status:** Running
 

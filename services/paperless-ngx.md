@@ -20,7 +20,7 @@ Dokumentenverwaltung mit automatischer OCR-Texterkennung.
 | **Server** | LXC Container (Proxmox) |
 | **CT ID** | 104 |
 | **IP** | 192.168.0.115 |
-| **Node** | homeserver2 |
+| **Node** | homeserver3 |
 | **Ressourcen** | 4 Cores, 4096 MB RAM, 15 GB Disk |
 
 ## Was macht Paperless?

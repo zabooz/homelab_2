@@ -20,7 +20,7 @@ Netzwerk-Traffic-Monitoring-Tool mit Echtzeit-Analyse des Netzwerkverkehrs.
 |-----------|------|
 | **Host** | LXC Container 115 (Proxmox) |
 | **IP** | 192.168.0.140 |
-| **Node** | homeserver2 |
+| **Node** | homeserver |
 | **OS** | Debian |
 | **Web UI** | http://192.168.0.140 |
 | **Edition** | Community |

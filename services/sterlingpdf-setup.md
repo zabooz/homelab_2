@@ -11,7 +11,7 @@ dateCreated: 2026-03-06T00:00:00.000Z
 # Stirling PDF
 
 **IP:** 192.168.0.131
-**Node:** homeserver (CT 114)
+**Node:** homeserver3 (CT 114)
 **Port:** 8080
 **Status:** Running
 

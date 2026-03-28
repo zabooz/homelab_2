@@ -10,14 +10,14 @@ dateCreated: 2026-02-02T00:00:00.000Z
 
 # Home Assistant
 
-**Host:** VM 305 auf homeserver (HAOS)
+**Host:** VM 305 auf homeserver2 (HAOS)
 **Port:** 8123
-**URL:** http://192.168.0.114:8123
+**URL:** http://homeassistant.local:8123
 **Zugriff:** Heimnetz / VPN
 
 ## Beschreibung
 
-Home Assistant ist eine Open-Source Smart Home Plattform zur Steuerung und Automatisierung von IoT-Geräten. Die Instanz läuft als HAOS VM auf dem Proxmox Host (192.168.0.101).
+Home Assistant ist eine Open-Source Smart Home Plattform zur Steuerung und Automatisierung von IoT-Geräten. Die Instanz läuft als HAOS VM auf homeserver2 (192.168.0.102).
 
 ## Zigbee Setup
 
