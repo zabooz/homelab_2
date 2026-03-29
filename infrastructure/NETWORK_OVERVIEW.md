@@ -2,7 +2,7 @@
 title: Netzwerk-Übersicht
 description: Master-Referenz für IP-Adressen, Dienste und Netzwerk-Topologie
 published: true
-date: 2026-03-06T00:00:00.000Z
+date: 2026-03-29T00:00:00.000Z
 tags: infrastructure, netzwerk, network, ip-adressen, dns, dhcp, übersicht, overview, proxmox, cluster
 editor: markdown
 dateCreated: 2026-01-18T00:00:00.000Z
@@ -95,7 +95,8 @@ Master-Referenz für die gesamte Infrastruktur.
               │  │      dolibarr .149               │  │
               │  │      collabora .150              │  │
               │  │      opencloud .104              │  │
-              │  │ VM:  Pterodactyl (gestoppt)      │  │
+              │  │      pgadmin .105                │  │
+              │  │      forgejo .107                │  │
               │  └──────────────────────────────────┘  │
               │                                        │
               │  ┌──────────────────────────────────┐  │
@@ -108,9 +109,9 @@ Master-Referenz für die gesamte Infrastruktur.
               │  │      ntopng .140                 │  │
               │  │      adguard .137                │  │
               │  │      scanservjs .148             │  │
-              │  │      PBS .180                    │  │
-              │  │      Grafana .190                │  │
-              │  │      Portainer .146              │  │
+              │  │      pbs .180                    │  │
+              │  │      grafana .190                │  │
+              │  │      portainer .146 (gestoppt)   │  │
               │  └──────────────────────────────────┘  │
               │                                        │
               │  ┌──────────────────────────────────┐  │
@@ -121,9 +122,10 @@ Master-Referenz für die gesamte Infrastruktur.
               │  │      homepage .123               │  │
               │  │      wikiJs .124                 │  │
               │  │      changedetection .125        │  │
-              │  │ VM:  webserver .128              │  │
-              │  │      home-assistant              │  │
-              │  │      FOG Master-Images (500-509) │  │
+              │  │      refindr .106                │  │
+              │  │ VM:  home-assistent .114         │  │
+              │  │      webserver .128              │  │
+              │  │      FOG Master-Images (500-504) │  │
               │  └──────────────────────────────────┘  │
               └────────────────────────────────────────┘
 ```
@@ -163,10 +165,10 @@ Master-Referenz für die gesamte Infrastruktur.
 | 111 | **[Gotify](/en/services/gotify-setup)** | 192.168.0.126 | LXC | Push-Benachrichtigungen |
 | 115 | **[ntopng](/en/services/ntopng-setup)** | 192.168.0.140 | LXC | Netzwerk-Monitoring |
 | 117 | **[AdGuard Home](/en/services/adguard-setup)** | 192.168.0.137 | LXC | DNS-Werbeblocker |
-| 119 | **[ScanServJS](/en/infrastructure/peripherie)** | 192.168.0.148 | LXC | Web-Scanner-Interface |
-| 120 | **PBS** | 192.168.0.180 | LXC | Proxmox Backup Server |
-| 124 | **Grafana** | 192.168.0.190 | LXC | Monitoring Dashboard |
-| - | **Portainer** | 192.168.0.146 | LXC | Docker Management UI |
+| 119 | **[ScanServJS](/en/services/scanservjs-setup)** | 192.168.0.148 | LXC | Web-Scanner-Interface |
+| 120 | **[PBS](/en/services/pbs-setup)** | 192.168.0.180 | LXC | Proxmox Backup Server |
+| 121 | **Portainer** | 192.168.0.146 | LXC | Docker Management UI (gestoppt) |
+| 124 | **[Grafana](/en/services/grafana-setup)** | 192.168.0.190 | LXC | Monitoring + InfluxDB |
 
 ### homeserver2 (192.168.0.102)
 
@@ -177,15 +179,32 @@ Master-Referenz für die gesamte Infrastruktur.
 | 108 | **[Homepage](/en/services/homepage-dashboard-setup)** | 192.168.0.123 | LXC | Homepage Dashboard |
 | 109 | **[Wiki.js](/en/services/wikijs-setup)** | 192.168.0.124 | LXC | Wiki + Git Sync |
 | 110 | **[Changedetection](/en/services/changedetection-setup)** | 192.168.0.125 | LXC | Website-Monitoring |
-| 112 | **[Crawler4AI](/en/services/crawler4ai-setup)** | - | LXC | Web Scraping (gestoppt) |
-| 113 | **[Node-RED](/en/services/node-red-setup)** | - | LXC | Flow Automation (gestoppt) |
-| 301 | **[WoW Server](/en/services/azerothcore-playerbots-setup)** | - | LXC | AzerothCore (gestoppt) |
-| 302 | **Webserver** | 192.168.0.128 | VM | Nginx Webserver |
-| 305 | **[Home Assistant](/en/services/homeassistant-setup)** | - | VM | Smart Home |
+| 112 | **[Crawler4AI](/en/services/crawler4ai-setup)** | 192.168.0.127 | LXC | Web Scraping (gestoppt) |
+| 113 | **[Node-RED](/en/services/node-red-setup)** | 192.168.0.129 | LXC | Flow Automation (gestoppt) |
+| 126 | **[Refindr](/en/services/refindr-setup)** | 192.168.0.106 | LXC | Preisvergleich-App |
+| 301 | **[WoW Server](/en/services/azerothcore-playerbots-setup)** | 192.168.0.121 | LXC | AzerothCore (gestoppt) |
 | 100 | **Debian** | - | VM | Debian (gestoppt) |
 | 101 | **Win2025** | - | VM | Windows Server 2025 (gestoppt) |
+| 302 | **Webserver** | 192.168.0.128 | VM | Nginx Webserver |
+| 305 | **[Home Assistant](/en/services/homeassistant-setup)** | 192.168.0.114 | VM | Smart Home Steuerung |
 | 500-504 | **Master-Images** | - | VM | FOG OS-Images (elementaryOS, Arch, Fedora, Mint) |
 | 800 | **Win11-Client** | - | VM | Windows 11 Client (gestoppt) |
+
+### homeserver3 (192.168.0.100)
+
+| VMID | Gerät | IP | Typ | Funktion |
+|------|-------|-----|-----|----------|
+| - | **homeserver3** | 192.168.0.100 | Host | Proxmox Node 3 |
+| 104 | **[Paperless-ngx](/en/services/paperless-ngx)** | 192.168.0.115 | LXC | Dokumentenverwaltung |
+| 106 | **[n8n](/en/services/n8n-setup)** | 192.168.0.116 | LXC | Workflow Automation |
+| 107 | **[Draw.io](/en/services/drawio-setup)** | 192.168.0.122 | LXC | Diagramm-Editor |
+| 114 | **[Stirling PDF](/en/services/sterlingpdf-setup)** | 192.168.0.131 | LXC | PDF-Tools |
+| 116 | **[Immich](/en/services/immich-setup)** | 192.168.0.144 | LXC | Google Photos Alternative |
+| 118 | **[Dolibarr ERP](/en/services/dolibarr-setup)** | 192.168.0.149 | LXC | ERP/CRM, Rechnungen |
+| 122 | **[Collabora Online](/en/services/collabora-setup)** | 192.168.0.150 | LXC | Office-Editor (CODE) |
+| 123 | **OpenCloud** | 192.168.0.104 | LXC | Cloud-Speicher (in Einrichtung) |
+| 125 | **[pgAdmin](/en/services/pgadmin-setup)** | 192.168.0.105 | LXC | PostgreSQL Management |
+| 127 | **[Forgejo](/en/services/forgejo-setup)** | 192.168.0.107 | LXC | Git-Server + CI/CD Runner |
 
 ### Clients & Workstations
 
@@ -275,14 +294,16 @@ Master-Referenz für die gesamte Infrastruktur.
 | AdGuard Home | http://192.168.0.137 | AdGuard LXC | homeserver |
 | ntopng | http://192.168.0.140:3000 | ntopng LXC | homeserver |
 | ScanServJS | http://192.168.0.148 | ScanServJS LXC | homeserver |
-| PBS | http://192.168.0.180:8007 | PBS LXC | homeserver |
-| Grafana | http://192.168.0.190:3000 | Grafana LXC | homeserver |
-| Portainer | http://192.168.0.146:9443 | Portainer LXC | homeserver |
+| PBS | https://192.168.0.180:8007 | PBS LXC | homeserver |
+| Grafana | http://192.168.0.190 | Grafana LXC | homeserver |
+| pgAdmin | http://192.168.0.105:5050 | pgAdmin LXC | homeserver3 |
+| Forgejo | http://192.168.0.107:3000 | Forgejo LXC | homeserver3 |
 | Linkwarden | http://192.168.0.119:3000 | Linkwarden LXC | homeserver2 |
 | Homepage | http://192.168.0.123 | Homepage LXC | homeserver2 |
 | Wiki.js | http://192.168.0.124 | Wiki.js LXC | homeserver2 |
 | Changedetection | http://192.168.0.125:5000 | Changedetection LXC | homeserver2 |
-| Home Assistant | http://homeassistant.local:8123 | Home Assistant VM | homeserver2 |
+| Refindr | http://192.168.0.106:3000 | Refindr LXC | homeserver2 |
+| Home Assistant | http://192.168.0.114:8123 | Home Assistant VM | homeserver2 |
 
 ### MagicDNS (über Tailscale)
 
@@ -364,6 +385,7 @@ VPS:          152.53.111.11 / 100.64.0.5
 homeserver3:  192.168.0.100
 homeserver:   192.168.0.101
 homeserver2:  192.168.0.102
+homeserver3:  192.168.0.100
 Subnet LXC:  192.168.0.112 / 100.64.0.1
 PBS:          192.168.0.180
 Homepage:     192.168.0.123
@@ -382,4 +404,4 @@ Homepage:    http://home.lab  (über VPN)
 
 ---
 
-*Letzte Aktualisierung: 28. März 2026*
+*Letzte Aktualisierung: 29. März 2026*

@@ -59,8 +59,14 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [FOG Project](/en/services/fog_project_setup_dokumentation_debian_12_lxc) | DHCP Server, PXE Boot, Imaging |
 | [Linkwarden](/en/services/linkwarden-setup) | Bookmark Manager (192.168.0.119) |
 | [Draw.io](/en/services/drawio-setup) | Diagramm-Editor (192.168.0.122) |
-| [Home Assistant](/en/services/homeassistant-setup) | Smart Home Steuerung |
+| [Home Assistant](/en/services/homeassistant-setup) | Smart Home Steuerung (192.168.0.114) |
 | [Pterodactyl](/en/services/pterodactyl-setup) | Gameserver Panel (gestoppt) |
+| [Collabora Online](/en/services/collabora-setup) | Office-Editor CODE (192.168.0.150) |
+| [Forgejo](/en/services/forgejo-setup) | Git-Server + CI/CD Runner (192.168.0.107) |
+| [Refindr](/en/services/refindr-setup) | Preisvergleich-App (192.168.0.106) |
+| [pgAdmin](/en/services/pgadmin-setup) | PostgreSQL Management (192.168.0.105) |
+| [Grafana & InfluxDB](/en/services/grafana-setup) | Monitoring-Stack (192.168.0.190) |
+| [Proxmox Backup Server](/en/services/pbs-setup) | Backup-Lösung (192.168.0.180) |
 | [n8n Automation](/en/services/n8n-setup) | Workflow-Automation (192.168.0.116) |
 | [Changedetection](/en/services/changedetection-setup) | Website-Monitoring (192.168.0.125) |
 | [Gotify](/en/services/gotify-setup) | Push-Benachrichtigungen (192.168.0.126) |
@@ -72,11 +78,8 @@ Deine zentrale Dokumentation für die gesamte Homelab-Infrastruktur, Services un
 | [BookStack](/en/services/bookstack-setup) | Wiki fuer Schule (VPS) |
 | [Dolibarr ERP](/en/services/dolibarr-setup) | ERP/CRM - Rechnungen, Inventar (192.168.0.149) |
 | [ScanServJS](/en/services/scanservjs-setup) | Web-Scanner-Interface (192.168.0.148) |
-| Portainer | Docker Management UI (192.168.0.146) |
-| OpenCloud | Cloud-Speicher (192.168.0.104) |
-| Collabora Online | Online Office für OpenCloud (192.168.0.150) |
-| PBS | Proxmox Backup Server (192.168.0.180) |
-| Grafana | Monitoring Dashboard (192.168.0.190) |
+| Portainer | Docker Management UI (192.168.0.146, gestoppt) |
+| OpenCloud | Cloud-Speicher (192.168.0.104, in Einrichtung) |
 ---
 
 ## Workflows
